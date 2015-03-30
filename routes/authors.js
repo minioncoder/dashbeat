@@ -19,7 +19,6 @@ function success(app, responses) {
 
   // parse chartbeat response data
   _.forEach(responses, function(response) {
-    console.log(response);
     _.forEach(response[1].pages, function(item) {
       // Parse item
       var keys = ['path', 'title', 'authors', 'stats'];
@@ -88,9 +87,7 @@ function success(app, responses) {
 module.exports = {
   router: router,
   beat: function(app) {
-    return new Beat({
-      app: app,
-      socket: 'authors',
+    return new Beat(app, 'authors', {
       apiString: constants.apiPaths['toppages'],
       success: success
     });

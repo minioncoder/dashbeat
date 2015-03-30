@@ -12,15 +12,14 @@ Promise.coroutine.addYieldHandler(function(yieldedValue) {
   if (Array.isArray(yieldedValue)) return Promise.all(yieldedValue);
 });
 
-function Beat(options) {
-  var that = this;
+function Beat(app, socket, options) {
+  this.app = app;
+  this.socket = socket;
   // default template for API
   var template = _.template('<%= chartbeatApi %><%= chartbeatApiString %>&apikey=<%= apiKey %>&host=');
 
   var defaults = {
-    app: null,
-    socket: null,
-    room: null,
+    room: socket,
     loop: true,
     apiString: null,
     siteFilter: function() {
@@ -29,14 +28,6 @@ function Beat(options) {
   };
 
   this.opts = _.merge(defaults, options);
-
-  this.app = this.opts.app;
-  if (!this.app) throw("Application instance 'app' required in Beat options");
-
-  this.socket = this.opts.socket;
-  if (!this.socket) throw("Socket name 'socket' required in Beat options");
-
-  if (!this.opts.room) this.opts.room = this.socket;
 
   if (this.opts.apiString && !this.opts.apiUrl) {
     this.opts.apiUrl = template({
@@ -48,20 +39,19 @@ function Beat(options) {
 
   if (!this.opts.success) {
     this.opts.success = function(responses) {
-      that.app.io.room(this.opts.room).broadcast('chartbeat', {
+      app.io.room(this.opts.room).broadcast('chartbeat', {
         responses: responses
       });
     }
   }
 
   // Register the route
-  this.app.io.route(this.socket, function(req) {
-    console.log(moment() + ' Client connected to ' + that.socket);
-    req.io.join(that.socket);
+  app.io.route(socket, function(req) {
+    console.log(moment() + ' Client connected to ' + socket);
+    req.io.join(socket);
   });
 
   this.urls = this.getUrls();
-  this.promises = this.getPromises();
   // kickstart ChartBeat requests
   this.start();
   return this;
@@ -95,7 +85,7 @@ Beat.prototype.start = Promise.coroutine(function* () {
 
   // Yield the responses
   try {
-    responses = yield this.promises;
+    responses = yield this.getPromises();
     console.log(moment() + ' Received all responses for ' + this.socket);
 
     var parsedResponses = [];

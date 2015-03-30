@@ -38,7 +38,6 @@ function success(app, responses) {
       min: 0,
       max: numPeople - 1
     });
-    console.log(randomIndex);
     var person = people[randomIndex];
     // console.log(util.inspect(person));
 
@@ -82,9 +81,7 @@ function success(app, responses) {
 module.exports = {
   router: router,
   beat: function(app) {
-    return new Beat({
-      app: app,
-      socket: 'geo',
+    return new Beat(app, 'geo', {
       apiString: constants.apiPaths['recent'],
       siteFilter: function(sites) {
         return [parse.getRandomSite()];

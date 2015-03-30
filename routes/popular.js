@@ -38,9 +38,7 @@ function success(app, responses) {
 module.exports = {
   router: router,
   beat: function(app) {
-    return new Beat({
-      app: app,
-      socket: 'popular',
+    return new Beat(app, 'popular', {
       apiString: constants.apiPaths['toppages'],
       success: success
     });
