@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var popular = require('./routes/popular');
 var authors = require('./routes/authors');
 var geo = require('./routes/geo');
+var engage = require('./routes/engage');
 
 var app = express();
 app.http().io();
@@ -25,18 +26,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // http://stackoverflow.com/a/27464258/1337683
-app.use('/stylesheets', express.static(path.join(__dirname, '/node_modules/leaflet/dist'))); 
+app.use('/stylesheets', express.static(path.join(__dirname, '/node_modules/leaflet/dist')));
 app.use('/images', express.static(path.join(__dirname, '/node_modules/leaflet/dist/images')))
 
 // Set up URLs
 app.use('/', popular.router);
 app.use('/authors', authors.router);
 app.use('/geo', geo.router);
+app.use('/engage', engage.router);
 
 // Init beat
 popular.beat(app);
 authors.beat(app);
 geo.beat(app);
+engage.beat(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

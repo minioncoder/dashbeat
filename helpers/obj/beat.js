@@ -42,8 +42,9 @@ module.exports = function(__options) {
   var requiredErrorTemplate = _.template('Required option "<%= name %> missing. <%= reason %>"');
   var chartbeatTemplate = _.template('<%= chartbeatApi %><%= chartbeatApiString %>&apikey=<%= apiKey %>&host=');
   var chartbeatApis = {
-    'toppages': '/live/toppages/v3/?limit=50',
-    'recent': '/live/recent/v3/?limit=50'
+    toppages: '/live/toppages/v3/?limit=50',
+    recent: '/live/recent/v3/?limit=50',
+    quickstats: '/live/quickstats/v3/?'
   }
   var urls = [];
   var chartbeatResponse = function(responses) {
@@ -146,6 +147,7 @@ module.exports = function(__options) {
 
     // Fetch URLs
     _.forEach(urls, function(url) {
+      console.log(url);
       promises.push(needle.getAsync(url));
     });
 
