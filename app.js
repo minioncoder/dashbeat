@@ -25,8 +25,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // http://stackoverflow.com/a/27464258/1337683
-app.use('/stylesheets', express.static(path.join(__dirname, '/node_modules/leaflet/dist'))); 
-app.use('/images', express.static(path.join(__dirname, '/node_modules/leaflet/dist/images')))
+app.use('/stylesheets', express.static(path.join(__dirname, '/node_modules/leaflet/dist')));
+app.use('/images', express.static(path.join(__dirname, '/node_modules/leaflet/dist/images')));
 
 // Set up URLs
 app.use('/', popular.router);

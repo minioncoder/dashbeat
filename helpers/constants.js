@@ -1,4 +1,8 @@
 module.exports = {
   chartbeatApi: 'http://api.chartbeat.com',
-	loop_interval: 5000
+  apiPaths: {
+    toppages: '/live/toppages/v3/?limit=50',
+    recent: '/live/recent/v3/?limit=50'
+  },
+  loopInterval: 5000
 };
