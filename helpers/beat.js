@@ -36,7 +36,7 @@ function Beat(options) {
   this.socket = this.opts.socket;
   if (!this.socket) throw("Socket name 'socket' required in Beat options");
 
-  this.opts.room = this.socket;
+  if (!this.opts.room) this.opts.room = this.socket;
 
   if (this.opts.apiString && !this.opts.apiUrl) {
     this.opts.apiUrl = template({
