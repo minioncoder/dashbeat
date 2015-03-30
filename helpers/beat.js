@@ -24,7 +24,7 @@ function Beat(app, socket, options) {
     apiString: null,
     siteFilter: function() {
       return config.sites;
-    }
+    },
   };
 
   this.opts = _.merge(defaults, options);
@@ -88,15 +88,7 @@ Beat.prototype.start = Promise.coroutine(function* () {
     responses = yield this.getPromises();
     console.log(moment() + ' Received all responses for ' + this.socket);
 
-    var parsedResponses = [];
-    _.forEach(responses, function(response) {
-      if (response.length < 1) {
-        console.log('Response of length ' + response.length);
-        return
-      }
-      parsedResponses.push(response);
-    });
-    this.opts.success(this.app, parsedResponses);
+    this.opts.success(this.app, responses);
   } catch (e) {
     console.log(moment() + " [Beat error] : " + e);
     console.log(e.stack);

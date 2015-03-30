@@ -18,7 +18,8 @@ function success(app, responses) {
   var authors = {};
 
   // parse chartbeat response data
-  _.forEach(responses, function(response) {
+  _.forEach(responses, function(responseObj) {
+
     _.forEach(response[1].pages, function(item) {
       // Parse item
       var keys = ['path', 'title', 'authors', 'stats'];
