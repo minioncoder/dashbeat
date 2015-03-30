@@ -24,7 +24,7 @@ module.exports = {
 
 ## Run
 ```bash
-nodemon app.js
+nodemon --harmony app.js
 ```
 
 Opens at ```http://localhost:3000```
