@@ -5,11 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var popular = require('./routes/popular');
-var authors = require('./routes/authors');
-var geo = require('./routes/geo');
-var engage = require('./routes/engage');
-var recirculation = require('./routes/recirculation');
+var beats = require('./routes/beats');
 
 var app = express();
 app.http().io();
@@ -30,19 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/stylesheets', express.static(path.join(__dirname, '/node_modules/leaflet/dist')));
 app.use('/images', express.static(path.join(__dirname, '/node_modules/leaflet/dist/images')));
 
-// Set up URLs
-app.use('/', popular.router);
-app.use('/authors', authors.router);
-app.use('/geo', geo.router);
-app.use('/engage', engage.router);
-app.use('/recirculation', recirculation.router);
-
-// Init beat
-popular.beat(app);
-authors.beat(app);
-geo.beat(app);
-engage.beat(app);
-recirculation.beat(app);
+// Init beats
+beats.initBeats(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
