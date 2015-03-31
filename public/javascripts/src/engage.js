@@ -1,6 +1,6 @@
 var $ = jQuery = require('jquery');
 var io = require('socket.io-browserify');
-var shuffle = require('./lib/shufflejs_local');
+var shuffle = require('./lib/shufflejsLocal');
 require('../../bower/jquery-animateNumber/jquery.animateNumber.min');
 
 $(function() {

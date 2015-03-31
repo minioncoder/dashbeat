@@ -9,6 +9,7 @@ var popular = require('./routes/popular');
 var authors = require('./routes/authors');
 var geo = require('./routes/geo');
 var engage = require('./routes/engage');
+var recirculation = require('./routes/recirculation');
 
 var app = express();
 app.http().io();
@@ -34,12 +35,14 @@ app.use('/', popular.router);
 app.use('/authors', authors.router);
 app.use('/geo', geo.router);
 app.use('/engage', engage.router);
+app.use('/recirculation', recirculation.router);
 
 // Init beat
 popular.beat(app);
 authors.beat(app);
 geo.beat(app);
 engage.beat(app);
+recirculation.beat(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

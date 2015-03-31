@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var $ = require('jquery');
+var $ = require('jquery-browserify');
 var io = require('socket.io-browserify');
 var article = require('./obj/article');
 
