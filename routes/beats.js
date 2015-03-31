@@ -6,6 +6,7 @@ var authors = require('./authors');
 var geo = require('./geo');
 var engage = require('./engage');
 var recirculation = require('./recirculation');
+var stats = require('./stats');
 
 var beats = [{
   obj: popular,
@@ -22,6 +23,9 @@ var beats = [{
 }, {
   obj: recirculation,
   url: '/recirculation'
+}, {
+  obj: stats,
+  url: '/stats'
 }]
 
 function initBeats(app) {

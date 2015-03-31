@@ -1,0 +1,30 @@
+extends layout
+
+block css
+  link(href='//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css', rel='stylesheet')
+  link(href='//fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic', rel='stylesheet', type='text/css')
+  link(href='/bower/c3/c3.css', rel='stylesheet')
+  link(href='/bower/epoch/epoch.min.css', rel='stylesheet')
+  link(href='/stylesheets/css/stats.css', rel='stylesheet')
+
+block content
+  .container-fluid.full-height
+    .row
+      .col-md-4
+        h1 Whence Do They Come?
+        br
+        span.hawt
+          | This is the breakdown of referral sources for all our digital visitors.
+          ul
+            li Social = Facebook, Twitter, etc. + Email, apps and IMs
+            li
+              | Direct = Bookmarks and typed URLs, but also everything the analytics can't figure out.
+          |       How can we improve on each of these categories?
+        br
+      .col-md-8
+        .loading
+          .subtitle Loading visitor data...
+        .pie-chart-container
+          #chart.chart
+
+  script(src='/javascripts/dist/stats.js', type='text/javascript')

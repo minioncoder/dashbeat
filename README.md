@@ -1,7 +1,7 @@
 # DetroitNow - Node
 
 ## Dependencies
-* [Nodejs](http://nodejs.org)
+* [Nodejs](http://nodejs.org) (> 0.11.2, for harmony support)
 * [Grunt](http://gruntjs.com)
 * [Bower](http://bower.io)
 * [Nodemon](http://nodemon.io/)

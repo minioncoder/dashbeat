@@ -22,6 +22,7 @@
     "colorbrewer2": "*",
     "jquery-animatenumber": "~0.0.10",
     "epoch": "~0.6.0",
-    "shufflejs": "~3.1.1"
+    "shufflejs": "~3.1.1",
+    "c3": "0.3.0"
   }
 }

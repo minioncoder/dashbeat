@@ -1,5 +1,6 @@
 var config = require('../config');
 var Chance = require('chance');
+var url = require('url');
 
 module.exports = {
   isSectionPage: function(url) {
@@ -33,5 +34,18 @@ module.exports = {
     var yVal = Math.pow(yDelta, 2);
 
     return Math.sqrt(xVal + yVal);
+  },
+  getHostFromResponse: function(response) {
+    /** Gets chartbeat 'host' GET param from needle response */
+
+    var respUrl = response[0].req.path;
+    var urlParts = url.parse(respUrl, true);
+
+    if (!('host' in urlParts.query)) {
+      console.log('No host param in url \'' + respUrl + '\'')
+      return '';
+    }
+
+    return urlParts.query.host;
   }
 };

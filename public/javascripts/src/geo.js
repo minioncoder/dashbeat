@@ -1,4 +1,4 @@
-var $ = require('../../bower/jquery/dist/jquery.min');
+var $ = require('jquery');
 var L = require('leaflet');
 var io = require('socket.io-browserify');
 var Handlebars = require('handlebars');
