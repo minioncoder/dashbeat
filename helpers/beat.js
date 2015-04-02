@@ -81,6 +81,11 @@ function Beat(app, socket, options) {
     req.io.join(socket);
 
     getCache(socket, function(returnedCache) {
+      console.log(returnedCache.cache);
+      if (!returnedCache.cache) {
+        console.log('no cache');
+        return;
+      }
       console.log('SENDING CACHE')
       app.io.room(socket).broadcast('chartbeat', returnedCache.cache);
     });
@@ -125,7 +130,7 @@ Beat.prototype.start = Promise.coroutine(function* () {
 
     // Get responses, broadcast to room, save cache
     var parsedResponse = this.opts.success(this.app, responses);
-    // this.app.io.room(this.socket).broadcast('chartbeat', parsedResponse);
+    this.app.io.room(this.socket).broadcast('chartbeat', parsedResponse);
     this.saveCache(parsedResponse);
   } catch (e) {
     console.log(moment() + " [Beat error] : " + e);

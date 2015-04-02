@@ -19,11 +19,22 @@ var cacheSchema = new mongoose.Schema({
     default: '',
     get: function(val) {
       // TODO error handle, maybe
-      return JSON.parse(val);
+      if (val) {
+        return JSON.parse(val);  
+      }
+      else {
+        return '';
+      }
+      
     },
     set: function(val) {
       // TODO error handle, maybe
-      return JSON.stringify(val);
+      if (val) {
+        return JSON.stringify(val);  
+      }
+      else {
+        return '';
+      }
     }
   }
 });
