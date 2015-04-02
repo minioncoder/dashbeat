@@ -4,13 +4,38 @@
 * [Nodejs](http://nodejs.org) (> 0.11.2, for harmony support)
 * [Grunt](http://gruntjs.com)
 * [Bower](http://bower.io)
+* [MongoDB](http://www.mongodb.org/)
+
+### Optional
 * [Nodemon](http://nodemon.io/)
 
 ## Install
+### Node stuff
 ```bash
 npm install
 npm install -g grunt-cli nodemon bower
 bower install
+```
+
+### (MongoDB (OSX))[http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/]
+#### Install[http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/]
+```bash
+brew install mongodb
+```
+
+#### (Launch)[http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/#run-mongodb]
+```bash
+# Might need 'sudo' here
+mkdir -p /data/db
+
+# Sets up as default
+# Also might need a 'sudo' here
+mongod
+```
+
+#### (Optional) Launch mongodb on startup
+```bash
+ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgent
 ```
 
 ## Setup
@@ -24,7 +49,11 @@ module.exports = {
 
 ## Run
 ```bash
+# Nodemon (for server restart on file save)
 nodemon --harmony app.js
+
+# Node
+node --harmony app.js
 ```
 
 Opens at ```http://localhost:3000```

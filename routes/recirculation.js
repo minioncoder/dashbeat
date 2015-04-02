@@ -23,9 +23,9 @@ function success(app, responses) {
     data.article += resp.article
   });
 
-  app.io.room('recirculation').broadcast('chartbeat', {
+  return {
     data: data
-  });
+  }
 }
 
 module.exports = {

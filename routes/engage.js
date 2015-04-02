@@ -22,9 +22,9 @@ function success(app, responses) {
     data[host] = response[1].engaged_time;
   });
 
-  app.io.room('engage').broadcast('chartbeat', {
+  return {
     engage: data
-  });
+  }
 }
 
 module.exports = {

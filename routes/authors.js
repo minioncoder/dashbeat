@@ -76,13 +76,13 @@ function success(app, responses) {
   });
 
   authors = _.sortByOrder(authors, ['totalVisits'], [false]);
-  // send parsed chartbeat data to client
-  app.io.room('authors').broadcast('chartbeat', {
+
+  return {
     authors: {
       name: 'authors',
       children: authors.slice(0, 50)
     }
-  });
+  }
 }
 
 module.exports = {

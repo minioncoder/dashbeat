@@ -6,6 +6,35 @@ var moment = require('moment');
 var Promise = require('bluebird');
 var needle = Promise.promisifyAll(require('needle'));
 
+
+var Cache = require('../db/schema/cache');
+
+var getCache = function(socket, successFunction) {
+  /** Get the cache for this beat, and run successFunction on return 
+
+    :param successFunction: (function) Function to be run when cache is returned
+  
+                              :param cache: returned Cache model. See /db/schema/cache.model
+  */
+
+  (function(socket, successFunction) {
+
+    // Query for this beat's cache
+    Cache.model.findOne({socket: socket}, function(err, returnedCache) {
+      if (err) {
+      }
+
+      // If we can't find a cache with that socket name, create a new one
+      if (!returnedCache) {
+        console.log('Creating Cache');
+        returnedCache = new Cache.model({socket: socket});
+      }
+
+      successFunction(returnedCache);
+    });
+  })(socket, successFunction);
+}
+
 // Required to handle an array of promises
 // https://github.com/petkaantonov/bluebird/blob/master/API.md#promisecoroutineaddyieldhandlerfunction-handler---void
 Promise.coroutine.addYieldHandler(function(yieldedValue) {
@@ -15,6 +44,7 @@ Promise.coroutine.addYieldHandler(function(yieldedValue) {
 function Beat(app, socket, options) {
   this.app = app;
   this.socket = socket;
+
   // default template for API
   var template = _.template('<%= chartbeatApi %><%= chartbeatApiString %>&apikey=<%= apiKey %>&host=');
 
@@ -39,9 +69,9 @@ function Beat(app, socket, options) {
 
   if (!this.opts.success) {
     this.opts.success = function(responses) {
-      app.io.room(this.opts.room).broadcast('chartbeat', {
+      return {
         responses: responses
-      });
+      }
     }
   }
 
@@ -49,6 +79,11 @@ function Beat(app, socket, options) {
   app.io.route(socket, function(req) {
     console.log(moment() + ' Client connected to ' + socket);
     req.io.join(socket);
+
+    getCache(socket, function(returnedCache) {
+      console.log('SENDING CACHE')
+      app.io.room(socket).broadcast('chartbeat', returnedCache.cache);
+    });
   });
 
   this.urls = this.getUrls();
@@ -88,7 +123,10 @@ Beat.prototype.start = Promise.coroutine(function* () {
     responses = yield this.getPromises();
     console.log(moment() + ' Received all responses for ' + this.socket);
 
-    this.opts.success(this.app, responses);
+    // Get responses, broadcast to room, save cache
+    var parsedResponse = this.opts.success(this.app, responses);
+    // this.app.io.room(this.socket).broadcast('chartbeat', parsedResponse);
+    this.saveCache(parsedResponse);
   } catch (e) {
     console.log(moment() + " [Beat error] : " + e);
     console.log(e.stack);
@@ -96,5 +134,13 @@ Beat.prototype.start = Promise.coroutine(function* () {
 
   if (this.opts.loop) setTimeout(_.bind(this.start, this), constants.loopInterval);
 });
+
+Beat.prototype.saveCache = function(cache) {
+
+  getCache(this.socket, function(returnedCache) {
+    returnedCache.cache = cache;
+    returnedCache.save();
+  });
+}
 
 module.exports = Beat;

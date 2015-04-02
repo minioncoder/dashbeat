@@ -29,10 +29,9 @@ function success(app, responses) {
   });
 
   articles = _.sortByOrder(articles, ['visits'], [false]);
-  // send parsed chartbeat data to client
-  app.io.room('popular').broadcast('chartbeat', {
+  return {
     articles: articles.splice(0, 40)
-  });
+  }
 }
 
 module.exports = {

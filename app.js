@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var beats = require('./routes/beats');
+var db = require('./db/db');
 
 var app = express();
 app.http().io();

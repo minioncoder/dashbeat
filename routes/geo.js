@@ -71,11 +71,9 @@ function success(app, responses) {
   lastLatLng.lat = geoData.lat;
   lastLatLng.lng = geoData.lng;
 
-
-  // send parsed chartbeat data to client
-  app.io.room('geo').broadcast('chartbeat', {
+  return {
     geoPoint: geoData
-  });
+  }
 }
 
 module.exports = {

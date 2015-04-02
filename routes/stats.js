@@ -50,9 +50,9 @@ function success(app, responses) {
     stats.addStats(host, resp);
   });
 
-  app.io.room('stats').broadcast('chartbeat', {
+  return {
     stats: stats.getStats()
-  });
+  }
 }
 
 module.exports = {
