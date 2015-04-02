@@ -17,13 +17,13 @@ npm install -g grunt-cli nodemon bower
 bower install
 ```
 
-### (MongoDB (OSX))[http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/]
-#### Install[http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/]
+### [MongoDB (OSX)](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/)
+#### [Install](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/)
 ```bash
 brew install mongodb
 ```
 
-#### (Launch)[http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/#run-mongodb]
+#### [Launch](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/#run-mongodb)
 ```bash
 # Might need 'sudo' here
 mkdir -p /data/db
