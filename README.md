@@ -3,7 +3,6 @@
 ## Dependencies
 * [Nodejs](http://nodejs.org) (> 0.11.2, for harmony support)
 * [Grunt](http://gruntjs.com)
-* [Gulp](http://gulpjs.com/)
 * [Bower](http://bower.io)
 * [MongoDB](http://www.mongodb.org/)
 
@@ -13,7 +12,7 @@
 ## Install
 ### Node stuff
 ```bash
-npm install -g grunt-cli nodemon bower gulp
+npm install -g grunt-cli nodemon bower
 npm install
 bower install
 ```
@@ -45,6 +44,7 @@ ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgent
 module.exports = {
   api_key: '...', // Chartbeat API key
   sites: [...] // list of sites to look at chartbeat info for
+  mondoUrl: 'mongodb://localhost:27017/dashbeat' // default mongo port
 }
 ```
 
@@ -59,14 +59,14 @@ node --harmony app.js
 
 Opens at ```http://localhost:5000```
 
-# Grunt/Gulp
-## Grunt
-### Watch js files
+# Automation
+## Watch js files
 ```bash
 grunt browserify:watch
 ```
-## Gulp
-### Reset DB
+
+## Reset DB
+Drop all collections in mongo db
 ```bash
 gulp db-reset
 ```

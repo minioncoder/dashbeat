@@ -21,8 +21,12 @@ var cacheSchema = new mongoose.Schema({
                // http://mongoosejs.com/docs/api.html#schema_date_SchemaDate-expires
     type: Date,
     default: new Date,
-    expires: '1s' //60 * 60 * 24 * 30 // 30 days
+    expires: 60 * 60 * 24 * 30 // 30 days
   }
+});
+
+cacheSchema.pre('delete', function(next) {
+  console.log('deleting schema');
 });
 
 /** Model stuff */

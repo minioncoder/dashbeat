@@ -26,7 +26,6 @@ var getCache = function(socket, successFunction) {
 
       // If we can't find a cache with that socket name, create a new one
       if (!returnedCache) {
-        console.log('Creating Cache');
         returnedCache = new Cache.model({socket: socket});
       }
 
@@ -85,7 +84,6 @@ function Beat(app, socket, options) {
         console.log('no cache');
         return;
       }
-      console.log('SENDING CACHE')
       app.io.room(socket).broadcast('chartbeat', returnedCache.cache);
     });
   });
