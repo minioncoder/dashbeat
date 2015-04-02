@@ -6,6 +6,5 @@ module.exports = {
     quickstats: '/live/quickstats/v3/?'
   },
   cacheExpiration: 5, // 5 seconds
-  mognoUrl: 'mongodb://localhost:27017/dashbeat',
   loopInterval: 5000
 };

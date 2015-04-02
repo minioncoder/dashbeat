@@ -18,6 +18,7 @@
     "express.io": "^1.1.13",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.6.0",
+    "gulp": "^3.8.11",
     "handlebars": "^3.0.1",
     "jade": "~1.9.2",
     "jquery-browserify": "^1.8.1",

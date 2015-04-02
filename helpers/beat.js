@@ -10,10 +10,10 @@ var needle = Promise.promisifyAll(require('needle'));
 var Cache = require('../db/schema/cache');
 
 var getCache = function(socket, successFunction) {
-  /** Get the cache for this beat, and run successFunction on return 
+  /** Get the cache for this beat, and run successFunction on return
 
     :param successFunction: (function) Function to be run when cache is returned
-  
+
                               :param cache: returned Cache model. See /db/schema/cache.model
   */
 
@@ -31,7 +31,7 @@ var getCache = function(socket, successFunction) {
       }
 
       successFunction(returnedCache);
-    });
+    }).sort({createdAt: 'desc'});
   })(socket, successFunction);
 }
 
@@ -81,7 +81,6 @@ function Beat(app, socket, options) {
     req.io.join(socket);
 
     getCache(socket, function(returnedCache) {
-      console.log(returnedCache.cache);
       if (!returnedCache.cache) {
         console.log('no cache');
         return;
@@ -142,9 +141,17 @@ Beat.prototype.start = Promise.coroutine(function* () {
 
 Beat.prototype.saveCache = function(cache) {
 
-  getCache(this.socket, function(returnedCache) {
-    returnedCache.cache = cache;
-    returnedCache.save();
+  console.log('creating new cache');
+  console.log(this.socket);
+  newCache = new Cache.model({
+    socket: this.socket,
+    cache: cache
+  });
+
+  newCache.save(function(err) {
+    if (err) {
+      console.log(err);
+    }
   });
 }
 

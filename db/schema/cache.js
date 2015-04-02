@@ -3,39 +3,25 @@ var db = require('../db');
 var mongoose = db.mongoose;
 
 var name = 'Cache';
+var collectionName = name.toLowerCase() + 's';
 
 /** Schema stuff */
 var cacheSchema = new mongoose.Schema({
   socket: { // Name of the socket/beat that this cache is valid for
     type: String,
-    required: '\'socket\' value is required for a Cache schema',
-    unique: true,
-    validator: function(val) { // TODO verify this is a valid socket name
+    validator: function(val) { // TODO verify this is a valid socket name maybe
       return true
     }
-  }, 
+  },
   cache: { // Pass anything here, cache will JSON.stringify and JSON.parse as needed
-    type: String,
-    default: '',
-    get: function(val) {
-      // TODO error handle, maybe
-      if (val) {
-        return JSON.parse(val);  
-      }
-      else {
-        return '';
-      }
-      
-    },
-    set: function(val) {
-      // TODO error handle, maybe
-      if (val) {
-        return JSON.stringify(val);  
-      }
-      else {
-        return '';
-      }
-    }
+    type: Object,
+    default: {},
+  },
+  createdAt: { // Time the cache was created
+               // http://mongoosejs.com/docs/api.html#schema_date_SchemaDate-expires
+    type: Date,
+    default: new Date,
+    expires: '1s' //60 * 60 * 24 * 30 // 30 days
   }
 });
 
@@ -45,5 +31,6 @@ var Cache = mongoose.model(name, cacheSchema);
 module.exports = {
   schema: cacheSchema,
   model: Cache,
-  name: name
+  name: name,
+  collectionName: collectionName
 }

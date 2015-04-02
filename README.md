@@ -3,6 +3,7 @@
 ## Dependencies
 * [Nodejs](http://nodejs.org) (> 0.11.2, for harmony support)
 * [Grunt](http://gruntjs.com)
+* [Gulp](http://gulpjs.com/)
 * [Bower](http://bower.io)
 * [MongoDB](http://www.mongodb.org/)
 
@@ -12,8 +13,8 @@
 ## Install
 ### Node stuff
 ```bash
+npm install -g grunt-cli nodemon bower gulp
 npm install
-npm install -g grunt-cli nodemon bower
 bower install
 ```
 
@@ -56,11 +57,18 @@ nodemon --harmony app.js
 node --harmony app.js
 ```
 
-Opens at ```http://localhost:3000```
+Opens at ```http://localhost:5000```
 
-## Watch js files
+# Grunt/Gulp
+## Grunt
+### Watch js files
 ```bash
 grunt browserify:watch
+```
+## Gulp
+### Reset DB
+```bash
+gulp db-reset
 ```
 
 ## Credits
