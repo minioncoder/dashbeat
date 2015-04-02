@@ -27,5 +27,6 @@ build/Release
 node_modules
 
 config.js
-public/bower
+public/bower/
+public/javascripts/dist/
 out.txt
