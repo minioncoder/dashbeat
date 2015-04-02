@@ -20,7 +20,9 @@ var cacheSchema = new mongoose.Schema({
   createdAt: { // Time the cache was created
                // http://mongoosejs.com/docs/api.html#schema_date_SchemaDate-expires
     type: Date,
-    default: new Date,
+    default: function() {
+      return new Date;
+    },
     expires: 60 * 60 * 24 * 30 // 30 days
   }
 });
