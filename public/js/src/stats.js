@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var $ = require('jquery');
 var io = require('socket.io-browserify');
 var Handlebars = require('handlebars');
@@ -36,20 +37,37 @@ $(function() {
     return parseInt($(window).width() * .6);
   }
 
-  socket.emit('stats');
+  function parseStats(data) {
+    var statNames = ["social", "links", "search", "direct" ]
+    var stats = {};
+    _.forEach(statNames, function(stat) {
+      stats[stat] = {
+        total: 0
+      } 
+    });
+
+    _.forEach(data, function(hostStats, host) {
+
+      _.forEach(stats, function(stat, key) {
+        if (key in hostStats) {
+          stat.total += hostStats[key];
+          stat[host] = hostStats[key];
+        }
+
+      });
+    });
+
+    return stats;
+  }
+
+  socket.emit('quickstats');
   // Message handler
-  socket.on('chartbeat', function(data) {
+  socket.on('quickstats', function(data) {
+    var data = parseStats(data);
 
-    try {
-      var response = data
-    } catch(e) {
-      return;
-    }
-
-    if (response.hasOwnProperty("stats")) {
-      // Get the stats from the response string
-      var statValues = response.stats;
-      console.log(statValues);
+    if (data) {
+      // Get the stats from the data string
+      var statValues = data;
       // Fade out loading screen
       $(".loading").addClass("loading-done");
 
@@ -67,86 +85,6 @@ $(function() {
 
     numUpdates += 1;
   });
-
-
-  // Populate the table like so:
-  //
-  //       | social | direct | ...
-  //-----------------------------  ...
-  // site1.com |   12   |  45    ...
-  // ...      ...    ...
-  // function populateTable(statValues) {
-  //   var tableHeaders = [];
-  //   var tableRows = {};
-  //   for (var stat in statValues) {
-  //     tableHeaders.push(stat);
-  //     var hitCounts = statValues[stat];
-  //     for (var site in hitCounts) {
-  //       if (site in tableRows) {
-  //         tableRows[site].push(hitCounts[site]);
-  //       } else {
-  //         tableRows[site] = [hitCounts[site]];
-  //       }
-  //     }
-  //   }
-
-  //   // Sort the table rows
-  //   var sortedRows = [];
-  //   for (var row in tableRows) {
-  //     sortedRows.push([row, tableRows[row]]);
-  //   }
-
-  //   sortedRows.sort(function(a, b) {
-  //     var aName = a[0];
-  //     var bName = b[0];
-  //     var aCounts = a[1];
-  //     var bCounts = b[1];
-
-  //     // Always make sure "total" is at the bottom
-  //     if (aName.toLowerCase() == "total") return 1;
-  //     if (bName.toLowerCase() == "total") return -1;
-
-  //     // Get totals
-  //     var aTotal = 0;
-  //     var bTotal = 0;
-  //     for (var i = 0; i < aCounts.length; i++) {
-  //       aTotal += aCounts[i];
-  //     }
-
-  //     for (var i = 0; i < bCounts.length; i++) {
-  //       bTotal += bCounts[i];
-  //     }
-
-  //     if (aTotal > bTotal) {
-  //       return -1; // a goes first
-  //     }
-
-  //     if (aTotal < bTotal) {
-  //       return 1; // b goes first
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   // Create the table body HTML
-  //   var tableBodySource = "";
-  //   for (var i = 0; i < sortedRows.length; i++) {
-  //     var row = sortedRows[i];
-  //     tableBodySource += "\n";
-  //     tableBodySource += tableRowTemplate({
-  //       "site": row[0],
-  //       "stats": row[1]
-  //     });
-  //   }
-
-  //   // Create the rest of the table
-  //   var tableSource = tableTemplate({
-  //     "headers": tableHeaders,
-  //     "tbody": tableBodySource
-  //   });
-  //   // Append HTML
-  //   $($chartInfo).html(tableSource);
-  // }
 
   // Draw the pie chart
   function drawStatChart(statValues) {

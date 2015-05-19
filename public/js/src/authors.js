@@ -3,12 +3,21 @@
 * aggregated from ChartBeat, updated every 5 seconds
 */
 
-var $ = jQuery = require('../../bower/jquery/dist/jquery.min');
+// import $ from 'jquery-browserify';
+// import _ from 'lodash';
+// import io from 'socket.io-browserify';
+// import d3 from 'd3';
+// import colorbrewer from 'colorbrewer';
+// import bootstrap from 'bootstrap';
+// import * as parse from '../../../dist/helpers/parse';
+
+var $ = require('jquery-browserify');
 var _ = require('lodash');
 var io = require('socket.io-browserify');
-var d3 = require('../../bower/d3/d3.min');
-var colorbrewer = require('../../bower/colorbrewer2/colorbrewer');
-var bootstrap = require('../../bower/bootstrap/dist/js/bootstrap.min');
+var d3 = require('d3');
+var colorbrewer = require('colorbrewer');
+var bootstrap = require('bootstrap');
+var parse = require('../../../dist/helpers/parse');
 
 /*
 * Globals for the scripts, mainly d3 variables setting the dimensions
@@ -29,7 +38,7 @@ $(function() {
                   .sticky(false);
   // background colors
   var color = d3.scale.ordinal()
-                .range(window.colorbrewer.Greens[9]);
+                .range(colorbrewer.Greens[9]);
   // primary treemap container
   var div = d3.select("#author_treemap")
               .append("div")
@@ -61,7 +70,7 @@ $(function() {
   /*
    * Picks the font color based on the background color of the node
    */
-  function font_color(bg_color) {
+  function fontColor(bg_color) {
     var dark_colors = ["#00441b", "#006d2c", "#238b45", "#41ab5d"];
     if ($.inArray(bg_color, dark_colors) != -1) {
       return "white";
@@ -72,7 +81,7 @@ $(function() {
   /*
    * HTML that resides in an authors node
    */
-  function node_html(data) {
+  function nodeHtml(data) {
     return data.children ? null : data.name + " <br/><span class='badge'>" + data.totalVisits + "</span>";
   }
 
@@ -86,7 +95,7 @@ $(function() {
   /*
    * Bootstrap modal that displays the author's articles and their popularity
   */
-  function author_modal(data) {
+  function authorModal(data) {
     $(".modal-title")
       .data("author", data.name)
       .html(data.name + ": <span class='badge'>" + data.totalVisits + "</span> Total Visitors");
@@ -94,62 +103,97 @@ $(function() {
     var content = '';
     for (var i = 0; i < data.articles.length; i++) {
       content += '<p><span class="badge">' + data.articles[i].visits +
-                 '</span> <a href="//' + data.articles[i].url + '" target="_blank">' +
+                 '</span> <a href="//' + data.articles[i].path + '" target="_blank">' +
                  data.articles[i].title + '</a></p>';
     }
     $(".modal-body").html(content);
   };
 
-  function update_modal() {
+  function updateModal() {
     var author = $(".modal-title").data("author");
     if (author != "") {
       $(".node").each(function(e) {
         var data = this.__data__;
         if (data.name == author) {
-          author_modal(data);
+          authorModal(data);
           return;
         }
       });
     }
   };
 
+  function sortAuthors(data) {
+    var authors = {};
+    _.forEach(data.articles, function(article) {
+      _.forEach(article.authors, function(auth) {
+        auth = auth.replace('by', '').replace('the', '');
+        var authorSplit = auth.split(' and ');
+
+        // Split and really iterate this time
+        _.forEach(authorSplit, function(author) {
+          author = parse.toTitleCase(author.trim());
+          if (!author) {
+            return;
+          }
+
+          // Add to author object
+          if (author in authors) {
+            authors[author].articles.push(article);
+            authors[author].totalVisits += article.visits;
+          }
+          else {
+            authors[author] = {
+              name: author,
+              articles: [article],
+              totalVisits: article.visits
+            }
+          }
+        });
+      });
+    });
+
+    authors = _.sortByOrder(authors, ['totalVisits'], [false]);
+
+    return {
+      children: authors.slice(0, 50),
+      name: 'authors'
+    };
+  }
+
   /*
   * Web Socket functionality, takes initial data to generate treemap
   * and then continually updates that data
   */
-  function connect_socket() {
+  function connectSocket() {
     // Websocket used for constant streaming of data
     var socket = io.connect();
-    socket.emit('authors');
-    socket.on('chartbeat', function(data) {
+    socket.emit('toppages');
+    socket.on('toppages', function(data) {
 
       var response = data;
-      if (!response.hasOwnProperty("authors")) {
-        console.log('No authors');
-        return;
-      }
+      var authors = sortAuthors(data);
 
       // update existing author node text if exists
-      div.selectAll(".node").html(node_html);
+      div.selectAll(".node").html(nodeHtml);
       // create new author nodes with new data
       var nodes = div.selectAll(".node")
-                     .data(treemap.nodes(response.authors), function(d) { return d.name; });
+                     .data(treemap.nodes(authors), function(d) { return d.name; });
       nodes.enter().append("div")
         .attr("class", "node")
         .on("click", function(d) {
             $("#author_modal").modal("toggle");
-            author_modal(d);
+            authorModal(d);
         })
-        .html(node_html);
+        .html(nodeHtml);
       // remove old author nodes
       nodes.exit().remove();
       // create smooth transition effect
       nodes.transition().duration(1500)
         .call(position)
-        .call(update_modal)
+        .call(updateModal)
         .style("background", function(d) { return color(d.name); })
         .style("color", function(d) {
-            return font_color(color(d.name));
+            return fontColor(color(d.name));
         });
 
       // adjust font size based on the width of the node
@@ -168,6 +212,6 @@ $(function() {
     return socket;
   };
 
-  var socket = connect_socket();
+  var socket = connectSocket();
 
 });

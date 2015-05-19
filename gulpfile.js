@@ -13,32 +13,32 @@ var babelify = require("babelify");
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
-var js_src = './public/js/src/';
-var js_dist = './public/js/dist/';
-var js_bundle = ['authors.js', 'engage.js', 'geo.js', 'popular.js', 'recirculation.js', 'stats.js'];
+var jsSrc = './public/js/src/';
+var jsDist = './public/js/dist/';
+var jsBundle = ['authors.js', 'engage.js', 'geo.js', 'popular.js', 'recirculation.js', 'stats.js'];
 
 gulp.task('less', function() {
   lessify();
 });
 
 gulp.task('browserify', function() {
-  forEach(js_bundle, function(fname) {
+  forEach(jsBundle, function(fname) {
     bundlejs(fname);
   });
 });
 
 gulp.task('default', function() {
   lessify();
-  forEach(js_bundle, function(fname) {
+  forEach(jsBundle, function(fname) {
     bundlejs(fname);
   });
   babeljs();
 });
 
 gulp.task('watch', function() {
-  forEach(js_bundle, function(fname) {
+  forEach(jsBundle, function(fname) {
     gutil.log('Watching ' + fname);
-    gulp.watch(js_src + fname, function() {
+    gulp.watch(jsSrc + fname, function() {
       bundlejs(fname);
     });
   });
@@ -71,29 +71,29 @@ function babeljs(src, dist) {
 }
 
 function bundlejs(file, src, dist) {
-  if (typeof src === 'undefined') src = js_src;
-  if (typeof dist === 'undefined') dist = js_dist;
+  if (typeof src === 'undefined') src = jsSrc;
+  if (typeof dist === 'undefined') dist = jsDist;
   src = addSlash(src);
   dist = addSlash(dist);
 
-  var src_full = src + file;
-  var dist_full = dist + file;
+  var srcFull = src + file;
+  var distFull = dist + file;
 
-  if (!fs.existsSync(src_full)) {
-    gutil.log('Could not find ' + src_full + ', ignoring')
+  if (!fs.existsSync(srcFull)) {
+    gutil.log('Could not find ' + srcFull + ', ignoring')
     return;
   }
 
-  gutil.log('Generating ' + dist_full);
+  gutil.log('Generating ' + distFull);
 
-  var b = browserify(src_full, { debug: true });
+  var b = browserify(srcFull, { debug: true });
   return b.bundle()
     .pipe(source(file))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(uglify())
-        .on('error', gutil.log)
-    .pipe(sourcemaps.write('./'))
+    // .pipe(buffer())
+    // .pipe(sourcemaps.init({loadMaps: true}))
+    //     .pipe(uglify())
+    //     .on('error', gutil.log)
+    // .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(dist));
 }
 

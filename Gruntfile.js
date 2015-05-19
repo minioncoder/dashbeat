@@ -12,10 +12,10 @@ module.exports = function(grunt) {
     browserify: {
       watch: {
         files: [{
-          cwd: './public/javascripts/src',
+          cwd: './public/js/src',
           expand: true,     // Enable dynamic expansion.
           src: ['*.js'], // Actual pattern(s) to match.
-          dest: './public/javascripts/dist',
+          dest: './public/js/dist',
           ext: '.js',   // Dest filepaths will have this extension.
           extDot: 'first'   // Extensions in filenames begin after the first dot
         }],

@@ -1,4 +1,5 @@
 var $ = jQuery = require('jquery-browserify');
+var _ = require('lodash');
 var io = require('socket.io-browserify');
 var d3 = require('d3');
 var epoch = require('../../bower/epoch/epoch.min');
@@ -13,28 +14,30 @@ var gauge;
 $(function() {
   var socket = io.connect();
 
-  socket.emit('recirculation');
+  socket.emit('quickstats');
 
-  socket.on('chartbeat', function(data) {
+  socket.on('quickstats', function(data) {
     // Websocket used for constant streaming of data
 
-    var response = data.data;
     var time = Math.round((new Date()).getTime() / 1000);
 
-    if (response.hasOwnProperty("recirculation")) {
-      var recirc = response.recirculation;
-      var article = response.article;
-      var newRatio = recirc / article;
+    var recirc = 0;
+    var article = 0;
+    _.forEach(data, function(stats, host) {
+      recirc += stats.recirc;
+      article += stats.article;
+    });
 
-      if (first) {
-        gauge = $("#gauge").epoch({
-          "type": "time.gauge",
-          "value": newRatio
-        });
-        first = false;
-      } else {
-        gauge.push(newRatio);
-      }
+    var newRatio = article ? recirc / article : 0;
+
+    if (first) {
+      gauge = $("#gauge").epoch({
+        "type": "time.gauge",
+        "value": newRatio
+      });
+      first = false;
+    } else {
+      gauge.push(newRatio);
     }
   });
 
