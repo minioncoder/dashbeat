@@ -3,8 +3,6 @@
 import Chance from 'chance';
 import url from 'url';
 
-import { sites } from '../../config';
-
 module.exports = {
   isSectionPage: function(url) {
     return (url != "" &&
@@ -16,7 +14,7 @@ module.exports = {
   toTitleCase: function (str) {
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
   },
-  getRandomSite: function() {
+  getRandomSite: function(sites) {
     var chance = new Chance();
 
     var numSites = sites.length;

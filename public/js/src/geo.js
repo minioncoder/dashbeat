@@ -47,41 +47,32 @@ $(function() {
 
   function connect_socket() {
     var socket = io.connect();
-    socket.emit('geo');
+    socket.emit('recent');
     // Server sent a message to the client, update dashboard
-    socket.on('chartbeat', function(data) {
-      var response = data
+    socket.on('recent', function(person) {
 
-      if (response.hasOwnProperty("users")) {
-          $("#concurrent").html(response.users);
+      //place marker
+      var data = {
+        "title": person.title,
+        "path": person.path,
+        "platform": person.platform,
+        "host": person.host.replace(".com", ""),
+      };
+
+      // Remove the currently placed point, if it exists
+      if (!marker){
+          marker = L.marker([person.lat, person.lng]).addTo(map);
+      }
+      else{
+          marker.setLatLng([person.lat, person.lng]).update();
       }
 
-      if (response.hasOwnProperty("geoPoint")) {
-        var person = response.geoPoint;
+      map.setView([person.lat + 3, person.lng]);
 
-        //place marker
-        var data = {
-          "title": person.title,
-          "path": person.path,
-          "platform": person.platform,
-          "host": person.host.replace(".com", ""),
-        };
+      var popup = L.popup({"className" : "marker-popup-class"}).
+                      setContent(marker_popup_template(data));
+      marker.bindPopup(popup).openPopup();
 
-        // Remove the currently placed point, if it exists
-        if (!marker){
-            marker = L.marker([person.lat, person.lng]).addTo(map);
-        }
-        else{
-            marker.setLatLng([person.lat, person.lng]).update();
-        }
-
-        map.setView([person.lat + 3, person.lng]);
-
-        var popup = L.popup({"className" : "marker-popup-class"}).
-                        setContent(marker_popup_template(data));
-        marker.bindPopup(popup).openPopup();
-
-      }
     });
 
     return socket;

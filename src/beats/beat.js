@@ -62,7 +62,7 @@ class Beat {
    *  :return: (Array) array of compiled site names. sites.length === return.length
    *
    */
-  compileUrls(apiKey, site) {
+  compileUrls(apiKey, sites) {
     var urls = [];
     _.forEach(sites, site => {
       var url = `${chartbeatApi}${this.apiUrl}&apikey=${apiKey}&host=${site}`;

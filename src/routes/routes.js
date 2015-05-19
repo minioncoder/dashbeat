@@ -5,6 +5,7 @@ import authors from './authors';
 import stats from './stats';
 import engage from './engage';
 import recirc from './recirculation';
+import geo from './geo';
 
 var routes = [
   {
@@ -26,6 +27,10 @@ var routes = [
   {
     url: '/recirculation/',
     router: recirc.router
+  },
+  {
+    url: '/geo/',
+    router: geo.router
   }
 ]
 

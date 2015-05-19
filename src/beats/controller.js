@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import TopPages from './toppages';
 import QuickStats from './quickstats';
+import Recent from './recent';
 import { loopInterval } from '../helpers/constants';
 import { apiPaths } from '../helpers/constants';
 import logger from '../logger';
@@ -10,7 +11,8 @@ class Controller {
   constructor(app) {
     this.beats = [ 
       new TopPages(app, 'toppages', '', apiPaths.toppages),
-      new QuickStats(app, 'quickstats', '', apiPaths.quickstats)
+      new QuickStats(app, 'quickstats', '', apiPaths.quickstats),
+      new Recent(app, 'recent', '', apiPaths.recent)
     ]
   }
 
