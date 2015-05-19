@@ -9,15 +9,10 @@ var moment = require('moment');
 var Promise = require('bluebird');
 var needle = Promise.promisifyAll(require('needle'));
 
-var Cache = require('../db/schema/cache');
+//var Cache = require('../db/schema/cache');
 
-var getCache = function(socket, successFunction) {
-  /** Get the cache for this beat, and run successFunction on return
+/*var getCache = function(socket, successFunction) {
 
-    :param successFunction: (function) Function to be run when cache is returned
-
-                              :param cache: returned Cache model. See /db/schema/cache.model
-  */
 
   (function(socket, successFunction) {
 
@@ -34,7 +29,7 @@ var getCache = function(socket, successFunction) {
       successFunction(returnedCache);
     }).sort({createdAt: 'desc'});
   })(socket, successFunction);
-}
+}*/
 
 // Required to handle an array of promises
 // https://github.com/petkaantonov/bluebird/blob/master/API.md#promisecoroutineaddyieldhandlerfunction-handler---void
@@ -81,13 +76,13 @@ function Beat(app, socket, options) {
     console.log(moment() + ' Client connected to ' + socket);
     req.io.join(socket);
 
-    getCache(socket, function(returnedCache) {
+    /*getCache(socket, function(returnedCache) {
       if (!returnedCache.cache) {
         console.log('no cache');
         return;
       }
       app.io.room(socket).broadcast('chartbeat', returnedCache.cache);
-    });
+    });*/
   });
 
   this.urls = this.getUrls();
@@ -130,7 +125,7 @@ Beat.prototype.start = Promise.coroutine(function* () {
     // Get responses, broadcast to room, save cache
     var parsedResponse = this.opts.success(this.app, responses);
     this.app.io.room(this.socket).broadcast('chartbeat', parsedResponse);
-    this.saveCache(parsedResponse);
+    //this.saveCache(parsedResponse);
   } catch (e) {
     console.log(moment() + " [Beat error] : " + e);
     console.log(e.stack);
@@ -139,7 +134,7 @@ Beat.prototype.start = Promise.coroutine(function* () {
   if (this.opts.loop) setTimeout(_.bind(this.start, this), constants.loopInterval);
 });
 
-Beat.prototype.saveCache = function(cache) {
+/*Beat.prototype.saveCache = function(cache) {
   console.log('creating new cache');
   console.log(this.socket);
   var newCache = new Cache.model({
@@ -152,6 +147,6 @@ Beat.prototype.saveCache = function(cache) {
       console.log(err);
     }
   });
-}
+}*/
 
 module.exports = Beat;

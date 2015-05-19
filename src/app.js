@@ -1,14 +1,19 @@
 'use strict';
 
-var express = require('express.io');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+import path from 'path';
 
-var beats = require('./routes/beats');
-var db = require('./db/db');
+import morgan from 'morgan';
+import log4js from 'log4js';
+import mongoose from 'mongoose';
+import express from 'express.io';
+import favicon from 'serve-favicon';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+
+import { connect } from './db';
+import mail from './mail';
+import logger from './logger';
+import beats from './routes/beats';
 
 var app = express();
 app.http().io();
@@ -19,17 +24,21 @@ var BASE_DIR = path.dirname(__dirname);
 app.set('views', path.join(BASE_DIR, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(BASE_DIR, 'public')));
+app.use(log4js.connectLogger(logger, { level: log4js.levels.DEBUG }));
 
 // http://stackoverflow.com/a/27464258/1337683
 app.use('/css', express.static(path.join(BASE_DIR, '/node_modules/leaflet/dist')));
 app.use('/img', express.static(path.join(BASE_DIR, '/node_modules/leaflet/dist/images')));
+
+connect();
+mongoose.connection.on('error', logger.error);
+mongoose.connection.on('disconnected', connect);
 
 // Init beats
 beats.initBeats(app);
@@ -40,8 +49,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
-// error handlers
 
 // development error handler
 // will print stacktrace
@@ -58,6 +65,21 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  logger.error(err);
+
+  mail.mailOptions.text = `
+  Status: ${err.status}
+  -----
+  Request: ${req.originalUrl}
+  -----
+  Error: ${err.message}
+  -----
+  Stacktrace: ${err.stack}`;
+
+  mail.transporter.sendMail(mail.mailOptions, function(error, info) {
+    logger.error(error);
+  });
+
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
@@ -65,8 +87,15 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.listen(5000, function() {
-  console.log('http://localhost:5000');
+process.on('SIGTERM', function () {
+  logger.info("Closing nodejs application ...");
+  app.close();
 });
+
+app.on('close', function () {
+  logger.info("Closed nodejs application, disconnecting mongodb ...");
+  mongoose.disconnect();
+});
+
 
 module.exports = app;

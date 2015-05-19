@@ -1,6 +1,9 @@
-var config = require('../../config');
-var Chance = require('chance');
-var url = require('url');
+'use strict';
+
+import Chance from 'chance';
+import url from 'url';
+
+import { sites } from '../../config';
 
 module.exports = {
   isSectionPage: function(url) {
@@ -16,12 +19,12 @@ module.exports = {
   getRandomSite: function() {
     var chance = new Chance();
 
-    var numSites = config.sites.length;
+    var numSites = sites.length;
     var randomIndex = chance.integer({
       min: 0,
       max: numSites - 1
     })
-    var randomSite = config.sites[randomIndex];
+    var randomSite = sites[randomIndex];
 
     return randomSite;
   },
