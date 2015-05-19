@@ -1,11 +1,13 @@
-var config = require('../config');
+'use strict';
+
+import polyfill from 'babel/polyfill';
+var config = require('../../config');
 var constants = require('./constants');
 
 var _ = require('lodash');
 var moment = require('moment');
 var Promise = require('bluebird');
 var needle = Promise.promisifyAll(require('needle'));
-
 
 var Cache = require('../db/schema/cache');
 
@@ -104,7 +106,7 @@ Beat.prototype.getUrls = function() {
 };
 
 Beat.prototype.getPromises = function() {
-  promises = [];
+  var promises = [];
   _.forEach(this.urls, function(url) {
     promises.push(needle.getAsync(url));
   });
@@ -122,7 +124,7 @@ Beat.prototype.start = Promise.coroutine(function* () {
 
   // Yield the responses
   try {
-    responses = yield this.getPromises();
+    var responses = yield this.getPromises();
     console.log(moment() + ' Received all responses for ' + this.socket);
 
     // Get responses, broadcast to room, save cache
@@ -138,10 +140,9 @@ Beat.prototype.start = Promise.coroutine(function* () {
 });
 
 Beat.prototype.saveCache = function(cache) {
-
   console.log('creating new cache');
   console.log(this.socket);
-  newCache = new Cache.model({
+  var newCache = new Cache.model({
     socket: this.socket,
     cache: cache
   });

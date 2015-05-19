@@ -28,5 +28,6 @@ node_modules
 
 config.js
 public/bower/
-public/javascripts/dist/
+public/js/dist/
+dist/
 out.txt

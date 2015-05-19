@@ -6,7 +6,7 @@ var Chance = require('chance');
 var express = require('express');
 var router = express.Router();
 
-var config = require('../config');
+var config = require('../../config');
 var parse = require('../helpers/parse');
 var constants = require('../helpers/constants');
 var Beat = require('../helpers/beat');

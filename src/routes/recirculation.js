@@ -3,7 +3,7 @@ var _ = require('lodash');
 var express = require('express');
 var router = express.Router();
 
-var config = require('../config');
+var config = require('../../config');
 var constants = require('../helpers/constants');
 var Beat = require('../helpers/beat');
 

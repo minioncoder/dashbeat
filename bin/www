@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('detroitnow-node:server');
+var app = require('../dist/app');
+var debug = require('debug')('dashbeat-node:server');
 var http = require('http');
 
 /**

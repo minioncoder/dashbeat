@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express.io');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -11,8 +13,10 @@ var db = require('./db/db');
 var app = express();
 app.http().io();
 
+var BASE_DIR = path.dirname(__dirname);
+
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(BASE_DIR, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
@@ -21,11 +25,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(BASE_DIR, 'public')));
 
 // http://stackoverflow.com/a/27464258/1337683
-app.use('/stylesheets', express.static(path.join(__dirname, '/node_modules/leaflet/dist')));
-app.use('/images', express.static(path.join(__dirname, '/node_modules/leaflet/dist/images')));
+app.use('/css', express.static(path.join(BASE_DIR, '/node_modules/leaflet/dist')));
+app.use('/img', express.static(path.join(BASE_DIR, '/node_modules/leaflet/dist/images')));
 
 // Init beats
 beats.initBeats(app);

@@ -1,4 +1,4 @@
-var config = require('../config');
+var config = require('../../config');
 var Chance = require('chance');
 var url = require('url');
 

@@ -1,8 +1,8 @@
 var _ = require('lodash');
 
 var config = require('./config');
-var db = require('./db/db');
-var schemas = require('./db/schema/schemas');
+var db = require('./dist/db/db');
+var schemas = require('./dist/db/schema/schemas');
 
 var mongo = db.MongoClient;
 

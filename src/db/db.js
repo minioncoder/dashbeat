@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var config = require('../config');
+var config = require('../../config');
 
 // Mongoose stuff
 var mongoose = require('mongoose');

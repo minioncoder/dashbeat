@@ -1,7 +1,7 @@
 extends layout
 
 block css
-  link(href='/stylesheets/css/authors.css', rel='stylesheet')
+  link(href='/css/authors.css', rel='stylesheet')
 
 block content
 
@@ -23,7 +23,7 @@ block content
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
 
-  script(src='/javascripts/dist/authors.js', type='text/javascript')
+  script(src='/js/dist/authors.js', type='text/javascript')
   script(id='article-template', type='text/x-handlebars-template').
     <div class='article'>
       <span>{{ visits }}</span>
