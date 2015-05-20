@@ -7,19 +7,20 @@ block css
 
 
 block content
-  .row
-    .col-md-12.text-center
-      h2 How many visitors from across Michigan are on our sites right now?
-  .row
-    .col-md-12.text-center
-      h1
-        i#delta.fa
-        span#viewers 0
-  .row
-    .col-md-12.text-center
-      #line_chart(style='width: 100%; height: 200px;')
-  .row
-    .col-md-12.text-center
-      h2 What can you do to engage some more?
+  .container
+    .row
+      .col-md-12.text-center
+        h2 How many visitors from across Michigan are on our sites right now?
+    .row
+      .col-md-12.text-center
+        h1
+          i#delta.fa
+          span#viewers 0
+    .row
+      .col-md-12.text-center
+        #line_chart(style='width: 100%; height: 200px;')
+    .row
+      .col-md-12.text-center
+        h2 What can you do to engage some more?
 
   script(src='/js/dist/viewers.js', type='text/javascript')

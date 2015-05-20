@@ -46,11 +46,19 @@ $(function() {
   }
 
   function compileTotalViews(data) {
-    var viewersToday = []
-    _.forEach(data.viewersToday, function(viewers) {
+    console.log('COMPILING VIEWS');
+    var viewersToday = [];
+    var minLength;
 
+    // It's not guaranteed that each site will have the same number
+    // of values in their array. This makes the graph look kinda bad
+
+    _.forEach(data.viewersToday, function(viewers) {
+      
+      var count = 0;
       _.forEach(viewers.people, function(numViewers, index) {
-        if (numViewers === null) return;
+        if (numViewers === null) return false;
+        count += 1;
 
         if (viewersToday.length <= index) {
           viewersToday.push(numViewers)
@@ -59,9 +67,16 @@ $(function() {
           viewersToday[index] += numViewers;
         }
       });
+
+      if (typeof minLength === 'undefined') {
+        minLength = count;
+      }
+      else if (minLength > count) {
+        minLength = count;
+      }
     });
 
-    return viewersToday;
+    return viewersToday.slice(0, minLength);
   }
 
   function connectSocket() {
