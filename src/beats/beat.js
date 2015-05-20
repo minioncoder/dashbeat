@@ -1,14 +1,13 @@
 'use strict';
 
 import polyfill from 'babel/polyfill';
-
 import _ from 'lodash';
 import moment from 'moment';
 import Promise from 'bluebird';
 import needle from 'needle';
 
-import logger from '../logger';
 import { apiKey, sites } from '../../config';
+import logger from '../logger';
 import { chartbeatApi, loopInterval } from '../helpers/constants';
 
 var getAsync = Promise.promisify(needle.get);
@@ -21,13 +20,8 @@ Promise.coroutine.addYieldHandler(function(yieldedValue) {
 
 class Beat {
   constructor(app, name, schema, apiUrl) {
-    this.app = app;
-    this.name = name;
-    this.schema = schema;
-    this.apiUrl = apiUrl;
-
+    Object.assign(this, { app, name, schema, apiUrl });
     this.createSocket();
-
     return this;
   }
 
@@ -39,7 +33,7 @@ class Beat {
   }
 
   /*  Function called by the Controller on each beat. Should hit the DB to get the
-   *  API keys that it needs to use to fetch data (TODO), for now it pulls from 
+   *  API keys that it needs to use to fetch data (TODO), for now it pulls from
    *  config.js
    *
    */
@@ -48,7 +42,7 @@ class Beat {
     // TODO get all API keys
     // For now just read from config.js
     var apiInfo = [{ apiKey, sites }];
-    _.forEach(apiInfo, info => 
+    _.forEach(apiInfo, info =>
       this.callChartbeat(info.apiKey, info.sites)
     );
   }
@@ -57,8 +51,8 @@ class Beat {
    *  that will be called.
    *
    *  :param apiKey:  (String) Chartbeat API key
-   *  :param sites:   (Array) Array of host sites that will be called 
-   *  
+   *  :param sites:   (Array) Array of host sites that will be called
+   *
    *  :return: (Array) array of compiled site names. sites.length === return.length
    *
    */
@@ -75,12 +69,12 @@ class Beat {
   /*  For a given apiKey and sites combo, make all the requests to Chartbeat
    *
    *  :param apiKey:  (String) Chartbeat API key
-   *  :param sites:   (Array) Array of hosts that for which we will hit the 
+   *  :param sites:   (Array) Array of hosts that for which we will hit the
    *                    chartbeat API for for data
    */
   callChartbeat(apiKey, sites) {
     var that = this;
-    var start = Promise.coroutine(function* (urls) { 
+    var start = Promise.coroutine(function* (urls) {
       // Compile all the promises together
       var promises = [];
       _.forEach(urls, function(url) {
