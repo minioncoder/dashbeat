@@ -17,7 +17,8 @@ var jsSrc = './public/js/src/';
 var jsDist = './public/js/dist/';
 var jsBundle = [
   'authors.js', 'engage.js', 'geo.js',
-  'popular.js', 'recirculation.js', 'stats.js'
+  'popular.js', 'recirculation.js', 'stats.js',
+  'viewers.js'
 ];
 
 gulp.task('less', function() {

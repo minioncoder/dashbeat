@@ -6,37 +6,23 @@ import stats from './stats';
 import engage from './engage';
 import recirc from './recirculation';
 import geo from './geo';
+import viewers from './viewers';
 
+// TODO simplify this cause the individual routes js files don't really do
+// anything anymore
 var routes = [
-  {
-    url: '/',
-    router: popular.router
-  },
-  {
-    url: '/authors/',
-    router: authors.router
-  },
-  {
-    url: '/stats/',
-    router: stats.router
-  },
-  {
-    url: '/engage/',
-    router: engage.router
-  },
-  {
-    url: '/recirculation/',
-    router: recirc.router
-  },
-  {
-    url: '/geo/',
-    router: geo.router
-  }
+  popular,
+  authors,
+  stats,
+  engage,
+  recirc,
+  geo,
+  viewers
 ]
 
 function init(app) {
   _.forEach(routes, function(route) {
-    app.use(route.url, route.router);
+    route.init(app);
   });
 }
 

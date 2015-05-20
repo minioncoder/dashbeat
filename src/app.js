@@ -33,7 +33,12 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// Static stuff
 app.use(express.static(path.join(BASE_DIR, 'public')));
+app.use (express.static(path.join(BASE_DIR, 'node_modules')));
+
+// Logger
 app.use(log4js.connectLogger(logger, { level: log4js.levels.DEBUG }));
 
 // http://stackoverflow.com/a/27464258/1337683

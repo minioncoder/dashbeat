@@ -100,7 +100,8 @@ class Beat {
    *
    */
   parseResponses(responses) {
-    console.log('Got responses for ${this.apiUrl} beat');
+    logger.debug('Default parseResponse called for ' + this.apiUrl);
+    return responses;
   }
 }
 

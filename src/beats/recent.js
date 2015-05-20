@@ -1,3 +1,5 @@
+'use strict';
+
 import Chance from 'chance';
 
 import Beat from './beat';

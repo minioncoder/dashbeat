@@ -26,9 +26,24 @@ var HashSchema = new Schema({
   sites: [{ type: String }]
 });
 
+var BeatCacheSchema = new Schema({
+  beat: {
+    type: String,
+    trim: true,
+  },
+  cache: {
+    type: Object
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
 //var ToppagesSchema = new Schema({});
 
 module.exports = {
   HashSchema: mongoose.model('Hash', HashSchema),
+  BeatCacheSchema: mongoose.model('BeatCache', BeatCacheSchema),
   connect
 };
