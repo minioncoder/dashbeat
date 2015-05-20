@@ -10,6 +10,8 @@ var colorbrewer = require('colorbrewer');
 var bootstrap = require('bootstrap');
 var parse = require('../../../dist/helpers/parse');
 
+
+console.log('here');
 /*
 * Globals for the scripts, mainly d3 variables setting the dimensions
 * for the treemap
@@ -115,7 +117,12 @@ $(function() {
 
   function sortAuthors(data) {
     var authors = {};
-    _.forEach(data.articles, function(article) {
+    var articles = [];
+    _.forEach(data.articles, function(hostArticles, host) {
+      articles = articles.concat(hostArticles);
+    });
+
+    _.forEach(articles, function(article) {
       _.forEach(article.authors, function(auth) {
         auth = auth.replace('by', '').replace('the', '');
         var authorSplit = auth.split(' and ');
