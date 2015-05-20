@@ -43,7 +43,7 @@ var BeatCacheSchema = new Schema({
 //var ToppagesSchema = new Schema({});
 
 module.exports = {
-  HashSchema: mongoose.model('Hash', HashSchema),
+  UserSchema: mongoose.model('Hash', UserSchema),
   BeatCacheSchema: mongoose.model('BeatCache', BeatCacheSchema),
   connect
 };
