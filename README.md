@@ -12,9 +12,10 @@
 ## Install
 ### Node stuff
 ```bash
-npm install -g grunt-cli nodemon bower
+npm install -g gulp bower babel browserify
 npm install
 bower install
+gulp
 ```
 
 ### [MongoDB (OSX)](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/)
@@ -39,37 +40,24 @@ ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgent
 ```
 
 ## Setup
-* Create a config.js file with the following contents
-```javascript
-module.exports = {
-  api_key: '...', // Chartbeat API key
-  sites: [...] // list of sites to look at chartbeat info for
-  mondoUrl: 'mongodb://localhost:27017/dashbeat' // default mongo port
-}
-```
+* Create a config.js, copy the example file which is located `./config_default.js`
 
 ## Run
 ```bash
-# Nodemon (for server restart on file save)
-nodemon --harmony app.js
-
 # Node
-node --harmony app.js
+npm start
+
+# iojs
+npm run istart
 ```
 
-Opens at ```http://localhost:5000```
-
-# Automation
-## Watch js files
-```bash
-grunt browserify:watch
+#### Docker
+```
+docker build -t dashbeat/app .
+docker run -d -p 5000:5000 -v /Users/dev/dashbeat:/srv --name dashbeat dashbeat/app
 ```
 
-## Reset DB
-Drop all collections in mongo db
-```bash
-gulp db-reset
-```
+Opens at `http://localhost:5000`
 
 ## Credits
 * Eric Bower [https://github.com/neurosnap](https://github.com/neurosnap)

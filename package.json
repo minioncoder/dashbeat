@@ -1,9 +1,10 @@
 {
-  "name": "detroitnow-node",
+  "name": "dashbeat",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --harmony ./dist/app.js"
+    "start": "node --harmony ./dist/app.js",
+    "istart": "iojs --es_staging ./dist/app.js"
   },
   "dependencies": {
     "babel": "^5.2.17",
@@ -50,12 +51,7 @@
   },
   "browserify": {
     "_transform": [
-      [
-        "babelify",
-        {
-          "stage": 0
-        }
-      ],
+      ["babelify", { "stage": 0 }],
       "browserify-shim"
     ]
   },
