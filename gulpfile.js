@@ -15,8 +15,6 @@ var sequence = require('run-sequence');
 var watchify = require('watchify');
 var reactify = require('reactify');
 
-console.log(watchify.args);
-
 var jsSrc = './public/js/src/';
 var jsDist = './public/js/dist/';
 var jsBundle = [

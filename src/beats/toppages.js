@@ -4,14 +4,14 @@ import _ from 'lodash';
 
 import logger from '../logger';
 import Beat from './beat';
-import { isSectionPage } from '../helpers/parse';
+import { isSectionPage, getHostFromResponse } from '../helpers/parse';
 
 export default class TopPages extends Beat {
   parseResponses(responses) {
     var articles = {};
     // parse chartbeat response data
     _.forEach(responses, function(response) {
-      var host = parse.getHostFromResponse(response);
+      var host = getHostFromResponse(response);
       articles[host] = [];
       
       _.forEach(response[1].pages, function(article) {

@@ -2,14 +2,15 @@ $ = require('jquery');
 var _ = require('lodash');
 var io = require('socket.io-browserify');
 var Article = require('./obj/article');
-var sha1 = require('crypto').createHash('sha1');
+var crypto = require('crypto');
 
 var NUM_ARTICLES = 50;
-var articles = {};
+var currentArticles = {};
 
 $(function() {
   function generateId(url) {
     /*  Given a URL of an article, generate a unique key for it */
+    var sha1 = crypto.createHash('sha1');
     sha1.update(url);
     return sha1.digest('hex');
   }
@@ -39,6 +40,7 @@ $(function() {
       if (typeof nextArticle === 'undefined') break;
 
       // Save this article and remove it from its list
+      nextArticle.rank = articles.length;
       articles.push(nextArticle);
       data.articles[nextArticleSite] = _.drop(data.articles[nextArticleSite]);
     }
@@ -50,20 +52,32 @@ $(function() {
   socket.emit('toppages');
   socket.on('toppages', function(data) {
   	var articles = compileArticles(data);
-    $('.articles').html('');
+    var keys = _.keys(currentArticles);
+    var keyObj = {};
+    _.forEach(keys, function(key) { keyObj[key] = true; });
 
     _.forEach(articles, function(articleData) {
       var id = generateId(articleData.path);
 
       // If this article isn't currently drawn to the screen, draw it
-      if (!$('#' + id).length) {
+      if (!(id in currentArticles)) {
         $('.articles').append('<div class=\'article-container\' id=' + id + '></div>');
         var article = new Article(articleData, id);
-        articles[id] = article;
+        article.moveArticle();
+        currentArticles[id] = article;
       }
       else {
-        article[id].setState({ readers: data.viewers });
+        currentArticles[id].updateArticle({ 
+          readers: articleData.visits,
+          rank: articleData.rank
+        });
+        delete keyObj[id];
       }
+    });
+
+    _.forEach(keyObj, function(val, id){
+      $('#' + id).remove();
+      delete currentArticles[id];
     });
 
   });

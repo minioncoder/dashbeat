@@ -1,0 +1,15 @@
+.articles {
+  position: relative;
+}
+
+.article-container {
+  height: 50px;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+}
+
+.article-container .article {
+  position: relative;
+  width: 100%;
+}
