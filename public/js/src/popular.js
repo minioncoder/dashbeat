@@ -14,7 +14,6 @@ $(function() {
       var article_obj = article(article_data);
       article_obj.draw();
     });
-
   });
 });
 

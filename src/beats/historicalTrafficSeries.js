@@ -6,6 +6,10 @@ import Beat from './beat';
 import { getHostFromResponse } from '../helpers/parse';
 
 export default class historicalTrafficSeries extends Beat {
+  constructor(app, name='historicalTrafficSeries', apiUrl='/historical/traffic/series/?', schema) {
+    super(app, name, apiUrl, schema);
+  }
+
   parseResponses(responses) {
     var viewersToday = {};
     var start, end, frequency;

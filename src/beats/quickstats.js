@@ -7,6 +7,10 @@ import Beat from './beat';
 import { getHostFromResponse } from '../helpers/parse';
 
 export default class QuickStats extends Beat {
+  constructor(app, name='quickstats', apiUrl='/live/quickstats/v3/?', schema) {
+    super(app, name, apiUrl, schema);
+  }
+
   parseResponses(responses) {
     var stats = {};
     _.forEach(responses, function(response) {

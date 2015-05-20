@@ -22,8 +22,8 @@ Promise.coroutine.addYieldHandler(function(yieldedValue) {
 });
 
 export default class Beat {
-  constructor(app, name, schema, apiUrl) {
-    Object.assign(this, { app, name, schema, apiUrl });
+  constructor(app, name, apiUrl, schema) {
+    Object.assign(this, { app, name, apiUrl, schema });
     this.createSocket();
     return this;
   }
@@ -41,7 +41,7 @@ export default class Beat {
    *
    */
   fetch() {
-    logger.info('Fetching ' + this.apiUrl);
+    logger.info(`Fetching ${this.apiUrl} for ${this.name}`);
     // TODO get all API keys
     // For now just read from config.js
     var apiInfo = [{ apiKey, sites }];
@@ -85,6 +85,7 @@ export default class Beat {
       });
 
       var responses = yield promises;
+      logger.info(`Received responses for: ${that.name}`);
       var parsed = that.parseResponses(responses);
       that.app.io.room(that.name).broadcast(that.name, parsed);
     });

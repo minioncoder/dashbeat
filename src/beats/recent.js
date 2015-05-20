@@ -7,6 +7,10 @@ import { getRandomSite, isSectionPage, getDistance } from '../helpers/parse';
 import { chartbeatApi } from '../helpers/constants';
 
 export default class Recent extends Beat {
+  constructor(app, name='recent', apiUrl='/live/recent/v3/?limit=50', schema) {
+    super(app, name, apiUrl, schema);
+  }
+
   // Need to override this b/c we only request 1 site for the geopoint dashboard
   compileUrls(apiKey, sites) {
     var site = getRandomSite(sites);

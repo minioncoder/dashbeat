@@ -7,6 +7,10 @@ import Beat from './beat';
 import { isSectionPage } from '../helpers/parse';
 
 export default class TopPages extends Beat {
+  constructor(app, name='toppages', apiUrl='/live/toppages/v3/?limit=50', schema) {
+    super(app, name, apiUrl, schema);
+  }
+
   parseResponses(responses) {
     var articles = [];
     // parse chartbeat response data
