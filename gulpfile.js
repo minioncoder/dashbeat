@@ -12,6 +12,7 @@ var browserify = require('browserify');
 var babelify = require("babelify");
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var sequence = require('run-sequence');
 
 var jsSrc = './public/js/src/';
 var jsDist = './public/js/dist/';
@@ -27,14 +28,6 @@ gulp.task('browserify', function() {
   });
 });
 
-gulp.task('default', function() {
-  lessify();
-  forEach(jsBundle, function(fname) {
-    bundlejs(fname);
-  });
-  babeljs();
-});
-
 gulp.task('watch', function() {
   forEach(jsBundle, function(fname) {
     gutil.log('Watching ' + fname);
@@ -47,8 +40,10 @@ gulp.task('watch', function() {
 });
 
 gulp.task('babel', function() {
-  babeljs();
+  return babeljs();
 });
+
+gulp.task('default', sequence(['less', 'babel'], 'browserify'));
 
 function lessify() {
   gutil.log('Generating CSS files');

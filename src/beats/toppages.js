@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import logger from '../logger';
 import Beat from './beat';
-import * as parse from '../helpers/parse';
+import parse from '../helpers/parse';
 
 class TopPages extends Beat {
   parseResponses(responses) {
