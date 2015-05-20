@@ -79,11 +79,11 @@ function bundlejs(file, src, dist) {
   var b = browserify(srcFull, { debug: true });
   return b.bundle()
     .pipe(source(file))
-    // .pipe(buffer())
-    // .pipe(sourcemaps.init({loadMaps: true}))
-    //     .pipe(uglify())
-    //     .on('error', gutil.log)
-    // .pipe(sourcemaps.write('./'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+        // .pipe(uglify())
+        // .on('error', gutil.log)
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(dist));
 }
 
