@@ -1,17 +1,12 @@
 extends layout
 
-block js
-  script(src='/js/dist/popular.js', type='text/javascript')
-
-block hbs
-  script(id='article-template', type='text/x-handlebars-template').
-    <div class='article'>
-      <span>{{ visits }}</span>
-      <span><a href="http://{{ path }}" target='_blank'>{{ title }}</a></span>
-    </div>
+block css
+  link(href='/css/popular.css', rel='stylesheet')
 
 block content
   h1= title
   h3 Most Popular Stories
 
-  ul.articles
+  .container.articles
+
+  script(src='/js/dist/popular.js', type='text/javascript')

@@ -12,6 +12,8 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var sequence = require('run-sequence');
+var watchify = require('watchify');
+var reactify = require('reactify');
 
 var jsSrc = './public/js/src/';
 var jsDist = './public/js/dist/';
@@ -78,14 +80,17 @@ function bundlejs(file, src, dist) {
 
   gutil.log('Generating ' + distFull);
 
-  var b = browserify(srcFull, { debug: true });
+  var b = browserify(srcFull, { 
+    debug: true,
+    transform: [reactify]
+  });
   return b.bundle()
     .pipe(source(file))
-    // .pipe(buffer())
-    // .pipe(sourcemaps.init({loadMaps: true}))
-    //     .pipe(uglify())
-    //     .on('error', gutil.log)
-    // .pipe(sourcemaps.write('./'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+        // .pipe(uglify())
+        // .on('error', gutil.log)
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(dist));
 }
 
