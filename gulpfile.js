@@ -58,7 +58,9 @@ gulp.task('babel', function() {
     .pipe(gulp.dest(dist));
 });
 
-gulp.task('default', sequence(['less', 'babel'], 'browserify'));
+gulp.task('default', function() {
+  sequence('babel', 'browserify', 'less');
+});
 
 function bundlejs(file, src, dist) {
   if (typeof src === 'undefined') src = jsSrc;

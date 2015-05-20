@@ -1,5 +1,8 @@
 extends layout
 
+block js
+  script(src='/js/dist/engage.js', type='text/javascript')
+
 block css
   link(href='/css/engage.css', rel='stylesheet')
   link(href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic', rel='stylesheet', type='text/css')
@@ -12,5 +15,3 @@ block content
           .col-md-12.shuffle__sizer
       hr
       h2 This is the running average time for active users — seconds spent reading & commenting. How do we increase engaged time?
-
-  script(src='/js/dist/engage.js', type='text/javascript')

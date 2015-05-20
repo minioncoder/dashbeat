@@ -1,10 +1,12 @@
 extends layout
 
+block js
+  script(src='/js/dist/viewers.js', type='text/javascript')
+
 block css
   link(href='/css/viewers.css', rel='stylesheet')
   link(href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic', rel='stylesheet', type='text/css')
   link(href='/c3/c3.min.css', rel='stylesheet')
-
 
 block content
   .container
@@ -22,5 +24,3 @@ block content
     .row
       .col-md-12.text-center
         h2 What can you do to engage some more?
-
-  script(src='/js/dist/viewers.js', type='text/javascript')

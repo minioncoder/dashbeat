@@ -1,5 +1,8 @@
 extends layout
 
+block js
+  script(src='/js/dist/recirculation.js', type='text/javascript')
+
 block css
   link(href='/bower/epoch/epoch.min.css', rel='stylesheet')
   link(href='/css/recirculation.css', rel='stylesheet')
@@ -18,5 +21,3 @@ block content
   .row
     .col-md-12.text-center
       h1 How can we improve this percentage?
-
-  script(src='/js/dist/recirculation.js', type='text/javascript')

@@ -36,7 +36,7 @@ app.use(cookieParser());
 
 // Static stuff
 app.use(express.static(path.join(BASE_DIR, 'public')));
-app.use (express.static(path.join(BASE_DIR, 'node_modules')));
+app.use(express.static(path.join(BASE_DIR, 'node_modules')));
 
 // Logger
 app.use(log4js.connectLogger(logger, { level: log4js.levels.DEBUG }));
