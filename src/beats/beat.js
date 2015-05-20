@@ -10,6 +10,9 @@ import { apiKey, sites } from '../../config';
 import logger from '../logger';
 import { chartbeatApi, loopInterval } from '../helpers/constants';
 
+if (typeof sites === 'undefined') throw new Error("`sites` is required in config.js");
+if (typeof apiKey === 'undefined') throw new Error("`apiKey` is required in config.js");
+
 var getAsync = Promise.promisify(needle.get);
 
 // Required to handle an array of promises
@@ -18,7 +21,7 @@ Promise.coroutine.addYieldHandler(function(yieldedValue) {
   if (Array.isArray(yieldedValue)) return Promise.all(yieldedValue);
 });
 
-class Beat {
+export default class Beat {
   constructor(app, name, schema, apiUrl) {
     Object.assign(this, { app, name, schema, apiUrl });
     this.createSocket();
@@ -98,5 +101,3 @@ class Beat {
     return responses;
   }
 }
-
-module.exports = Beat;

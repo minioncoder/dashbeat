@@ -20,12 +20,8 @@ var routes = [
   viewers
 ]
 
-function init(app) {
+export default function init(app) {
   _.forEach(routes, function(route) {
-    route.init(app);
+    route(app);
   });
-}
-
-module.exports = {
-  init: init
 }

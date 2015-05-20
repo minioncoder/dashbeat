@@ -1,10 +1,5 @@
-// import $ from 'jquery-browserify';
-// import io from 'socket.io-browserify';
-// import 'shuffle' from './lib/shufflejsLocal';
-// import * as animateNumber from '../../bower/jquery-animateNumber/jquery.animateNumber.min';
-
+$ = require('jquery');
 var _ = require('lodash');
-var $ = require('jquery-browserify');
 var io = require('socket.io-browserify');
 var shuffle = require('./lib/shufflejsLocal');
 require('../../bower/jquery-animateNumber/jquery.animateNumber.min');

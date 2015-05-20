@@ -19,7 +19,7 @@ class YesterdayData extends HistoricalTrafficSeries {
   }
 }
 
-function init(app) {
+export default function init(app) {
   app.get('/viewers', function(req, res, next) {
     res.render('viewers', { title: 'Daily Viewers' });
 
@@ -34,7 +34,3 @@ function init(app) {
     });
   });
 }
-
-module.exports = {
-  init: init
-};

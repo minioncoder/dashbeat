@@ -1,8 +1,7 @@
+$ = require('jquery');
 var _ = require('lodash');
-var $ = require('jquery');
 var io = require('socket.io-browserify');
-var Handlebars = require('handlebars');
-var c3 = require('../../bower/c3/c3');
+var c3 = require('c3');
 
 $(function() {
   // var tableSource = $("#stats-table-template").html();
@@ -43,7 +42,7 @@ $(function() {
     _.forEach(statNames, function(stat) {
       stats[stat] = {
         total: 0
-      } 
+      }
     });
 
     _.forEach(data, function(hostStats, host) {

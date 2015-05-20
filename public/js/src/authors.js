@@ -2,16 +2,7 @@
 * Authors popularity data representing live content
 * aggregated from ChartBeat, updated every 5 seconds
 */
-
-// import $ from 'jquery-browserify';
-// import _ from 'lodash';
-// import io from 'socket.io-browserify';
-// import d3 from 'd3';
-// import colorbrewer from 'colorbrewer';
-// import bootstrap from 'bootstrap';
-// import * as parse from '../../../dist/helpers/parse';
-
-var $ = require('jquery-browserify');
+$ = require('jquery');
 var _ = require('lodash');
 var io = require('socket.io-browserify');
 var d3 = require('d3');

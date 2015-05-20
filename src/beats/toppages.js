@@ -4,15 +4,15 @@ import _ from 'lodash';
 
 import logger from '../logger';
 import Beat from './beat';
-import parse from '../helpers/parse';
+import { isSectionPage } from '../helpers/parse';
 
-class TopPages extends Beat {
+export default class TopPages extends Beat {
   parseResponses(responses) {
     var articles = [];
     // parse chartbeat response data
     _.forEach(responses, function(response) {
       _.forEach(response[1].pages, function(article) {
-        if (parse.isSectionPage(article.path)) return;
+        if (isSectionPage(article.path)) return;
 
         articles.push({
           path: article.path,
@@ -28,5 +28,3 @@ class TopPages extends Beat {
     }
   }
 }
-
-module.exports = TopPages

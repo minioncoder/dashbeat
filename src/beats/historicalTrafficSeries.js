@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Beat from './beat';
 import { getHostFromResponse } from '../helpers/parse';
 
-class historicalTrafficSeries extends Beat {
+export default class historicalTrafficSeries extends Beat {
   parseResponses(responses) {
     var viewersToday = {};
     var start, end, frequency;
@@ -32,5 +32,3 @@ class historicalTrafficSeries extends Beat {
     }
   }
 }
-
-module.exports = historicalTrafficSeries;

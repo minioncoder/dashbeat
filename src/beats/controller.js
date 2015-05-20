@@ -1,3 +1,5 @@
+'use strict';
+
 import _ from 'lodash';
 
 import TopPages from './toppages';
@@ -8,7 +10,7 @@ import { loopInterval } from '../helpers/constants';
 import { apiPaths } from '../helpers/constants';
 import logger from '../logger';
 
-class Controller {
+export default class Controller {
   constructor(app) {
     this.beats = [
       new TopPages(app, 'toppages', '', apiPaths.toppages),
@@ -28,5 +30,3 @@ class Controller {
     setTimeout(this.start.bind(this), loopInterval);
   }
 }
-
-module.exports = Controller

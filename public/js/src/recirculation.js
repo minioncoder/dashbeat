@@ -1,4 +1,4 @@
-var $ = jQuery = require('jquery-browserify');
+$ = jQuery = require('jquery');
 var _ = require('lodash');
 var io = require('socket.io-browserify');
 var d3 = require('d3');

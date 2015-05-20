@@ -1,6 +1,5 @@
-// var flight = require('../../../bower/flight');
+$ = require('jquery');
 var Handlebars = require('handlebars');
-var $ = require('jquery-browserify');
 
 module.exports = function(data) {
   var article_template = Handlebars.compile($('#article-template').html());

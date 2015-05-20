@@ -14,5 +14,8 @@
     "test",
     "tests"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "jquery-animateNumber": "~0.0.10",
+    "epoch": "~0.6.0"
+  }
 }
