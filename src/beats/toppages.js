@@ -8,13 +8,16 @@ import parse from '../helpers/parse';
 
 class TopPages extends Beat {
   parseResponses(responses) {
-    var articles = [];
+    var articles = {};
     // parse chartbeat response data
     _.forEach(responses, function(response) {
+      var host = parse.getHostFromResponse(response);
+      articles[host] = [];
+      
       _.forEach(response[1].pages, function(article) {
         if (parse.isSectionPage(article.path)) return;
 
-        articles.push({
+        articles[host].push({
           path: article.path,
           title: article.title,
           visits: article.stats.visits,

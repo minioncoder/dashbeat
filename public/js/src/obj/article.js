@@ -22,7 +22,7 @@ module.exports = function(data, id) {
     data.path = 'http://' + data.path;
   }
 
-  React.render( 
+  return React.render( 
     <Article readers={ data.visits } url={ data.path } title={ data.title }/>,
     document.getElementById(id)
   )
