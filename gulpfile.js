@@ -9,17 +9,24 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var babel = require('gulp-babel');
 var browserify = require('browserify');
-var babelify = require("babelify");
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var sequence = require('run-sequence');
 
 var jsSrc = './public/js/src/';
 var jsDist = './public/js/dist/';
-var jsBundle = ['authors.js', 'engage.js', 'geo.js', 'popular.js', 'recirculation.js', 'stats.js'];
+var jsBundle = [
+  'authors.js', 'engage.js', 'geo.js',
+  'popular.js', 'recirculation.js', 'stats.js'
+];
 
 gulp.task('less', function() {
-  lessify();
+  gutil.log('Generating CSS files');
+  return gulp.src('./public/less/**/*.less')
+    .pipe(less({
+      paths: [path.join(__dirname, 'less', 'includes')]
+    }))
+    .pipe(gulp.dest('./public/css'));
 });
 
 gulp.task('browserify', function() {
@@ -40,30 +47,17 @@ gulp.task('watch', function() {
 });
 
 gulp.task('babel', function() {
-  return babeljs();
-});
-
-gulp.task('default', sequence(['less', 'babel'], 'browserify'));
-
-function lessify() {
-  gutil.log('Generating CSS files');
-  return gulp.src('./public/less/**/*.less')
-    .pipe(less({
-      paths: [path.join(__dirname, 'less', 'includes')]
-    }))
-    .pipe(gulp.dest('./public/css'));
-}
-
-function babeljs(src, dist) {
-  if (typeof src === 'undefined') src = './src/**/*.js';
-  if (typeof dist === 'undefined') dist = './dist';
+  var src = './src/**/*.js';
+  var dist = './dist';
 
   gutil.log('Generating ES6 -> ES5 files');
 
   return gulp.src(src)
     .pipe(babel({ stage: 0 }))
     .pipe(gulp.dest(dist));
-}
+});
+
+gulp.task('default', sequence(['less', 'babel'], 'browserify'));
 
 function bundlejs(file, src, dist) {
   if (typeof src === 'undefined') src = jsSrc;
