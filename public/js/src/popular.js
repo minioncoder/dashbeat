@@ -1,9 +1,4 @@
-// import $ from 'jquery-browserify';
-// import _ from 'lodash';
-// import io from 'socket.io-browserify';
-// import article from './obj/article';
-
-var $ = require('jquery-browserify');
+$ = require('jquery');
 var _ = require('lodash');
 var io = require('socket.io-browserify');
 var Article = require('./obj/article');

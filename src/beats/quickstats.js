@@ -6,7 +6,7 @@ import logger from '../logger';
 import Beat from './beat';
 import { getHostFromResponse } from '../helpers/parse';
 
-class QuickStats extends Beat {
+export default class QuickStats extends Beat {
   parseResponses(responses) {
     var stats = {};
     _.forEach(responses, function(response) {
@@ -18,5 +18,3 @@ class QuickStats extends Beat {
     return stats;
   }
 }
-
-module.exports = QuickStats;

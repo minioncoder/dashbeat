@@ -1,9 +1,10 @@
 {
-  "name": "detroitnow-node",
+  "name": "dashbeat",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --harmony ./dist/app.js"
+    "start": "node --harmony ./dist/app.js",
+    "istart": "iojs --es_staging ./dist/app.js"
   },
   "dependencies": {
     "babel": "^5.2.17",
@@ -28,9 +29,9 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.4",
-    "handlebars": "^3.0.1",
+    "handlebars": "^3.0.3",
     "jade": "~1.9.2",
-    "jquery-browserify": "^1.8.1",
+    "jquery": "^2.1.4",
     "leaflet": "^0.7.3",
     "lodash": "^3.6.0",
     "log4js": "^0.6.24",
@@ -45,6 +46,7 @@
     "request": "^2.54.0",
     "run-sequence": "^1.1.0",
     "serve-favicon": "~2.2.0",
+    "shufflejs": "^3.1.1",
     "socket.io-browserify": "^0.9.6",
     "turf": "^2.0.2",
     "vinyl-buffer": "^1.0.0",

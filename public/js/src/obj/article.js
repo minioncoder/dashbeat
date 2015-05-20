@@ -1,6 +1,3 @@
-// var flight = require('../../../bower/flight');
-var Handlebars = require('handlebars');
-var $ = require('jquery-browserify');
 var React = require('react');
 
 var Article = React.createClass({

@@ -6,8 +6,7 @@ import Beat from './beat';
 import { getRandomSite, isSectionPage, getDistance } from '../helpers/parse';
 import { chartbeatApi } from '../helpers/constants';
 
-class Recent extends Beat {
-
+export default class Recent extends Beat {
   // Need to override this b/c we only request 1 site for the geopoint dashboard
   compileUrls(apiKey, sites) {
     var site = getRandomSite(sites);
@@ -15,7 +14,6 @@ class Recent extends Beat {
   }
 
   parseResponses(responses) {
-
     var lastLatLng = {
       lat: -Infinity,
       lng: -Infinity
@@ -58,13 +56,12 @@ class Recent extends Beat {
       }
 
       var latLngDelta = getDistance(
-                            lastLatLng.lat,
-                            lastLatLng.lng,
-                            person.lat,
-                            person.lng)
-      if (latLngDelta > 5.0) {
-        break;
-      }
+        lastLatLng.lat,
+        lastLatLng.lng,
+        person.lat,
+        person.lng
+      )
+      if (latLngDelta > 5.0) break;
     }
 
     lastLatLng.lat = geoData.lat;
@@ -73,5 +70,3 @@ class Recent extends Beat {
     return geoData
   }
 }
-
-module.exports = Recent

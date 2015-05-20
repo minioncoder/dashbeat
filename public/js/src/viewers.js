@@ -2,8 +2,7 @@
 * Viewer data representing live content
 * aggregated from ChartBeat, updated every 5 seconds
 */
-
-var $ = require('jquery-browserify');
+$ = require('jquery');
 var io = require('socket.io-browserify');
 var _ = require('lodash');
 var c3 = require('c3');
@@ -54,7 +53,7 @@ $(function() {
     // of values in their array. This makes the graph look kinda bad
 
     _.forEach(data.viewersToday, function(viewers) {
-      
+
       var count = 0;
       _.forEach(viewers.people, function(numViewers, index) {
         if (numViewers === null) return false;
@@ -118,11 +117,11 @@ $(function() {
     // For historical traffic for today
     socket.emit('historicalTrafficSeries');
     socket.on('historicalTrafficSeries', function(data) {
-      // TODO be more elegant about this. Need to get yesterdays data 
+      // TODO be more elegant about this. Need to get yesterdays data
       // first
       if (!ydayData.length) return;
 
-        
+
       // Compile all viewersToday from each host into one
       var viewersToday = compileTotalViews(data);
 
