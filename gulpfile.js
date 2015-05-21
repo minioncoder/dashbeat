@@ -87,7 +87,7 @@ gulp.task('babel', function() {
 
 gulp.task('default', ['sass', 'babel', 'browserify']);
 
-gulp.task('add_user', function(cb) {
+gulp.task('addUsers', function(cb) {
   var db = require('./dist/db');
   db.connect();
   gutil.log('Adding default user for development ...');
@@ -115,7 +115,7 @@ gulp.task('users', function(cb) {
   });
 });
 
-gulp.task('reset_db', function(cb) {
+gulp.task('resetDb', function(cb) {
   var db = require('./dist/db');
   db.connect();
   gutil.log('Removing User documents ...');
