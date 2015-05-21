@@ -4,23 +4,26 @@ var fs = require('fs');
 var path = require('path');
 
 var gulp = require('gulp');
-var gutil = require('gulp-util');
 var sass = require('gulp-sass');
+var gutil = require('gulp-util');
+var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
-var babel = require('gulp-babel');
 var crash_sound;
 try {
   crash_sound = require('gulp-crash-sound');
 } catch (e) {}
 
+var uuid = require('uuid');
 var babelify = require("babelify");
 var reactify = require('reactify');
-var browserify = require('browserify');
-var browserify_shim = require('browserify-shim');
-var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
 var each = require('lodash/collection/forEach');
+var browserify_shim = require('browserify-shim');
+
+var config = require('./config');
 
 var jsSrc = './public/js/src/';
 var jsBundle = [
@@ -84,16 +87,41 @@ gulp.task('babel', function() {
 
 gulp.task('default', ['sass', 'babel', 'browserify']);
 
-gulp.task('user', function(cb) {
+gulp.task('add_user', function(cb) {
+  var db = require('./dist/db');
+  db.connect();
+  gutil.log('Adding default user for development ...');
+  var user = new db.User({
+    'name': 'ipd',
+    'apiKey': config.apiKey,
+    'sites': config.sites,
+    'hash': uuid.v4()
+  }).save(function(err, model) {
+    if (err) throw new Error(err);
+    gutil.log('Saved default user!');
+    db.disconnect();
+    cb();
+  });
+});
 
+gulp.task('users', function(cb) {
+  var db = require('./dist/db');
+  db.connect();
+  db.User.find().exec(function(err, results) {
+    if (err) throw new Error(err);
+    console.log(results);
+    db.disconnect();
+    cb();
+  });
 });
 
 gulp.task('reset_db', function(cb) {
   var db = require('./dist/db');
   db.connect();
-  gutil.log('Removing UserSchema documents ...');
-  db.User.remove().exec(function() {
-    gutil.log('Removing BeatCacheSchema documents ...');
+  gutil.log('Removing User documents ...');
+  db.User.remove().exec(function(err) {
+    if (err) throw new Error(err);
+    gutil.log('Removing BeatCache documents ...');
     db.BeatCache.remove().exec(function() {
       db.disconnect();
       cb();
