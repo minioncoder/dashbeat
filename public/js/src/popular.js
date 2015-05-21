@@ -1,3 +1,5 @@
+'use strict';
+
 var $ = require('jquery');
 var _ = require('lodash');
 var io = require('socket.io-browserify');

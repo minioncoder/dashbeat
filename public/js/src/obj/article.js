@@ -1,3 +1,5 @@
+'use strict';
+
 var $ = window.jQuery = require('jquery');
 var React = require('react');
 var velocity = require('velocity-animate');

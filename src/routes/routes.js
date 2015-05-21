@@ -1,12 +1,14 @@
-import _ from 'lodash';
+'use strict';
 
-import popular from './popular';
-import authors from './authors';
+import each from 'lodash/collection/forEach';
+
+import geo from './geo';
 import stats from './stats';
 import engage from './engage';
-import recirc from './recirculation';
-import geo from './geo';
+import popular from './popular';
+import authors from './authors';
 import viewers from './viewers';
+import recirc from './recirculation';
 
 // TODO simplify this cause the individual routes js files don't really do
 // anything anymore
@@ -21,7 +23,7 @@ var routes = [
 ]
 
 export default function init(app) {
-  _.forEach(routes, function(route) {
+  each(routes, function(route) {
     route(app);
   });
 }

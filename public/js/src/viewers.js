@@ -2,9 +2,11 @@
 * Viewer data representing live content
 * aggregated from ChartBeat, updated every 5 seconds
 */
-$ = require('jquery');
+'use strict';
+
+var $ = window.jQuery = require('jquery');
 var io = require('socket.io-browserify');
-var _ = require('lodash');
+var each = require('lodash/collection/forEach');
 var c3 = require('c3');
 require('../../bower/jquery-animateNumber/jquery.animateNumber.min');
 
@@ -17,7 +19,7 @@ $(function() {
   connectSocket();
 
   function getTime(start, frequency, length) {
-    arr = ["x"];
+    var arr = ["x"];
     var cur_time = start;
     for (var i = 0; i < length; i++) {
       arr.push(cur_time * 1000);
@@ -52,10 +54,10 @@ $(function() {
     // It's not guaranteed that each site will have the same number
     // of values in their array. This makes the graph look kinda bad
 
-    _.forEach(data.viewersToday, function(viewers) {
+    each(data.viewersToday, function(viewers) {
 
       var count = 0;
-      _.forEach(viewers.people, function(numViewers, index) {
+      each(viewers.people, function(numViewers, index) {
         if (numViewers === null) return false;
         count += 1;
 
@@ -86,7 +88,7 @@ $(function() {
     socket.on('quickstats', function(data) {
 
       var totalViews = 0;
-      _.forEach(data, function(stats) {
+      each(data, function(stats) {
         totalViews += stats.visits;
       });
 

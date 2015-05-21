@@ -1,13 +1,13 @@
 'use strict';
 
-import polyfill from 'babel/polyfill';
-import _ from 'lodash';
 import moment from 'moment';
-import Promise from 'bluebird';
 import needle from 'needle';
+import Promise from 'bluebird';
+import polyfill from 'babel/polyfill';
+import each from 'lodash/collection/forEach';
 
-import { apiKey, sites } from '../../config';
 import logger from '../logger';
+import { apiKey, sites } from '../../config';
 import { chartbeatApi, loopInterval } from '../helpers/constants';
 
 if (typeof sites === 'undefined') throw new Error("`sites` is required in config.js");
@@ -45,7 +45,7 @@ export default class Beat {
     // TODO get all API keys
     // For now just read from config.js
     var apiInfo = [{ apiKey, sites }];
-    _.forEach(apiInfo, info =>
+    each(apiInfo, info =>
       this.callChartbeat(info.apiKey, info.sites)
     );
   }
@@ -61,7 +61,7 @@ export default class Beat {
    */
   compileUrls(apiKey, sites) {
     var urls = [];
-    _.forEach(sites, site => {
+    each(sites, site => {
       var url = `${chartbeatApi}${this.apiUrl}&apikey=${apiKey}&host=${site}`;
       urls.push(url);
     });
@@ -80,7 +80,7 @@ export default class Beat {
     var start = Promise.coroutine(function* (urls) {
       // Compile all the promises together
       var promises = [];
-      _.forEach(urls, function(url) {
+      each(urls, function(url) {
         promises.push(getAsync(url));
       });
 

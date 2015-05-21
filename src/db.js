@@ -3,6 +3,7 @@
 import mongoose from 'mongoose';
 
 import { db } from '../config';
+
 var Schema = mongoose.Schema;
 
 if (typeof db === 'undefined') {
@@ -17,6 +18,10 @@ const defaults = {
 
 function connect(options=defaults) {
   mongoose.connect(db, options);
+}
+
+function disconnect() {
+  mongoose.disconnect();
 }
 
 var UserSchema = new Schema({
@@ -43,7 +48,8 @@ var BeatCacheSchema = new Schema({
 //var ToppagesSchema = new Schema({});
 
 module.exports = {
-  UserSchema: mongoose.model('Hash', UserSchema),
-  BeatCacheSchema: mongoose.model('BeatCache', BeatCacheSchema),
-  connect
+  User: mongoose.model('Hash', UserSchema),
+  BeatCache: mongoose.model('BeatCache', BeatCacheSchema),
+  connect,
+  disconnect
 };

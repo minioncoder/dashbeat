@@ -1,5 +1,6 @@
-$ = require('jquery');
-var _ = require('lodash');
+'use strict';
+
+var $ = window.jQuery = require('jquery');
 var io = require('socket.io-browserify');
 var shuffle = require('./lib/shufflejsLocal');
 require('../../bower/jquery-animateNumber/jquery.animateNumber.min');

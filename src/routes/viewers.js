@@ -1,16 +1,21 @@
-import moment from 'moment';
-import _ from 'lodash';
+'use strict';
 
-import { apiKey, sites, chartbeatApi, apiPaths } from '../helpers/constants';
+import moment from 'moment';
+import each from 'lodash/collection/forEach';
+
 import HistoricalTrafficSeries from '../beats/historicalTrafficSeries';
+import { apiKey, sites, chartbeatApi, apiPaths } from '../helpers/constants';
 
 // For getting Chartbeat API data from yesterday
 class YesterdayData extends HistoricalTrafficSeries {
+  constructor(app, name='yesterdayData', apiUrl='/historical/traffic/series/?', schema) {
+    super(app, name, apiUrl, schema);
+  }
   compileUrls(apiKey, sites) {
     var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
     console.log(yesterday);
     var urls = [];
-    _.forEach(sites, site => {
+    each(sites, site => {
       var url = `${chartbeatApi}${this.apiUrl}start=${yesterday}%2000:00:00&end=${yesterday}%2023:59:59&apikey=${apiKey}&host=${site}`
       console.log(url);
       urls.push(url);
@@ -29,7 +34,7 @@ export default function init(app) {
       console.log('Fetching yesterday data');
       req.io.join('yesterdayData');
       // TODO pull API keys from DB based on hash
-      var yesterdayData = new YesterdayData(app, 'yesterdayData', '', apiPaths.historicalTrafficSeries);
+      var yesterdayData = new YesterdayData(app);
       yesterdayData.fetch();
     });
   });

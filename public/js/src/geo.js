@@ -1,4 +1,6 @@
-$ = require('jquery');
+'use strict';
+
+var $ = require('jquery');
 var L = require('leaflet');
 var io = require('socket.io-browserify');
 var Handlebars = require('handlebars');

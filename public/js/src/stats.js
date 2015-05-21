@@ -1,5 +1,7 @@
-$ = require('jquery');
-var _ = require('lodash');
+'use strict';
+
+var $ = require('jquery');
+var each = require('lodash/collection/forEach');
 var io = require('socket.io-browserify');
 var c3 = require('c3');
 
@@ -39,15 +41,15 @@ $(function() {
   function parseStats(data) {
     var statNames = ["social", "links", "search", "direct" ]
     var stats = {};
-    _.forEach(statNames, function(stat) {
+    each(statNames, function(stat) {
       stats[stat] = {
         total: 0
       }
     });
 
-    _.forEach(data, function(hostStats, host) {
+    each(data, function(hostStats, host) {
 
-      _.forEach(stats, function(stat, key) {
+      each(stats, function(stat, key) {
         if (key in hostStats) {
           stat.total += hostStats[key];
           stat[host] = hostStats[key];

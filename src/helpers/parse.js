@@ -1,7 +1,7 @@
 'use strict';
 
-import Chance from 'chance';
 import url from 'url';
+import Chance from 'chance';
 
 function isSectionPage(url) {
   return (url != "" &&

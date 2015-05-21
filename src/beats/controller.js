@@ -1,12 +1,12 @@
 'use strict';
 
-import _ from 'lodash';
+import each from 'lodash/collection/forEach';
 
 import logger from '../logger';
 import { loopInterval } from '../helpers/constants';
+import Recent from './recent';
 import TopPages from './toppages';
 import QuickStats from './quickstats';
-import Recent from './recent';
 import HistoricalTrafficSeries from './historicalTrafficSeries';
 
 export default class Controller {
@@ -22,7 +22,7 @@ export default class Controller {
 
   start() {
     logger.info('Starting loop...');
-    _.forEach(this.beats, function(beat) {
+    each(this.beats, function(beat) {
       beat.fetch();
     });
     logger.info('...ending loop');

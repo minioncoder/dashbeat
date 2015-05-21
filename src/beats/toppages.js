@@ -1,10 +1,10 @@
 'use strict';
 
-import _ from 'lodash';
+import each from 'lodash/collection/forEach';
 
 import logger from '../logger';
-import Beat from './beat';
 import { isSectionPage, getHostFromResponse } from '../helpers/parse';
+import Beat from './beat';
 
 export default class TopPages extends Beat {
   constructor(app, name='toppages', apiUrl='/live/toppages/v3/?limit=50', schema) {
@@ -14,13 +14,12 @@ export default class TopPages extends Beat {
   parseResponses(responses) {
     var articles = {};
     // parse chartbeat response data
-    _.forEach(responses, function(response) {
+    each(responses, function(response) {
       var host = getHostFromResponse(response);
       articles[host] = [];
-      
-      _.forEach(response[1].pages, function(article) {
-        if (isSectionPage(article.path)) return;
 
+      each(response[1].pages, function(article) {
+        if (isSectionPage(article.path)) return;
         articles[host].push({
           path: article.path,
           title: article.title,
@@ -30,8 +29,6 @@ export default class TopPages extends Beat {
       });
     });
 
-    return {
-      articles
-    }
+    return { articles };
   }
 }

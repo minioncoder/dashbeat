@@ -2,9 +2,9 @@
 
 import Chance from 'chance';
 
-import Beat from './beat';
-import { getRandomSite, isSectionPage, getDistance } from '../helpers/parse';
 import { chartbeatApi } from '../helpers/constants';
+import { getRandomSite, isSectionPage, getDistance } from '../helpers/parse';
+import Beat from './beat';
 
 export default class Recent extends Beat {
   constructor(app, name='recent', apiUrl='/live/recent/v3/?limit=50', schema) {

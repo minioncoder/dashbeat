@@ -2,16 +2,16 @@
 * Authors popularity data representing live content
 * aggregated from ChartBeat, updated every 5 seconds
 */
-$ = require('jquery');
-var _ = require('lodash');
+'use strict';
+
+var $ = require('jquery');
+var each = require('lodash/collection/forEach');
+var sortByOrder = require('lodash/collection/sortByOrder');
 var io = require('socket.io-browserify');
 var d3 = require('d3');
 var colorbrewer = require('colorbrewer');
-var bootstrap = require('bootstrap');
-var parse = require('../../../dist/helpers/parse');
+var parse = require('../../../src/helpers/parse');
 
-
-console.log('here');
 /*
 * Globals for the scripts, mainly d3 variables setting the dimensions
 * for the treemap
@@ -118,17 +118,17 @@ $(function() {
   function sortAuthors(data) {
     var authors = {};
     var articles = [];
-    _.forEach(data.articles, function(hostArticles, host) {
+    each(data.articles, function(hostArticles, host) {
       articles = articles.concat(hostArticles);
     });
 
-    _.forEach(articles, function(article) {
-      _.forEach(article.authors, function(auth) {
+    each(articles, function(article) {
+      each(article.authors, function(auth) {
         auth = auth.replace('by', '').replace('the', '');
         var authorSplit = auth.split(' and ');
 
         // Split and really iterate this time
-        _.forEach(authorSplit, function(author) {
+        each(authorSplit, function(author) {
           author = parse.toTitleCase(author.trim());
           if (!author) {
             return;
@@ -150,7 +150,7 @@ $(function() {
       });
     });
 
-    authors = _.sortByOrder(authors, ['totalVisits'], [false]);
+    authors = sortByOrder(authors, ['totalVisits'], [false]);
 
     return {
       children: authors.slice(0, 50),

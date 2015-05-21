@@ -11,11 +11,11 @@ import favicon from 'serve-favicon';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
-import { connect } from './db';
 import mail from './mail';
 import logger from './logger';
-import Controller from './beats/controller';
+import { connect } from './db';
 import routes from './routes/routes';
+import Controller from './beats/controller';
 
 debug('dashbeat-node:server');
 
@@ -42,8 +42,8 @@ app.use(express.static(path.join(BASE_DIR, 'node_modules')));
 app.use(log4js.connectLogger(logger, { level: log4js.levels.DEBUG }));
 
 // http://stackoverflow.com/a/27464258/1337683
-app.use('/css', express.static(path.join(BASE_DIR, '/node_modules/leaflet/dist')));
-app.use('/img', express.static(path.join(BASE_DIR, '/node_modules/leaflet/dist/images')));
+//app.use('/css', express.static(path.join(BASE_DIR, '/node_modules/leaflet/dist')));
+//app.use('/img', express.static(path.join(BASE_DIR, '/node_modules/leaflet/dist/images')));
 
 connect();
 mongoose.connection.on('error', logger.error);
