@@ -4,8 +4,15 @@ block css
   link(href='/css/popular.css', rel='stylesheet')
 
 block content
-  h1= title
-  h3 Most Popular Stories
+
+  .container.header
+    .row.text-center
+      h1= title
+    //- .row.text-center
+    //-   h3 Most Popular Stories
+    .row
+      .col-md-6.col-sm-6.col-xs-6.text-right Total Readers
+      #total-readers.col-md-6.col-sm-6.col-xs-6 0
 
   .container.articles
 

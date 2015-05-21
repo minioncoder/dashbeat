@@ -1,3 +1,21 @@
+@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+
+$primary-color: #4F75CE; // blue
+$secondary-color: #FFE14F; //yellow
+$info-color: #6F51D1; // purple
+$warning-color: #FFC44F; // orange
+
+
+
+body {
+  // background: $primary-color;
+  color: $primary-color;
+}
+
+a, a:visited, a:active, a:hover {
+  color: $warning-color;
+}
+
 .articles {
   position: relative;
 }
@@ -9,9 +27,18 @@
   width: 100%;
   // border: 1px solid black;
   margin-bottom: 10px;
-}
 
-.article-container .article {
-  position: relative;
-  width: 100%;
+  @media (min-width: $screen-md) {
+    padding-right: 10%;
+    padding-left: 10%;
+  }
+
+  .article {
+    position: relative;
+    width: 100%;
+
+    .authors {
+      color: $primary-color;
+    }
+  }
 }

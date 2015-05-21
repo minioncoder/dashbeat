@@ -1,6 +1,7 @@
 'use strict';
-
 import url from 'url';
+
+import _ from 'lodash'; 
 import Chance from 'chance';
 
 function isSectionPage(url) {
@@ -51,10 +52,25 @@ function getHostFromResponse(response) {
   return urlParts.query.host;
 }
 
+function parseAuthors(authors) {
+  /* Given a string that represents the authors names, parse them into an array */
+  if (typeof authors === 'undefined') return [];
+
+  var parsedAuthors = [];
+  _.forEach(authors, function(author) {
+    var author = author.replace('the', '');
+    var authorSplit = author.split(/\s+and\s+|\s*by\s+/);
+    parsedAuthors = parsedAuthors.concat(authorSplit);
+  });
+
+  return [ for (a of parsedAuthors) if (_.trim(a)) toTitleCase(_.trim(a).replace(/\s*by\s+/, ''))];
+}
+
 module.exports = {
   isSectionPage,
   toTitleCase,
   getRandomSite,
   getDistance,
-  getHostFromResponse
+  getHostFromResponse,
+  parseAuthors
 };

@@ -3,8 +3,9 @@
 import each from 'lodash/collection/forEach';
 
 import logger from '../logger';
-import { isSectionPage, getHostFromResponse } from '../helpers/parse';
+import { isSectionPage, getHostFromResponse, parseAuthors } from '../helpers/parse';
 import Beat from './beat';
+
 
 export default class TopPages extends Beat {
   constructor(app, name='toppages', apiUrl='/live/toppages/v3/?limit=50', schema) {
@@ -24,7 +25,7 @@ export default class TopPages extends Beat {
           path: article.path,
           title: article.title,
           visits: article.stats.visits,
-          authors: article.authors
+          authors: parseAuthors(article.authors)
         });
       });
     });
