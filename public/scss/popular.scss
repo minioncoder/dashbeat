@@ -1,13 +1,17 @@
 .articles {
-  position: relative; }
+  position: relative;
+}
 
 .article-container {
   height: 50px;
   position: absolute;
   top: 100%;
   width: 100%;
-  margin-bottom: 10px; }
+  // border: 1px solid black;
+  margin-bottom: 10px;
+}
 
 .article-container .article {
   position: relative;
-  width: 100%; }
+  width: 100%;
+}

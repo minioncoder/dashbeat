@@ -14,6 +14,7 @@ var buffer = require('vinyl-buffer');
 var sequence = require('run-sequence');
 var watchify = require('watchify');
 var reactify = require('reactify');
+var sass = require('gulp-sass');
 
 var jsSrc = './public/js/src/';
 var jsDist = './public/js/dist/';
@@ -23,13 +24,16 @@ var jsBundle = [
   'viewers.js'
 ];
 
-gulp.task('less', function() {
-  gutil.log('Generating CSS files');
-  return gulp.src('./public/less/**/*.less')
-    .pipe(less({
-      paths: [path.join(__dirname, 'less', 'includes')]
-    }))
-    .pipe(gulp.dest('./public/css'));
+var cssSrc = './public/scss/';
+var cssDist = './public/css/';
+var cssFiles = cssSrc + '**/*.scss';
+
+
+gulp.task('sass', function() {
+  gutil.log('Compiling SASS files');
+  return gulp.src(cssFiles)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(cssDist));
 });
 
 gulp.task('browserify', function() {
