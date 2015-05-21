@@ -16,6 +16,7 @@ var buffer = require('vinyl-buffer');
 var sequence = require('run-sequence');
 var watchify = require('watchify');
 var reactify = require('reactify');
+var sass = require('gulp-sass');
 
 var jsSrc = './public/js/src/';
 var jsDist = './public/js/dist/';
@@ -25,13 +26,14 @@ var jsBundle = [
   'viewers.js'
 ];
 
-gulp.task('less', function() {
-  gutil.log('Less is generating CSS files');
-  return gulp.src('./public/less/**/*.less')
-    .pipe(less({
-      paths: [path.join(__dirname, 'less', 'includes')]
-    }))
-    .pipe(gulp.dest('./public/css'));
+gulp.task('sass', function() {
+  var cssSrc = './public/scss/';
+  var cssDist = './public/css/';
+  var cssFiles = cssSrc + '**/*.scss';
+  gutil.log('Compiling SASS files ...');
+  return gulp.src(cssFiles)
+    .pipe(sass().on('error', gutil.log))
+    .pipe(gulp.dest(cssDist));
 });
 
 gulp.task('browserify', function(cb) {
@@ -58,8 +60,8 @@ gulp.task('watch', function() {
   gutil.log('Watching node modules ...');
   gulp.watch('./src/**/*.js', ['babel']);
 
-  gutil.log('Watching less files ...');
-  gulp.watch('./public/less/**/*.less', ['less']);
+  gutil.log('Watching scss files ...');
+  gulp.watch('./public/scss/**/*.scss', ['sass']);
 });
 
 gulp.task('babel', function() {
@@ -74,7 +76,7 @@ gulp.task('babel', function() {
 });
 
 gulp.task('default', function() {
-  return sequence('babel', 'browserify', 'less');
+  return sequence('babel', 'browserify', 'sass');
 });
 
 function bundlejs(file, bcb, src, dist) {

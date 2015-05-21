@@ -6,7 +6,7 @@ var Article = React.createClass({
   moveArticle: function() {
     var rank = this.props.rank;
     var $obj = $(this.getDOMNode()).parent('.article-container');
-    var height = $obj.height();
+    var height = $obj.outerHeight(true);
 
     $obj.velocity({
       top: height * rank

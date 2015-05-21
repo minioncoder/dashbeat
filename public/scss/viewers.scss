@@ -3,69 +3,89 @@ body {
   font-size: 18px;
   line-height: 1.62857143;
   color: #fff;
-  background-color: #3d97df; }
+  background-color: #3d97df;
+}
 
 h1 small {
   font-size: 35%;
-  color: #513629; }
+  color: #513629;
+}
 
 h1 {
   font-size: 150px;
-  font-weight: 700; }
+  font-weight: 700;
+}
 
 h2 {
-  font-size: 60px; }
+  font-size: 60px;
+}
 
 a {
-  color: #513629; }
+  color: #513629;
+}
 
 a:hover {
-  color: #3d97df; }
+  color: #3d97df
+;
+}
 
 a:visited {
-  color: #3d97df; }
+  color: #3d97df
+;
+}
 
 .badge {
   font-size: 14px;
-  background-color: #3d97df; }
+  background-color: #3d97df
+;
+}
 
 .page-header {
   width: 320px;
   float: right;
-  display: inline-block; }
+  display: inline-block;
+}
 
 small, .small {
-  font-size: 65%; }
+  font-size: 65%;
+}
 
 .loading {
-  margin-top: 10px; }
+  margin-top: 10px;
+}
 
 .hawt {
-  color: #513629; }
+  color: #513629;
+}
 
 .col-md-12 {
   padding-top: 20px;
-  padding-bottom: 20px; }
+  padding-bottom: 20px;
+}
 
 .c3 path, .c3 line {
   fill: none;
-  stroke: #fff; }
+  stroke: #fff;
+}
 
 .c3-legend-item text {
   font-size: 16px;
   color: #ffffff;
   font-family: "Arimo";
   stroke: #fff;
-  fill: #fff; }
+  fill: #fff;
+}
 
 .c3-axis-x .tick {
   stroke: #fff;
   font-size: 14px;
   font-family: Arimo;
-  fill: #fff; }
+  fill: #fff;
+}
 
 .c3-axis-y .tick {
   stroke: #fff;
   font-size: 14px;
   font-family: Arimo;
-  fill: #fff; }
+  fill: #fff;
+}

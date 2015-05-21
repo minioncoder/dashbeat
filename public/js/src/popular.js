@@ -61,7 +61,7 @@ $(function() {
 
       // If this article isn't currently drawn to the screen, draw it
       if (!(id in currentArticles)) {
-        $('.articles').append('<div class=\'article-container\' id=' + id + '></div>');
+        $('.articles').append('<div class=\'article-container row\' id=' + id + '></div>');
         var article = new Article(articleData, id);
         article.moveArticle();
         currentArticles[id] = article;
