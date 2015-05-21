@@ -26,7 +26,7 @@ var jsBundle = [
 ];
 
 gulp.task('less', function() {
-  gutil.log('Generating CSS files');
+  gutil.log('Less is generating CSS files');
   return gulp.src('./public/less/**/*.less')
     .pipe(less({
       paths: [path.join(__dirname, 'less', 'includes')]
@@ -34,9 +34,16 @@ gulp.task('less', function() {
     .pipe(gulp.dest('./public/css'));
 });
 
-gulp.task('browserify', function() {
+gulp.task('browserify', function(cb) {
+  var bcb = (function() {
+    var counter = 0;
+    return function() {
+      counter++;
+      if (counter == jsBundle.length) return cb();
+    };
+  })();
   forEach(jsBundle, function(fname) {
-    bundlejs(fname);
+    bundlejs(fname, bcb);
   });
 });
 
@@ -44,7 +51,7 @@ gulp.task('watch', function() {
   forEach(jsBundle, function(fname) {
     gutil.log('Watching ' + fname + ' ...');
     gulp.watch(jsSrc + fname, function() {
-      bundlejs(fname);
+      return bundlejs(fname);
     });
   });
 
@@ -59,7 +66,7 @@ gulp.task('babel', function() {
   var src = './src/**/*.js';
   var dist = './dist';
 
-  gutil.log('Generating ' + src + ' files to ' + dist + ' ...');
+  gutil.log('Babel is generating ' + src + ' files to ' + dist + ' ...');
 
   return gulp.src(src)
     .pipe(babel({ stage: 0 }))
@@ -67,10 +74,10 @@ gulp.task('babel', function() {
 });
 
 gulp.task('default', function() {
-  sequence('babel', 'browserify', 'less');
+  return sequence('babel', 'browserify', 'less');
 });
 
-function bundlejs(file, src, dist) {
+function bundlejs(file, bcb, src, dist) {
   if (typeof src === 'undefined') src = jsSrc;
   if (typeof dist === 'undefined') dist = jsDist;
   src = addSlash(src);
@@ -84,23 +91,22 @@ function bundlejs(file, src, dist) {
     return;
   }
 
-  gutil.log('Generating ' + distFull);
+  gutil.log('Browserify is compiling ' + distFull + ' from ' + srcFull);
 
   var b = browserify(srcFull, { debug: true });
-  return b.transform(reactify)
+  return b.transform(reactify).transform(babelify)
     .bundle()
     .pipe(source(file))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
       .on('error', gutil.log)
+    //  .pipe(uglify())
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(dist));
-    // .pipe(buffer())
-    // .pipe(sourcemaps.init({loadMaps: true}))
-    //     .pipe(uglify())
-    //     .on('error', gutil.log)
-    // .pipe(sourcemaps.write('./'))
-    //.pipe(gulp.dest(dist));
+    .pipe(gulp.dest(dist))
+    .on('end', function() {
+      gutil.log('Browserify finished creating: ' + distFull);
+      if (typeof bcb === 'function') bcb();
+    });
 }
 
 function addSlash(path) {
