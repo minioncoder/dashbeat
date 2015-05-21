@@ -9,9 +9,9 @@ var gutil = require('gulp-util');
 var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
-var crash_sound;
+var crashSound;
 try {
-  crash_sound = require('gulp-crash-sound');
+  crashSound = require('gulp-crash-sound');
 } catch (e) {}
 
 var uuid = require('uuid');
@@ -21,7 +21,7 @@ var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var each = require('lodash/collection/forEach');
-var browserify_shim = require('browserify-shim');
+var browserifyShim = require('browserify-shim');
 
 var config = require('./config');
 
@@ -147,7 +147,7 @@ function bundlejs(file, bcb, src, dist) {
   return b
     .transform(babelify, { stage: 0 })
     .transform(reactify)
-    .transform(browserify_shim, { global: true })
+    .transform(browserifyShim, { global: true })
     .bundle()
     .pipe(source(file))
     .pipe(buffer())
