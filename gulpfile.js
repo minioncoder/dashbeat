@@ -55,8 +55,8 @@ gulp.task('watch', function() {
   gutil.log('Watching node modules ...');
   gulp.watch('./src/**/*.js', ['babel']);
 
-  gutil.log('Watching less files ...');
-  gulp.watch('./public/less/**/*.less', ['less']);
+  gutil.log('Watching scss files ...');
+  gulp.watch('./public/scss/**/*.scss', ['sass']);
 });
 
 gulp.task('babel', function() {
@@ -71,7 +71,7 @@ gulp.task('babel', function() {
 });
 
 gulp.task('default', function() {
-  sequence('babel', 'browserify', 'less');
+  sequence('babel', 'browserify', 'sass');
 });
 
 function bundlejs(file, src, dist) {
