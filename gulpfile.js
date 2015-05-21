@@ -38,7 +38,9 @@ gulp.task('sass', function() {
   gutil.log('Compiling SASS files ...');
 
   return gulp.src(cssFiles)
-    .pipe(sass().on('error', gutil.log))
+    .pipe(sass({
+      includePaths: ['./node_modules']
+    }).on('error', gutil.log))
     .pipe(gulp.dest(cssDist));
 });
 

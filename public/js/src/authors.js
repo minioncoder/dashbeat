@@ -123,30 +123,25 @@ $(function() {
     });
 
     each(articles, function(article) {
-      each(article.authors, function(auth) {
-        auth = auth.replace('by', '').replace('the', '');
-        var authorSplit = auth.split(' and ');
+      each(article.authors, function(author) {
 
-        // Split and really iterate this time
-        each(authorSplit, function(author) {
-          author = parse.toTitleCase(author.trim());
-          if (!author) {
-            return;
-          }
+        author = parse.toTitleCase(author.trim());
+        if (!author) {
+          return;
+        }
 
-          // Add to author object
-          if (author in authors) {
-            authors[author].articles.push(article);
-            authors[author].totalVisits += article.visits;
+        // Add to author object
+        if (author in authors) {
+          authors[author].articles.push(article);
+          authors[author].totalVisits += article.visits;
+        }
+        else {
+          authors[author] = {
+            name: author,
+            articles: [article],
+            totalVisits: article.visits
           }
-          else {
-            authors[author] = {
-              name: author,
-              articles: [article],
-              totalVisits: article.visits
-            }
-          }
-        });
+        }
       });
     });
 

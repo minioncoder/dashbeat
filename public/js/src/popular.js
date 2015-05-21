@@ -1,13 +1,19 @@
 'use strict';
 
-var $ = require('jquery');
-var _ = require('lodash');
-var io = require('socket.io-browserify');
+import $  from 'jquery';
+import { each, keys, drop }  from 'lodash';
+import io from 'socket.io-browserify';
+import crypto from 'crypto';
+
+// React objects
 var Article = require('./obj/article');
-var crypto = require('crypto');
+var AnimateNumber = require('./obj/animate-number');
 
 var NUM_ARTICLES = 50;
 var currentArticles = {};
+
+var hosts = {};
+var totalReaders = AnimateNumber(0, 'total-readers');
 
 $(function() {
   function generateId(url) {
@@ -24,7 +30,7 @@ $(function() {
     for (var i = 0; i < NUM_ARTICLES; i++) {
       var nextArticle = undefined;
       var nextArticleSite = undefined;
-      _.forEach(data.articles, function(hostArticles, site) {
+      each(data.articles, function(hostArticles, site) {
           if (!hostArticles.length) return;
 
           if (typeof nextArticle === 'undefined') {
@@ -44,7 +50,7 @@ $(function() {
       // Save this article and remove it from its list
       nextArticle.rank = articles.length;
       articles.push(nextArticle);
-      data.articles[nextArticleSite] = _.drop(data.articles[nextArticleSite]);
+      data.articles[nextArticleSite] = drop(data.articles[nextArticleSite]);
     }
 
     return articles;
@@ -54,11 +60,11 @@ $(function() {
   socket.emit('toppages');
   socket.on('toppages', function(data) {
   	var articles = compileArticles(data);
-    var keys = _.keys(currentArticles);
+    var articleKeys = keys(currentArticles);
     var keyObj = {};
-    _.forEach(keys, function(key) { keyObj[key] = true; });
+    each(articleKeys, function(key) { keyObj[key] = true; });
 
-    _.forEach(articles, function(articleData) {
+    each(articles, function(articleData) {
       var id = generateId(articleData.path);
 
       // If this article isn't currently drawn to the screen, draw it
@@ -77,10 +83,21 @@ $(function() {
       }
     });
 
-    _.forEach(keyObj, function(val, id){
+    each(keyObj, function(val, id){
       $('#' + id).remove();
       delete currentArticles[id];
     });
+  });
+
+  socket.emit('quickstats');
+  socket.on('quickstats', function(data) {
+    var value = 0;
+    each(data, function(stats, host) {
+      hosts[host] = true;
+      value += stats.visits;
+    });
+
+    totalReaders.setProps({ value: value });
   });
 });
 

@@ -1,3 +1,9 @@
+body {
+  color: #4F75CE; }
+
+a, a:visited, a:active, a:hover {
+  color: #FFC44F; }
+
 .articles {
   position: relative; }
 
@@ -7,7 +13,12 @@
   top: 100%;
   width: 100%;
   margin-bottom: 10px; }
-
-.article-container .article {
-  position: relative;
-  width: 100%; }
+  @media (min-width: 992px) {
+    .article-container {
+      padding-right: 10%;
+      padding-left: 10%; } }
+  .article-container .article {
+    position: relative;
+    width: 100%; }
+    .article-container .article .authors {
+      color: #4F75CE; }
