@@ -1,4 +1,4 @@
-$ = require('jquery');
+var $ = window.jQuery = require('jquery');
 var React = require('react');
 var velocity = require('velocity-animate');
 
@@ -38,11 +38,11 @@ var Article = React.createClass({
 
 module.exports = function(data, id) {
   // If the path doesn't start with http, append it to path
-  if (data.path.indexOf('http://') !== 0) { 
+  if (data.path.indexOf('http://') !== 0) {
     data.path = 'http://' + data.path;
   }
 
-  return React.render( 
+  return React.render(
     <Article readers={ data.visits } url={ data.path } title={ data.title } rank={ data.rank }/>,
     document.getElementById(id)
   )

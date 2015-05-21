@@ -2,21 +2,27 @@
 
 var fs = require('fs');
 var path = require('path');
+
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var less = require('gulp-less');
+var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var babel = require('gulp-babel');
+var crash_sound;
+try {
+  crash_sound = require('gulp-crash-sound');
+} catch (e) {}
+
 var babelify = require("babelify");
 var reactify = require('reactify');
 var browserify = require('browserify');
+var browserify_shim = require('browserify-shim');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var sequence = require('run-sequence');
 var watchify = require('watchify');
 var reactify = require('reactify');
-var sass = require('gulp-sass');
 
 var jsSrc = './public/js/src/';
 var jsDist = './public/js/dist/';
@@ -96,7 +102,9 @@ function bundlejs(file, bcb, src, dist) {
   gutil.log('Browserify is compiling ' + distFull + ' from ' + srcFull);
 
   var b = browserify(srcFull, { debug: true });
-  return b.transform(reactify).transform(babelify)
+  return b.transform(reactify)
+    .transform(babelify, { stage: 0 })
+    .transform(browserify_shim, { global: true })
     .bundle()
     .pipe(source(file))
     .pipe(buffer())

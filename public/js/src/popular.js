@@ -1,4 +1,4 @@
-$ = require('jquery');
+var $ = require('jquery');
 var _ = require('lodash');
 var io = require('socket.io-browserify');
 var Article = require('./obj/article');
@@ -67,7 +67,7 @@ $(function() {
         currentArticles[id] = article;
       }
       else {
-        currentArticles[id].updateArticle({ 
+        currentArticles[id].updateArticle({
           readers: articleData.visits,
           rank: articleData.rank
         });

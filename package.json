@@ -25,12 +25,11 @@
     "express.io": "^1.1.13",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
-    "gulp-less": "^3.0.2",
     "gulp-sass": "^2.0.1",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.4",
-    "handlebars": "^3.0.3",
+    "gulp-crash-sound": "*",
     "jade": "~1.9.2",
     "jquery": "^2.1.4",
     "leaflet": "^0.7.3",
@@ -47,26 +46,14 @@
     "request": "^2.54.0",
     "run-sequence": "^1.1.0",
     "serve-favicon": "~2.2.0",
-    "shufflejs": "^3.1.1",
     "socket.io-browserify": "^0.9.6",
     "turf": "^2.0.2",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.2.1"
+    "vinyl-source-stream": "^1.1.0"
   },
-  "browserify": {
-    "_transform": [
-      [
-        "babelify",
-        {
-          "stage": 0
-        }
-      ],
-      "browserify-shim"
-    ]
-  },
-  "browser": {
-    "jquery": "./node_modules/jquery-browserify/lib/jquery.js"
-  },
-  "browserify-shim": {}
+  "browserify-shim": {
+    "velocity-animate": {
+      "depends": "jquery"
+    }
+  }
 }
