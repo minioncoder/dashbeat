@@ -20,7 +20,6 @@ var browserify = require('browserify');
 var browserify_shim = require('browserify-shim');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var sequence = require('run-sequence');
 var each = require('lodash/collection/forEach');
 
 var jsSrc = './public/js/src/';
@@ -81,8 +80,10 @@ gulp.task('babel', function() {
     .pipe(gulp.dest(dist));
 });
 
-gulp.task('default', function() {
-  return sequence('babel', 'browserify', 'sass');
+gulp.task('default', ['sass', 'babel', 'browserify']);
+
+gulp.task('user', function(cb) {
+
 });
 
 gulp.task('reset_db', function(cb) {
