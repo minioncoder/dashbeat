@@ -92,7 +92,7 @@ gulp.task('add_user', function(cb) {
   db.connect();
   gutil.log('Adding default user for development ...');
   var user = new db.User({
-    'name': 'ipd',
+    'email': 'ebower@michigan.com',
     'apiKey': config.apiKey,
     'sites': config.sites,
     'hash': uuid.v4()
@@ -109,7 +109,7 @@ gulp.task('users', function(cb) {
   db.connect();
   db.User.find().exec(function(err, results) {
     if (err) throw new Error(err);
-    console.log(results);
+    gutil.log(JSON.stringify(results, null, 2));
     db.disconnect();
     cb();
   });

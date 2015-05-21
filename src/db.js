@@ -25,7 +25,7 @@ function disconnect() {
 }
 
 var UserSchema = new Schema({
-  name: { type: String, trim: true, unique: true },
+  email: { type: String, trim: true, unique: true },
   hash: { type: String },
   apiKey: { type: String },
   sites: [{ type: String }]
