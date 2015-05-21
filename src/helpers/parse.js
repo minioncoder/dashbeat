@@ -1,7 +1,8 @@
 'use strict';
 import url from 'url';
 
-import _ from 'lodash'; 
+import each from 'lodash/collection/each';
+import trim from 'lodash/string/trim';
 import Chance from 'chance';
 
 function isSectionPage(url) {
@@ -57,13 +58,13 @@ function parseAuthors(authors) {
   if (typeof authors === 'undefined') return [];
 
   var parsedAuthors = [];
-  _.forEach(authors, function(author) {
+  each(authors, function(author) {
     var author = author.replace('the', '');
     var authorSplit = author.split(/\s+and\s+|\s*by\s+/);
     parsedAuthors = parsedAuthors.concat(authorSplit);
   });
 
-  return [ for (a of parsedAuthors) if (_.trim(a)) toTitleCase(_.trim(a).replace(/\s*by\s+/, ''))];
+  return [ for (a of parsedAuthors) if (trim(a)) toTitleCase(trim(a).replace(/\s*by\s+/, ''))];
 }
 
 module.exports = {

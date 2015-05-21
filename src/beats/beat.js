@@ -6,12 +6,9 @@ import Promise from 'bluebird';
 import polyfill from 'babel/polyfill';
 import each from 'lodash/collection/forEach';
 
+import { User } from '../db';
 import logger from '../logger';
-import { apiKey, sites } from '../../config';
 import { chartbeatApi, loopInterval } from '../helpers/constants';
-
-if (typeof sites === 'undefined') throw new Error("`sites` is required in config.js");
-if (typeof apiKey === 'undefined') throw new Error("`apiKey` is required in config.js");
 
 var getAsync = Promise.promisify(needle.get);
 
@@ -40,15 +37,28 @@ export default class Beat {
    *  config.js
    *
    */
-  fetch() {
-    logger.info(`Fetching ${this.apiUrl} for ${this.name}`);
-    // TODO get all API keys
-    // For now just read from config.js
-    var apiInfo = [{ apiKey, sites }];
-    each(apiInfo, info =>
-      this.callChartbeat(info.apiKey, info.sites)
-    );
-  }
+   fetch() {
+    var that = this;
+    return Promise.coroutine(function* () {
+      logger.info(`Fetching ${that.apiUrl} for ${that.name}`);
+      //var apiInfo = [{ apiKey, sites }];
+      var apiInfo;
+      try {
+        apiInfo = yield User.find().exec();
+      } catch (e) {
+        logger.error(e);
+      }
+
+      if (!apiInfo.length) {
+        logger.warn('No User records, cannot request chartbeat data');
+        return;
+      }
+
+      each(apiInfo, function(info) {
+        that.callChartbeat(info.apiKey, info.sites)
+      });
+    })();
+   }
 
   /*  Given an apiKey and a list of sites, compile all the chartbeat URLs
    *  that will be called.

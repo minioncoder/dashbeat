@@ -1,5 +1,7 @@
 'use strict';
 
+//import Promise from 'bluebird';
+//import polyfill from 'babel/polyfill';
 import each from 'lodash/collection/forEach';
 
 import logger from '../logger';
