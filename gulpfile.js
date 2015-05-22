@@ -26,11 +26,7 @@ var browserifyShim = require('browserify-shim');
 var config = require('./config');
 
 var jsSrc = './public/js/src/';
-var jsBundle = [
-  'authors.js', 'engage.js', 'geo.js',
-  'popular.js', 'recirculation.js', 'stats.js',
-  'viewers.js'
-];
+var jsBundle = ['authors.js', 'popular.js'];
 
 gulp.task('sass', function() {
   var cssSrc = './public/scss/';
@@ -87,7 +83,7 @@ gulp.task('babel', function() {
 
 gulp.task('default', ['sass', 'babel', 'browserify']);
 
-gulp.task('addUsers', function(cb) {
+gulp.task('addUser', function(cb) {
   var db = require('./dist/db');
   db.connect();
   gutil.log('Adding default user for development ...');
