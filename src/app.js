@@ -14,7 +14,7 @@ import cookieParser from 'cookie-parser';
 import mail from './mail';
 import logger from './logger';
 import { connect } from './db';
-import routes from './routes/routes';
+import routes from './routes/index';
 import Controller from './beats/controller';
 
 debug('dashbeat-node:server');
@@ -50,7 +50,7 @@ mongoose.connection.on('error', logger.error);
 mongoose.connection.on('disconnected', connect);
 
 // Configure routes
-routes(app);
+app.use('/', routes);
 
 // Init the controller
 var controller = new Controller(app);
