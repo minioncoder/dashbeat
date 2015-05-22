@@ -6,8 +6,8 @@ import io from 'socket.io-browserify';
 import crypto from 'crypto';
 
 // React objects
-var Article = require('./obj/article');
-var AnimateNumber = require('./obj/animate-number');
+var Article = require('./lib/article');
+var AnimateNumber = require('./lib/animate-number');
 
 var NUM_ARTICLES = 50;
 var currentArticles = {};
