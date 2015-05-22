@@ -36,7 +36,7 @@ var Article = React.createClass({
       if (this.props.url.indexOf(append) !== 0) {
         this.props.url = append + this.props.url;
       }
-      console.log(this.props.url);
+      //console.log(this.props.url);
     }
     this.props.authorsClass = 'col-md-6 authors ';
     if (!this.props.authors.length) {
@@ -44,9 +44,7 @@ var Article = React.createClass({
     }
   },
   render() {
-
     return (
-
       <div className='article container-fluid' onClick={this.handleClick}>
         <div className='row'>
           <div className='col-md-1 col-sm-2 col-xs-2 readers'>{ this.props.readers }</div>
@@ -75,7 +73,6 @@ var Article = React.createClass({
 });
 
 module.exports = function(data, id) {
-
   return React.render(
     <Article readers={ data.visits } url={ data.path } title={ data.title } rank={ data.rank } authors= { data.authors }/>,
     // document.getElementById(id)
