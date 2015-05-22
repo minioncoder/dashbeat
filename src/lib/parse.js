@@ -17,16 +17,16 @@ function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
-function getRandomSite(sites) {
+function getRandomHost(hosts) {
   var chance = new Chance();
-  var numSites = sites.length;
+  var numHosts = hosts.length;
   var randomIndex = chance.integer({
     min: 0,
-    max: numSites - 1
+    max: numHosts - 1
   })
-  var randomSite = sites[randomIndex];
+  var randomHost = hosts[randomIndex];
 
-  return randomSite;
+  return randomHost;
 }
 
 function getDistance(x1, y1, x2, y2) {
@@ -64,13 +64,13 @@ function parseAuthors(authors) {
     parsedAuthors = parsedAuthors.concat(authorSplit);
   });
 
-  return [ for (a of parsedAuthors) if (trim(a)) toTitleCase(trim(a).replace(/\s*by\s+/, ''))];
+  return [for (a of parsedAuthors) if (trim(a)) toTitleCase(trim(a).replace(/\s*by\s+/, ''))];
 }
 
 module.exports = {
   isSectionPage,
   toTitleCase,
-  getRandomSite,
+  getRandomHost,
   getDistance,
   getHostFromResponse,
   parseAuthors

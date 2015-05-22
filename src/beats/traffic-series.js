@@ -2,15 +2,15 @@
 
 import each from 'lodash/collection/forEach';
 
-import { getHostFromResponse } from '../helpers/parse';
+import { getHostFromResponse } from '../lib/parse';
 import Beat from './beat';
 
-export default class historicalTrafficSeries extends Beat {
-  constructor(app, name='historicalTrafficSeries', apiUrl='/historical/traffic/series/?', schema) {
-    super(app, name, apiUrl, schema);
+export default class TrafficSeries extends Beat {
+  constructor(app, name='traffic/series', schema=undefined, apiType='historical') {
+    super(app, name, schema, apiType);
   }
 
-  parseResponses(responses) {
+  parse(responses) {
     var viewersToday = {};
     var start, end, frequency;
     each(responses, function(response) {
@@ -21,7 +21,7 @@ export default class historicalTrafficSeries extends Beat {
       frequency = data.frequency;
 
       if (!(host in data)) {
-        console.log('Host ${host} not found');
+        console.log(`Host ${host} not found`);
         return;
       }
       viewersToday[host] = data[host].series;

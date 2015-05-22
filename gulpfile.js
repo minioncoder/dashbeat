@@ -89,8 +89,8 @@ gulp.task('addUser', function(cb) {
   gutil.log('Adding default user for development ...');
   var user = new db.User({
     'email': 'ebower@michigan.com',
-    'apiKey': config.apiKey,
-    'sites': config.sites,
+    'apikey': config.apikey,
+    'hosts': config.hosts,
     'hash': uuid.v4()
   }).save(function(err, model) {
     if (err) throw new Error(err);
@@ -117,10 +117,15 @@ gulp.task('resetDb', function(cb) {
   gutil.log('Removing User documents ...');
   db.User.remove().exec(function(err) {
     if (err) throw new Error(err);
-    gutil.log('Removing BeatCache documents ...');
-    db.BeatCache.remove().exec(function() {
-      db.disconnect();
-      cb();
+    gutil.log('Removing Article documents ...');
+    db.Article.remove().exec(function(err) {
+      if (err) throw new Error(err);
+      gutil.log('Removing Toppages documents');
+      db.Toppages.remove().exec(function(err) {
+        if (err) throw new Error(err);
+        db.disconnect();
+        cb();
+      });
     });
   });
 });

@@ -27,11 +27,24 @@ function disconnect() {
 var UserSchema = new Schema({
   email: { type: String, trim: true, unique: true },
   hash: { type: String },
-  apiKey: { type: String },
-  sites: [{ type: String }]
+  apikey: { type: String },
+  hosts: [{ type: String }]
 });
 
-var BeatCacheSchema = new Schema({
+var ArticleSchema = new Schema({
+  host: { type: String },
+  path: { type: String },
+  title: { type: String },
+  visits: { type: Number },
+  authors: [{ type: String }]
+});
+
+var ToppagesSchema = new Schema({
+  articles: [ArticleSchema],
+  created: { type: Date, default: Date.now }
+});
+
+/*var BeatCacheSchema = new Schema({
   beat: {
     type: String,
     trim: true,
@@ -43,13 +56,12 @@ var BeatCacheSchema = new Schema({
     type: Date,
     default: Date.now
   }
-});
-
-//var ToppagesSchema = new Schema({});
+});*/
 
 module.exports = {
   User: mongoose.model('Hash', UserSchema),
-  BeatCache: mongoose.model('BeatCache', BeatCacheSchema),
+  Article: mongoose.model('Article', ArticleSchema),
+  Toppages: mongoose.model('Toppages', ToppagesSchema),
   connect,
   disconnect
 };

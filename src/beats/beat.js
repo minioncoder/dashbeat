@@ -1,3 +1,6 @@
+/**
+* @module Beat
+*/
 'use strict';
 
 import moment from 'moment';
@@ -8,7 +11,7 @@ import each from 'lodash/collection/forEach';
 
 import { User } from '../db';
 import logger from '../logger';
-import { chartbeatApi, loopInterval } from '../helpers/constants';
+import { chartbeatApi, loopInterval } from '../lib/constants';
 
 var getAsync = Promise.promisify(needle.get);
 
@@ -18,31 +21,53 @@ Promise.coroutine.addYieldHandler(function(yieldedValue) {
   if (Array.isArray(yieldedValue)) return Promise.all(yieldedValue);
 });
 
+/**
+* Beat - Base class used to grab all chartbeat request data, save it, and send it over a socket
+*
+* @class
+*/
 export default class Beat {
-  constructor(app, name, apiUrl, schema) {
-    Object.assign(this, { app, name, apiUrl, schema });
+  /**
+  * @constructs
+  * @param {String} [app] The express app instance
+  * @param {String} [name] The name of the chartbeat API, must match the exact API type
+  * @return {Object} The Beat instance
+  * @example
+  *   var beat = new Beat(app, 'toppages');
+  */
+  constructor(app, name, schema, apiType='live', version=3, limit=50) {
+    Object.assign(this, { app, name, schema, apiType, version, limit });
     this.createSocket();
     return this;
   }
 
+  /**
+  * Connects to socket under the API name
+  *
+  * @memberof Beat#
+  * @return {Object} The Beat instance
+  */
   createSocket() {
     this.app.io.route(this.name, req => {
       logger.info('Connected to ' + this.name);
       req.io.join(this.name);
     });
+    return this;
   }
 
-  /*  Function called by the Controller on each beat. Should hit the DB to get the
-   *  API keys that it needs to use to fetch data (TODO), for now it pulls from
-   *  config.js
-   *
-   */
-   fetch() {
-    var that = this;
+  /**
+  * Function called by the Controller on each beat. Should hit the DB to get the
+  * API keys that it needs to use to fetch data (TODO), for now it pulls from
+  * config.js
+  *
+  * @memberof Beat#
+  * @return {Object} The coroutine
+  */
+  fetch() {
     return Promise.coroutine(function* () {
-      logger.info(`Fetching ${that.apiUrl} for ${that.name}`);
-      //var apiInfo = [{ apiKey, sites }];
-      var apiInfo;
+      logger.info(`Fetching ${this.apiUrl} for ${this.name}`);
+      //var apiInfo = [{ apikey, hosts }];
+      let apiInfo;
       try {
         apiInfo = yield User.find().exec();
       } catch (e) {
@@ -54,61 +79,105 @@ export default class Beat {
         return;
       }
 
-      each(apiInfo, function(info) {
-        that.callChartbeat(info.apiKey, info.sites)
-      });
-    })();
-   }
+      each(apiInfo, info =>
+        this.get(info.apikey, info.hosts)
+      );
+    }.bind(this))();
+  }
 
-  /*  Given an apiKey and a list of sites, compile all the chartbeat URLs
-   *  that will be called.
-   *
-   *  :param apiKey:  (String) Chartbeat API key
-   *  :param sites:   (Array) Array of host sites that will be called
-   *
-   *  :return: (Array) array of compiled site names. sites.length === return.length
-   *
-   */
-  compileUrls(apiKey, sites) {
-    var urls = [];
-    each(sites, site => {
-      var url = `${chartbeatApi}${this.apiUrl}&apikey=${apiKey}&host=${site}`;
-      urls.push(url);
+  /**
+  * Given an apikey and a list of hosts, compile all the chartbeat URLs
+  * that will be called.
+  *
+  * @memberof Beat#
+  * @param {String} [apikey] Chartbeat API key
+  * @param {Array} [hosts] Hosts that will be called
+  * @return {Array} Compiled host names
+  *
+  */
+  compileUrls(apikey, hosts) {
+    let urls = [];
+    each(hosts, host => {
+      urls.push(this._compileUrl({
+        apikey: apikey,
+        host: host
+      }));
     });
 
     return urls;
   }
 
-  /*  For a given apiKey and sites combo, make all the requests to Chartbeat
-   *
-   *  :param apiKey:  (String) Chartbeat API key
-   *  :param sites:   (Array) Array of hosts that for which we will hit the
-   *                    chartbeat API for for data
-   */
-  callChartbeat(apiKey, sites) {
-    var that = this;
-    var start = Promise.coroutine(function* (urls) {
-      // Compile all the promises together
-      var promises = [];
-      each(urls, function(url) {
-        promises.push(getAsync(url));
-      });
+  /**
+  * Compiles Chartbeat API URL based
+  *
+  * @memberof Beat#
+  * @param {String} [apiUrl] Chartbeat API URL: http://api.chartbeat.com
+  * @param {String} [apiType] Chartbeat API type: live, historical
+  * @param {String} [name] The Chartbeat API name: toppages, quickstats, recent
+  * @param {Number|String} [version] The Chartbeat API version number
+  * @param {Object} [args] The request GET values to append to the request: apikey=123, host=freep.com, limit=50
+  * @return {String} The formated chartbeat API URL
+  */
+  _compileUrl(args = {}, apiUrl = chartbeatApi) {
+    let defaults = { limit: 50 };
+    Object.assign(args, defaults);
 
-      var responses = yield promises;
-      logger.info(`Received responses for: ${that.name}`);
-      var parsed = that.parseResponses(responses);
-      that.app.io.room(that.name).broadcast(that.name, parsed);
-    });
-
-    var urls = this.compileUrls(apiKey, sites);
-    start(urls);
+    let url = [apiUrl, this.apiType, this.name, 'v' + this.version, '?'].join('/');
+    let first = true;
+    for (let arg in args) {
+      url += (first ? '' : '&') + arg + '=' + args[arg];
+      first = false;
+    }
+    return url;
   }
 
-  /*  Default method that needs to be overridden
-   *
-   */
-  parseResponses(responses) {
-    logger.debug('Default parseResponse called for ' + this.apiUrl);
+  /**
+  * For a given apikey and hosts combo, make all the requests to Chartbeat, and send requests through socket
+  *
+  * @memberof Beat#
+  * @param {String} [apikey] Chartbeat API key
+  * @param {Array} [hosts] Hosts that for which we will hit the chartbeat API for for data
+  * @return {Object} The Beat instance
+  */
+  get(apikey, hosts) {
+    let urls = this.compileUrls(apikey, hosts);
+    return Promise.coroutine(function* (urls) {
+      let responses = yield [for (url of urls) getAsync(url)];
+
+      logger.info(`Received responses for: ${this.name}`);
+      let data = this.parse(responses);
+      try {
+        data = yield this.save(data);
+        data = data.articles;
+      } catch (e) {
+        console.log(e);
+      }
+      this.app.io.room(this.name).broadcast(this.name, data);
+    }.bind(this))(urls);
+  }
+
+  /**
+  * Default method that needs to be overridden
+  *
+  * @memberof Beat#
+  * @param {Array} [responses] The Chartbeat response data
+  * @return {Array} The Chartbeat response data
+  */
+  parse(responses) {
+    logger.debug('Default parse called for ' + this.apiUrl);
     return responses;
+  }
+
+  /**
+  * Saves documents in Schema
+  */
+  save(data) {
+    if (typeof this.schema === 'undefined') return Promise.reject(`'schema' not found in ${this.name}`);
+    return Promise.coroutine(function* () {
+      let doc = new this.schema({
+        articles: data
+      });
+      return doc.save();
+    }.bind(this))();
   }
 }

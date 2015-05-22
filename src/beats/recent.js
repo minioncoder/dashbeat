@@ -2,22 +2,22 @@
 
 import Chance from 'chance';
 
-import { chartbeatApi } from '../helpers/constants';
-import { getRandomSite, isSectionPage, getDistance } from '../helpers/parse';
+import { chartbeatApi } from '../lib/constants';
+import { getRandomHost, isSectionPage, getDistance } from '../lib/parse';
 import Beat from './beat';
 
 export default class Recent extends Beat {
-  constructor(app, name='recent', apiUrl='/live/recent/v3/?limit=50', schema) {
-    super(app, name, apiUrl, schema);
+  constructor(app, name='recent') {
+    super(app, name);
   }
 
-  // Need to override this b/c we only request 1 site for the geopoint dashboard
-  compileUrls(apiKey, sites) {
-    var site = getRandomSite(sites);
-    return [`${chartbeatApi}${this.apiUrl}&apikey=${apiKey}&host=${site}`];
+  // Need to override this b/c we only request 1 host for the geopoint dashboard
+  compileUrls(apikey, hosts) {
+    var host = getRandomHost(hosts);
+    return [this._compileUrl({ apikey, host })];
   }
 
-  parseResponses(responses) {
+  parse(responses) {
     var lastLatLng = {
       lat: -Infinity,
       lng: -Infinity
