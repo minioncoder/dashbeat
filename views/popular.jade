@@ -4,7 +4,6 @@ block css
   link(href='/css/popular.css', rel='stylesheet')
 
 block content
-
   .container.header
     .row.text-center
       h1= title
@@ -16,4 +15,5 @@ block content
 
   .container.articles
 
-  script(src='/js/dist/popular.js', type='text/javascript')
+block js
+  script(src='/js/dist/popular.js')
