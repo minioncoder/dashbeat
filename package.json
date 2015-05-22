@@ -46,7 +46,7 @@
     "react": "^0.13.3",
     "react-number-easing": "0.0.1",
     "reactify": "^1.1.1",
-    "request": "^2.54.0",
+    "request": "^2.55.0",
     "run-sequence": "^1.1.0",
     "serve-favicon": "~2.2.0",
     "socket.io-browserify": "^0.9.6",

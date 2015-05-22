@@ -1,19 +1,20 @@
 @import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
 
-$primary-color: #4F75CE; // blue
-$secondary-color: #FFE14F; //yellow
-$info-color: #6F51D1; // purple
-$warning-color: #FFC44F; // orange
+// http://www.colorcombos.com/color-scheme-6657.html
+$primary-color: #2E4372; // blue
+$info-color: #226666; // aquaish
+$warning-color: #AA6C39; // brown
+$success-color: #2D882D; // greenish
+$danger-color: #AA3939; // red
 
 
 
 body {
-  // background: $primary-color;
-  color: $primary-color;
+  // color: $primary-color;
 }
 
 a, a:visited, a:active, a:hover {
-  color: $warning-color;
+  color: $primary-color;
 }
 
 .articles {
@@ -25,7 +26,6 @@ a, a:visited, a:active, a:hover {
   position: absolute;
   top: 100%;
   width: 100%;
-  // border: 1px solid black;
   margin-bottom: 10px;
 
   @media (min-width: $screen-md) {
@@ -36,9 +36,57 @@ a, a:visited, a:active, a:hover {
   .article {
     position: relative;
     width: 100%;
+    border: 1px solid #eee;
+    cursor: pointer;
+
+    &:hover {
+
+    }
+
+    .readers {
+      text-align: center;
+      padding: 5px;
+      background: $danger-color;
+      color: #eee;
+      height: 50px;
+      padding: 10px;
+      font-size: 20px;
+    }
 
     .authors {
-      color: $primary-color;
+
+      &:before {
+        content: 'By ';
+      }
+    }
+  }
+}
+
+#summary-container {
+  position: fixed;
+  top: 0;
+  left: 100%;
+  height: 100%;
+  min-height: 500px;
+
+  .article-summary {
+
+    // State
+    &.loaded {
+      .article-info {
+        display: block;
+      }
+      .article-loading {
+        display: none;
+      }
+    }
+    &.loading {
+      .article-info {
+        display: none;
+      }
+      .article-loading {
+        display: block;
+      }
     }
   }
 }
