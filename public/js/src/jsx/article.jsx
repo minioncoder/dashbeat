@@ -6,6 +6,7 @@ import { style } from '../lib/';
 
 // JSX
 import ArticleSummary from './article-summary.jsx';
+import ReactNumberEasing from 'react-number-easing';
 
 var Article = React.createClass({
   moveArticle() {
@@ -46,7 +47,7 @@ var Article = React.createClass({
   render() {
     return (
       <div className='article'>
-        <div className='readers'>{ this.props.readers }</div>
+        <ReactNumberEasing value={ this.props.readers } className='readers'/>
         <div className='article-title' onClick={ this.handleClick }>
           <div className='title'>
             <a target='_blank' href={ this.props.url }>{ this.props.title }</a>

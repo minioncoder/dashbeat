@@ -62,6 +62,12 @@ var ArticleSummary = React.createClass({
   fetchInfo() {
     var url = this.props.url + 'json';
     var that = this;
+
+    if (url in this.articleCache) {
+      this.parseArticle(this.articleCache[url]);
+      return;
+    }
+
     request({
       baseUrl: document.location.origin,
       url: '/get-article/',
@@ -83,6 +89,8 @@ var ArticleSummary = React.createClass({
         console.log('No article element in body, returning');
         return;
       }
+
+      that.articleCache[url] = body;
       that.parseArticle(body);
     });
   },
@@ -125,6 +133,7 @@ var ArticleSummary = React.createClass({
   componentWillMount() {
     this.setState({ loading: true });
 
+    this.articleCache = {};
   },
   render() {
     var summaryClass = 'article-summary ';
