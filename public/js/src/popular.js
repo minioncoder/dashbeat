@@ -6,6 +6,7 @@ import crypto from 'crypto';
 import Article from './jsx/article.jsx';
 import AnimateNumber from './jsx/animate-number.jsx';
 
+const MAX_ARTICLES = 50;
 var currentArticles = {};
 var totalReaders = AnimateNumber(0, 'total-readers');
 var articlesContainer = document.getElementsByClassName('articles')[0];
@@ -22,7 +23,10 @@ socket.on('toppages', function(data) {
     return parseInt(b.visits) - parseInt(a.visits);
   });
 
-  for (let i = 0; i < 50; i++) {
+  let dlength = MAX_ARTICLES;
+  if (data.length < MAX_ARTICLES) dlength = data.length;
+
+  for (let i = 0; i < dlength; i++) {
     let articleData = data[i];
     articleData.rank = i;
     var id = generateId(articleData.path);
