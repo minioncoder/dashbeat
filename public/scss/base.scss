@@ -1,0 +1,31 @@
+@import 'bourbon';
+@import 'neat';
+@import '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
+// TODO get this working
+// @import 'settings/_grid.scss';
+// @import 'grid/_span-columns.scss';
+// @import 'grid/_outer-container.scss';
+
+// Stole from bootstrap until we decide what we wanna do
+$screen-md: 992px;
+$screen-sm: 768px;
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.container {
+  margin: 0 10%;
+}
+
+.hidden {
+  display: none;
+}

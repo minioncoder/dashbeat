@@ -5,17 +5,19 @@ block css
 
 block content
   .container.header
-    .row.text-center
+    .text-center
       h1= title
     //- .row.text-center
     //-   h3 Most Popular Stories
-    .row
-      .col-md-6.col-sm-6.col-xs-6.text-right Total Readers
-      #total-readers.col-md-6.col-sm-6.col-xs-6 0
+    .total-readers
+      .text-right Total Readers
+      #total-readers 0
 
   .container.articles
 
-  #summary-container.article-summary.container-fluid
+  #summary-container
+
+  .page-overlay
 
 
 block js

@@ -1,4 +1,4 @@
-@import 'bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss';
+@import 'base.scss';
 
 // http://www.colorcombos.com/color-scheme-6657.html
 $primary-color: #2E4372; // blue
@@ -7,7 +7,8 @@ $warning-color: #AA6C39; // brown
 $success-color: #2D882D; // greenish
 $danger-color: #AA3939; // red
 
-
+$z-index-article-summary: 10;
+$z-index-page-overlay: $z-index-article-summary - 1;
 
 body {
   // color: $primary-color;
@@ -17,59 +18,92 @@ a, a:visited, a:active, a:hover {
   color: $primary-color;
 }
 
-.articles {
-  position: relative;
+.total-readers {
+  @include outer-container();
+
+  div {
+    @include span-columns(6);
+  }
 }
 
-.article-container {
-  height: 50px;
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  margin-bottom: 10px;
+.articles {
+  position: relative;
+  @include outer-container();
+  margin: 0 10%;
 
-  @media (min-width: $screen-md) {
-    padding-right: 10%;
-    padding-left: 10%;
-  }
-
-  .article {
-    position: relative;
+  .article-container {
+    height: 50px;
+    position: absolute;
+    top: 100%;
     width: 100%;
-    border: 1px solid #eee;
-    cursor: pointer;
+    margin-bottom: 10px;
 
-    &:hover {
-
+    @media (min-width: $screen-md) {
+      padding-right: 10%;
+      padding-left: 10%;
     }
 
-    .readers {
-      text-align: center;
-      padding: 5px;
-      background: $danger-color;
-      color: #eee;
-      height: 50px;
-      padding: 10px;
-      font-size: 20px;
-    }
+    .article {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border: 1px solid #eee;
+      cursor: pointer;
 
-    .authors {
+      &:hover {
 
-      &:before {
-        content: 'By ';
+      }
+
+      .readers {
+        text-align: center;
+        padding: 5px;
+        background: $danger-color;
+        color: #eee;
+        height: 50px;
+        padding: 10px;
+        font-size: 20px;
+        @include span-columns(2);
+      }
+
+      .article-title {
+        @include span-columns(10);
+
+        .title {
+          @include row();
+        }
+
+        .authors {
+          @include row();
+
+          &:before {
+            content: 'By ';
+          }
+        }
       }
     }
   }
 }
 
 #summary-container {
+  $container-padding: 2%;
   position: fixed;
   top: 0;
   left: 100%;
   height: 100%;
   min-height: 500px;
+  overflow-x: scroll;
+  width: 50%;
+  background: #eee;
+  min-height: 500px;
+  box-shadow: 0 0 1em black;
+  padding: $container-padding;
+  z-index: $z-index-article-summary;
+  @include outer-container();
+
 
   .article-summary {
+    position: relative;
+    height: 100%;
 
     // State
     &.loaded {
@@ -88,5 +122,103 @@ a, a:visited, a:active, a:hover {
         display: block;
       }
     }
+
+    .article-loading {
+      width: 100%;
+      height: 100%;
+      padding-top: 25%;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .article-info {
+      height: 100%;
+      position: relative;
+      @include outer-container();
+
+      .article-image, .title, .summary-container, .article-loading {
+        @include row();
+      }
+
+      .article-image {
+        height: 30%;
+        width: 100%;
+        margin-bottom: 20px;
+
+        img {
+          max-width: 50%;
+          max-height: 100%;
+          box-shadow: 1px 1px 5px #c8c8c8; // Taken from gannett site
+        }
+      }
+
+      .title {
+        margin: 20px 0px;
+        font-size: 30px;
+        font-family: helvetica,arial,sans-serif;
+      }
+
+      .summary-container {
+        margin: 20px 0px;
+        max-height: 40%;
+        overflow: hidden;
+        position: relative;
+
+        .overflow-shadow {
+          position: absolute;
+          bottom: -1px;
+          width: 100%;
+          height: 1px;
+          box-shadow: 0 0 1em 2px black;
+        }
+      }
+    }
+  }
+
+  .close-summary {
+    position: absolute;
+    top: $container-padding * -1;
+    right: 5px;
+    color: black;
+    cursor: pointer;
+  }
+}
+
+.page-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  // opacity: 0;
+  display: none;
+  background: rgba(#000, .3);
+  width: 100%;
+  height: 100%;
+  z-index: $z-index-page-overlay;
+}
+
+.button-container {
+  width: 100%;
+  text-align: center;
+
+  &.center {
+
+  }
+}
+
+.button {
+  text-align: center;
+  padding: 15px;
+  text-decoration: none;
+
+  &.primary {
+    background: $primary-color;
+    color: white;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+    }
+  }
+  &.info {
+    background: $info-color
   }
 }

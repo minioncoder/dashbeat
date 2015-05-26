@@ -9,6 +9,17 @@ function getHost(url) {
   }
 }
 
+/**
+ * Given an HTML string, strip out the tags and just return the words
+ * http://stackoverflow.com/a/822464/1337683
+ *
+ * @param {String} html - HTML string
+ */
+function stripTags(html) {
+  return html.replace(/<(?:.|\n)*?>/gm, '');
+}
+
 module.exports = {
-  getHost
+  getHost,
+  stripTags
 }

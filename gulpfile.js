@@ -9,6 +9,7 @@ var gutil = require('gulp-util');
 var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
+var neat = require('node-neat');
 var crashSound;
 try {
   crashSound = require('gulp-crash-sound');
@@ -35,9 +36,12 @@ gulp.task('sass', function() {
 
   gutil.log('Compiling SASS files ...');
 
+  var paths = ['./node_modules/'];
+  paths = paths.concat(neat.includePaths);
+
   return gulp.src(cssFiles)
     .pipe(sass({
-      includePaths: ['./node_modules']
+      includePaths: paths
     }).on('error', gutil.log))
     .pipe(gulp.dest(cssDist));
 });

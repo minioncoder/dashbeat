@@ -67,6 +67,14 @@ function parseAuthors(authors) {
   return [for (a of parsedAuthors) if (trim(a)) toTitleCase(trim(a).replace(/\s*by\s+/, ''))];
 }
 
+/**
+ * Given a JSON response from a /json HTTP call to an article, generate a summary
+ * for the article and save it in the json.article.summary attribute
+ */
+function summarizeArticle(json) {
+
+}
+
 module.exports = {
   isSectionPage,
   toTitleCase,

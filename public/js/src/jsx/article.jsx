@@ -27,7 +27,8 @@ var Article = React.createClass({
       url: this.props.url,
       title: this.props.title
     };
-    // var summary = ArticleSummary(data, 'summary-container');
+    this.summary = new ArticleSummary(data, 'summary-container');
+    this.summary.openSummary(data);
   },
   componentWillMount() {
     var urlAppends = ['www.', 'http://'];
@@ -36,34 +37,25 @@ var Article = React.createClass({
       if (this.props.url.indexOf(append) !== 0) {
         this.props.url = append + this.props.url;
       }
-      //console.log(this.props.url);
     }
-    this.props.authorsClass = 'col-md-6 authors ';
+    this.props.authorsClass = 'authors ';
     if (!this.props.authors.length) {
       this.props.authorsClass += 'hidden';
     }
   },
   render() {
     return (
-      <div className='article container-fluid' onClick={this.handleClick}>
-        <div className='row'>
-          <div className='col-md-1 col-sm-2 col-xs-2 readers'>{ this.props.readers }</div>
-          <div className='col-md-11 col-sm-10 col-xs-10'>
-            <div className='row'>
-              <div className='container-fluid'>
-                <div className='row'>
-                  <div className='col-md-12 title'>
-                    <a target='_blank' href={ this.props.url }>{ this.props.title }</a>
-                  </div>
-                </div>
-                <div className='row info'>
-                  <div className={ this.props.authorsClass }>
-                    { this.props.authors.join(', ') }
-                  </div>
-                  <div className='col-md-6 time'>
-                  </div>
-                </div>
-              </div>
+      <div className='article'>
+        <div className='readers'>{ this.props.readers }</div>
+        <div className='article-title' onClick={ this.handleClick }>
+          <div className='title'>
+            <a target='_blank' href={ this.props.url }>{ this.props.title }</a>
+          </div>
+          <div className='info'>
+            <div className={ this.props.authorsClass }>
+              { this.props.authors.join(', ') }
+            </div>
+            <div className='time'>
             </div>
           </div>
         </div>
