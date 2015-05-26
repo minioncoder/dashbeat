@@ -96,21 +96,33 @@ var ArticleSummary = React.createClass({
   },
   slideIn() {
     var parent = this.getDOMNode().parentNode;
+    var windowWidth = window.innerWidth;
+    var left = windowWidth >= 768 ? '50%' : '0%';
     var that = this;
-    Velocity(parent, { left: '50%' }, {
-      easing: EASING,
+
+    Velocity(parent, { left: left }, {
+      // easing: EASING,
     });
 
     $('.page-overlay').css({ display: 'block' })
       .on('click', function() {
         that.closeSummary();
       });
+
+    $(window).on('resize', function() {
+      var windowWidth = window.innerWidth;
+      if (windowWidth < 768) {
+        Velocity(that.getDOMNode().parent, {
+          left: '0%'
+        });
+      }
+    });
   },
   slideOut() {
     var parent = this.getDOMNode().parentNode;
     var that = this;
-    Velocity(parent, { left: '100%' }, {
-      easing: EASING,
+    Velocity(parent, { left: '102%' }, {
+      // easing: EASING,
       complete: function() {
         that.setState({ loading: true });
         that.setProps(DEFAULT_PROPS);
@@ -119,6 +131,8 @@ var ArticleSummary = React.createClass({
 
     $('.page-overlay').css({ display: 'none' })
       .off('click');
+
+    $(window).off('resize');
   },
   closeSummary() {
     this.slideOut();
@@ -151,7 +165,7 @@ var ArticleSummary = React.createClass({
 
     return (
       <div className={ summaryClass }>
-        <div className='close-summary' onClick={ this.closeSummary }>X</div>
+        <div className='close-summary' onClick={ this.closeSummary }><i className="fa fa-times-circle"></i></div>
         <div className='article-info'>
           <div className='article-image text-center'>
             <img className={ imgClass } src={ this.props.imageUrl }/>

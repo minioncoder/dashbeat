@@ -74,6 +74,11 @@ a, a:visited, a:active, a:hover {
 
         .authors {
           @include row();
+          display: none;
+
+          @media (min-width: $screen-sm) {
+            display: block;
+          }
 
           &:before {
             content: 'By ';
@@ -88,17 +93,21 @@ a, a:visited, a:active, a:hover {
   $container-padding: 2%;
   position: fixed;
   top: 0;
-  left: 100%;
+  left: 102%;
   height: 100%;
   min-height: 500px;
   overflow-x: scroll;
-  width: 50%;
+  width: 100%;
   background: #eee;
   min-height: 500px;
   box-shadow: 0 0 1em black;
   padding: $container-padding;
   z-index: $z-index-article-summary;
   @include outer-container();
+
+  @media (min-width: $screen-sm) {
+    width: 50%;
+  }
 
 
   .article-summary {
@@ -177,10 +186,11 @@ a, a:visited, a:active, a:hover {
 
   .close-summary {
     position: absolute;
-    top: $container-padding * -1;
+    top: 0px;
     right: 5px;
     color: black;
     cursor: pointer;
+    z-index: $z-index-article-summary;
   }
 }
 
