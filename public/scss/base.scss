@@ -89,10 +89,15 @@ $navbar-padding: 20px;
         display: none;
         height: 1px;
         overflow: hidden;
+        border-top: 1px solid darken($primary-color, 50%);
 
         &.show {
           display: block;
         }
+      }
+
+      @media (min-width: $screen-sm) {
+        max-height: $navbar-height;
       }
 
       .option {
