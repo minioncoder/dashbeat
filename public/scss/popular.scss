@@ -19,13 +19,16 @@ a, a:visited, a:active, a:hover {
   }
 }
 
+
+$article-height: 50px;
+$article-border: 1px;
 .articles {
   position: relative;
   @include outer-container();
   margin: 0 10%;
 
   .article-container {
-    height: 50px;
+    height: $article-height;
     position: absolute;
     top: 100%;
     width: 100%;
@@ -39,7 +42,7 @@ a, a:visited, a:active, a:hover {
     .article {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: $article-height + $article-border;
       border: 1px solid #eee;
       cursor: pointer;
 
@@ -52,7 +55,7 @@ a, a:visited, a:active, a:hover {
         padding: 5px;
         background: $danger-color;
         color: #eee;
-        height: 50px;
+        height: 100%;
         padding: 10px;
         font-size: 20px;
         @include span-columns(2);
@@ -63,6 +66,9 @@ a, a:visited, a:active, a:hover {
 
         .title {
           @include row();
+
+          max-height: $article-height;
+          text-overflow: ellipsis;
         }
 
         .authors {
