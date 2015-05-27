@@ -89,7 +89,7 @@ $navbar-padding: 20px;
         display: none;
         height: 1px;
         overflow: hidden;
-        border-top: 1px solid darken($primary-color, 50%);
+        border-top: 1px solid darken($primary-color, 10%);
 
         &.show {
           display: block;
@@ -114,7 +114,12 @@ $navbar-padding: 20px;
         }
 
         &, * {
-          color: $warning-color !important;
+          color: $warning-color;
+        }
+
+        &:hover {
+          background: $danger-color;
+          color: white;
         }
       }
     }
