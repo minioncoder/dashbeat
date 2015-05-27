@@ -4,22 +4,14 @@
 'use strict';
 
 import moment from 'moment';
-import needle from 'needle';
-import Promise from 'bluebird';
+import request from 'request';
 import polyfill from 'babel/polyfill';
-import each from 'lodash/collection/forEach';
+import _each from 'lodash/collection/forEach';
 
 import { User } from '../db';
 import logger from '../logger';
-import { chartbeatApi, loopInterval } from '../lib/constants';
-
-var getAsync = Promise.promisify(needle.get);
-
-// Required to handle an array of promises
-// https://github.com/petkaantonov/bluebird/blob/master/API.md#promisecoroutineaddyieldhandlerfunction-handler---void
-Promise.coroutine.addYieldHandler(function(yieldedValue) {
-  if (Array.isArray(yieldedValue)) return Promise.all(yieldedValue);
-});
+import getAsync from '../lib/promise';
+import { chartbeatApi, loopInterval } from '../lib/constant';
 
 /**
 * Beat - Base class used to grab all chartbeat request data, save it, and send it over a socket
@@ -63,26 +55,24 @@ export default class Beat {
   * @memberof Beat#
   * @return {Object} The coroutine
   */
-  fetch() {
-    return Promise.coroutine(function* () {
-      logger.info(`Fetching ${this.apiUrl} for ${this.name}`);
-      //var apiInfo = [{ apikey, hosts }];
-      let apiInfo;
-      try {
-        apiInfo = yield User.find().exec();
-      } catch (e) {
-        logger.error(e);
-      }
+  async fetch() {
+    logger.info(`Fetching ${this.apiUrl} for ${this.name}`);
+    //var apiInfo = [{ apikey, hosts }];
+    let apiInfo;
+    try {
+      apiInfo = await User.find().exec();
+    } catch (e) {
+      logger.error(e);
+    }
 
-      if (!apiInfo.length) {
-        logger.warn('No User records, cannot request chartbeat data');
-        return;
-      }
+    if (!apiInfo.length) {
+      logger.warn('No User records, cannot request chartbeat data');
+      return;
+    }
 
-      each(apiInfo, info =>
-        this.get(info.apikey, info.hosts)
-      );
-    }.bind(this))();
+    _each(apiInfo, info =>
+      this.get(info.apikey, info.hosts)
+    );
   }
 
   /**
@@ -97,13 +87,12 @@ export default class Beat {
   */
   compileUrls(apikey, hosts) {
     let urls = [];
-    each(hosts, host => {
+    _each(hosts, host => {
       urls.push(this._compileUrl({
         apikey: apikey,
         host: host
       }));
     });
-
     return urls;
   }
 
@@ -139,21 +128,25 @@ export default class Beat {
   * @param {Array} [hosts] Hosts that for which we will hit the chartbeat API for for data
   * @return {Object} The Beat instance
   */
-  get(apikey, hosts) {
+  async get(apikey, hosts) {
     let urls = this.compileUrls(apikey, hosts);
-    return Promise.coroutine(function* (urls) {
-      let responses = yield [for (url of urls) getAsync(url)];
+    let responses;
+    try {
+      responses = await Promise.all([for (url of urls) getAsync(url)]);
+    } catch (err) {
+      throw new Error(err);
+    }
 
-      logger.info(`Received responses for: ${this.name}`);
-      let data = this.parse(responses);
-      try {
-        data = yield this.save(data);
-        data = data.articles;
-      } catch (e) {
-        console.log(e);
-      }
-      this.app.io.room(this.name).broadcast(this.name, data);
-    }.bind(this))(urls);
+    logger.info(`Received responses for: ${this.name}`);
+    let data = this.parse(responses);
+    try {
+      data = await this.save(data);
+    } catch (err) {
+      throw new Error(err);
+    }
+
+    data = data.articles;
+    this.app.io.room(this.name).broadcast(this.name, data);
   }
 
   /**
@@ -173,11 +166,9 @@ export default class Beat {
   */
   save(data) {
     if (typeof this.schema === 'undefined') return Promise.reject(`'schema' not found in ${this.name}`);
-    return Promise.coroutine(function* () {
-      let doc = new this.schema({
-        articles: data
-      });
-      return doc.save();
-    }.bind(this))();
+    let doc = new this.schema({
+      articles: data
+    });
+    return doc.save();
   }
 }

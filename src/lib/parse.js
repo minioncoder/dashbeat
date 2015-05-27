@@ -1,8 +1,8 @@
 'use strict';
 import url from 'url';
 
-import each from 'lodash/collection/each';
-import trim from 'lodash/string/trim';
+import _each from 'lodash/collection/each';
+import _trim from 'lodash/string/trim';
 import Chance from 'chance';
 
 function isSectionPage(url) {
@@ -42,12 +42,12 @@ function getDistance(x1, y1, x2, y2) {
 
 function getHostFromResponse(response) {
   /** Gets chartbeat 'host' GET param from needle response */
-  var respUrl = response[0].req.path;
+  var respUrl = response.request.uri.href;
   var urlParts = url.parse(respUrl, true);
 
   if (!('host' in urlParts.query)) {
     console.log('No host param in url \'' + respUrl + '\'')
-    return '';
+    return false;
   }
 
   return urlParts.query.host;
@@ -58,13 +58,13 @@ function parseAuthors(authors) {
   if (typeof authors === 'undefined') return [];
 
   var parsedAuthors = [];
-  each(authors, function(author) {
+  _each(authors, function(author) {
     var author = author.replace('the', '');
     var authorSplit = author.split(/\s+and\s+|\s*by\s+/);
     parsedAuthors = parsedAuthors.concat(authorSplit);
   });
 
-  return [for (a of parsedAuthors) if (trim(a)) toTitleCase(trim(a).replace(/\s*by\s+/, ''))];
+  return [for (a of parsedAuthors) if (_trim(a)) toTitleCase(_trim(a).replace(/\s*by\s+/, ''))];
 }
 
 /**

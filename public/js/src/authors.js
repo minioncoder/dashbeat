@@ -5,8 +5,8 @@
 'use strict';
 
 var $ = require('jquery');
-var each = require('lodash/collection/forEach');
-var sortByOrder = require('lodash/collection/sortByOrder');
+var _each = require('lodash/collection/forEach');
+var _sortByOrder = require('lodash/collection/sortByOrder');
 var io = require('socket.io-browserify');
 var d3 = require('d3');
 var colorbrewer = require('colorbrewer');
@@ -118,12 +118,12 @@ $(function() {
   function sortAuthors(data) {
     var authors = {};
     var articles = [];
-    each(data.articles, function(hostArticles, host) {
+    _each(data.articles, function(hostArticles, host) {
       articles = articles.concat(hostArticles);
     });
 
-    each(articles, function(article) {
-      each(article.authors, function(author) {
+    _each(articles, function(article) {
+      _each(article.authors, function(author) {
 
         author = parse.toTitleCase(author.trim());
         if (!author) {
@@ -145,7 +145,7 @@ $(function() {
       });
     });
 
-    authors = sortByOrder(authors, ['totalVisits'], [false]);
+    authors = _sortByOrder(authors, ['totalVisits'], [false]);
 
     return {
       children: authors.slice(0, 50),

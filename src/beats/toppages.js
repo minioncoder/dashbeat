@@ -1,6 +1,6 @@
 'use strict';
 
-import each from 'lodash/collection/forEach';
+import _each from 'lodash/collection/forEach';
 
 import logger from '../logger';
 import { Toppages } from '../db';
@@ -15,9 +15,10 @@ export default class TopPages extends Beat {
   parse(responses) {
     let articles = [];
     // parse chartbeat response data
-    each(responses, function(response) {
+    _each(responses, function(response) {
+      let body = JSON.parse(response.body);
       let host = getHostFromResponse(response);
-      each(response[1].pages, function(article) {
+      _each(body.pages, function(article) {
         if (isSectionPage(article.path)) return;
         articles.push({
           host: host,
