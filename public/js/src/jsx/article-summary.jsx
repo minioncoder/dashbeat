@@ -5,6 +5,7 @@ import request from 'request';
 import Velocity from 'velocity-animate';
 import { parse } from '../lib/index';
 import Summary from 'node-summary';
+import moment from 'moment';
 
 // JSX
 import ReactNumberEasing from 'react-number-easing';
@@ -16,7 +17,9 @@ var DEFAULT_PROPS = {
   articleSummary: '',
   title: '',
   url: '',
-  article: undefined
+  article: undefined,
+  byline: '',
+  date: ''
 };
 
 var ArticleSummary = React.createClass({
@@ -55,6 +58,8 @@ var ArticleSummary = React.createClass({
     // Get the article title
     if ('metadata' in article) {
       props.articleTitle = article.metadata.headline;
+      props.byline = article.metadata.byline;
+      props.date = moment(article.metadata.dates.lastupdated).format('Do MMMM YYYY, h:mm:ss a');
     }
 
     props.articleSummary = this.getArticleBody(article);
@@ -184,7 +189,9 @@ var ArticleSummary = React.createClass({
           </div>
           <div className='title text-center'><a target='_blank' href={ this.props.url }>{ this.props.title }</a></div>
           <div className='article-stats'>
-            { readersElement }
+            <div className='byline text-center'>{ this.props.byline }</div>
+            <div className='readers text-center'>Readers: { readersElement }</div>
+            <div className='date text-center'>{ this.props.date }</div>
           </div>
           <div className='summary-container'>
             <div className='summary' dangerouslySetInnerHTML={{__html: this.props.articleSummary }}></div>
