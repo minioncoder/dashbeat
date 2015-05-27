@@ -46,9 +46,9 @@ var Article = React.createClass({
   },
   render() {
     return (
-      <div className='article'>
+      <div className='article' onClick={ this.handleClick }>
         <ReactNumberEasing value={ this.props.readers } className='readers'/>
-        <div className='article-title' onClick={ this.handleClick }>
+        <div className='article-title'>
           <div className='title'>
             <a target='_blank' href={ this.props.url }>{ this.props.title }</a>
           </div>
