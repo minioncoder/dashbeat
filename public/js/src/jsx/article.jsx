@@ -23,7 +23,13 @@ var Article = React.createClass({
     var height = obj.scrollHeight;
     height += style.pixelToNumber(style.getStyle(obj, 'margin-bottom'));
 
+    var newTop = height * rank;
+
     Velocity(obj, { top: (height * rank) });
+
+    if (newTop % 61) {
+      console.log(obj);
+    }
   },
   handleClick() {
     var data = {

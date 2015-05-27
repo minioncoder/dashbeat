@@ -11,21 +11,38 @@ a, a:visited, a:active, a:hover {
   color: $primary-color;
 }
 
-.total-readers {
+.content-container {
   @include outer-container();
+  .summary {
+    @media (max-width: $screen-md) {
+      @include row();
+    }
 
-  div {
-    @include span-columns(6);
+    @media (min-width: $screen-md) {
+      @include span-columns(2);
+    }
+    .total-readers {
+      @include row();
+
+      div {
+        @include span-columns(6);
+      }
+    }
   }
+
 }
-
-
 $article-height: 50px;
 $article-border: 1px;
 .articles {
   position: relative;
-  @include outer-container();
-  margin: 0 10%;
+  @media (max-width: $screen-md) {
+    @include row();
+  }
+
+  @media (min-width: $screen-md) {
+    @include span-columns(9);
+  }
+  // margin: 0 10%;
 
   .article-container {
     height: $article-height;
@@ -69,6 +86,8 @@ $article-border: 1px;
 
           max-height: $article-height;
           text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
 
         .authors {
