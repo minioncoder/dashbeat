@@ -9,6 +9,14 @@ import ArticleSummary from './article-summary.jsx';
 import ReactNumberEasing from 'react-number-easing';
 
 var Article = React.createClass({
+  getDefaultProps() {
+    return {
+      url: '',
+      title: '',
+      article: '',
+      summary: undefined
+    }
+  },
   moveArticle() {
     var rank = this.props.rank;
     var obj = this.getDOMNode().parentNode;
@@ -17,19 +25,30 @@ var Article = React.createClass({
 
     Velocity(obj, { top: (height * rank) });
   },
-  componentDidUpdate(prevProps, prevState) {
-    this.moveArticle();
-  },
-  componentDidMount() {
-    this.moveArticle();
-  },
   handleClick() {
     var data = {
       url: this.props.url,
-      title: this.props.title
+      title: this.props.title,
+      article: this
     };
-    this.summary = new ArticleSummary(data, 'summary-container');
-    this.summary.openSummary(data);
+
+    // this.props.summary = new ArticleSummary(data, 'summary-container');
+    this.setProps({ summary: new ArticleSummary(data, 'summary-container') });
+  },
+  componentDidUpdate(prevProps, prevState) {
+    this.moveArticle();
+
+    // Update the summary
+    if (this.props.summary) {
+      this.props.summary.setProps({
+        url: this.props.url,
+        title: this.props.title,
+        article: this
+      });
+    }
+  },
+  componentDidMount() {
+    this.moveArticle();
   },
   componentWillMount() {
     var urlAppends = ['www.', 'http://'];

@@ -6,14 +6,17 @@ import Velocity from 'velocity-animate';
 import { parse } from '../lib/index';
 import Summary from 'node-summary';
 
+// JSX
+import ReactNumberEasing from 'react-number-easing';
+
 var EASING = [0.680, -0.550, 0.265, 1.550];
 var DEFAULT_PROPS = {
   imageUrl: '',
   articleTitle: '',
   articleSummary: '',
-  loading: true,
   title: '',
-  url: ''
+  url: '',
+  article: undefined
 };
 
 var ArticleSummary = React.createClass({
@@ -30,6 +33,7 @@ var ArticleSummary = React.createClass({
 
     return bodyHtml;
   },
+
   /**
    * Parses a /json url for a Gannett article. Sets the associated stuff in
    * this.props
@@ -108,15 +112,6 @@ var ArticleSummary = React.createClass({
       .on('click', function() {
         that.closeSummary();
       });
-
-    $(window).on('resize', function() {
-      var windowWidth = window.innerWidth;
-      if (windowWidth < 768) {
-        Velocity(that.getDOMNode().parent, {
-          left: '0%'
-        });
-      }
-    });
   },
   slideOut() {
     var parent = this.getDOMNode().parentNode;
@@ -131,15 +126,15 @@ var ArticleSummary = React.createClass({
 
     $('.page-overlay').css({ display: 'none' })
       .off('click');
-
-    $(window).off('resize');
   },
   closeSummary() {
     this.slideOut();
+
+    if (this.props.article) {
+      this.props.article.setProps({ summary: undefined });
+    }
   },
-  openSummary(props) {
-    this.props.url = props.url;
-    this.props.title = props.title;
+  openSummary() {
 
     this.slideIn();
     this.fetchInfo();
@@ -149,7 +144,14 @@ var ArticleSummary = React.createClass({
 
     this.articleCache = {};
   },
+  componentDidUpdate(prevProps, prevState) {
+    // Only open the summary if we've received a new URL
+    if (!prevProps.url && !!this.props.url) {
+      this.openSummary();
+    }
+  },
   render() {
+    // For loading/loaded state
     var summaryClass = 'article-summary ';
     if (this.state.loading) {
       summaryClass += 'loading';
@@ -158,9 +160,19 @@ var ArticleSummary = React.createClass({
       summaryClass += 'loaded';
     }
 
+    // In case the article doesn't have a picture
     var imgClass = '';
     if (!this.props.imageUrl) {
       imgClass += 'hidden';
+    }
+
+    // TODO revisit this - it probably means i can do this a bit better
+    var readersElement;
+    if (this.props.article) {
+      readersElement = <ReactNumberEasing value={ this.props.article.props.readers }/>
+    }
+    else {
+      readersElement = '';
     }
 
     return (
@@ -171,6 +183,9 @@ var ArticleSummary = React.createClass({
             <img className={ imgClass } src={ this.props.imageUrl }/>
           </div>
           <div className='title text-center'><a target='_blank' href={ this.props.url }>{ this.props.title }</a></div>
+          <div className='article-stats'>
+            { readersElement }
+          </div>
           <div className='summary-container'>
             <div className='summary' dangerouslySetInnerHTML={{__html: this.props.articleSummary }}></div>
             <div className='overflow-shadow'></div>
@@ -190,7 +205,7 @@ var ArticleSummary = React.createClass({
 
 module.exports = function(data, id) {
   return React.render(
-    <ArticleSummary title={ data.title } url={ data.url }/>,
+    <ArticleSummary/>,
     document.getElementById(id)
   )
 }
