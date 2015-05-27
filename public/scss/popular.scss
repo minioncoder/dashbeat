@@ -92,11 +92,9 @@ $article-border: 1px;
 
         .authors {
           @include row();
-          display: none;
-
-          @media (min-width: $screen-sm) {
-            display: block;
-          }
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
 
           &:before {
             content: 'By ';
