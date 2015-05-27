@@ -5,5 +5,22 @@ html
     block css
     block hbs
   body
+    .navbar
+      .home-button
+        a(href='/') DetroitNow
+
+      .menu-toggle Dashboards
+        i.fa.fa-caret-down
+      .dashboards-container
+        .dashboards
+          .option
+            a(href='/') Popular
+          .option
+            a(href='/referral/') Referral
+          .option
+            a(href='/big-picture/') Big Picture
+          .option
+            a(href='/daily-perspective/') Daily Perspective
+
     block content
     block js

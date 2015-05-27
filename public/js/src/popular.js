@@ -1,5 +1,6 @@
 'use strict';
 
+import base from './lib/base';
 import { each, keys, drop }  from 'lodash';
 import io from 'socket.io-browserify';
 import crypto from 'crypto';

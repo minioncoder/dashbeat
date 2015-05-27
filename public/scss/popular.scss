@@ -1,13 +1,6 @@
 @import 'base.scss';
 
-// http://www.colorcombos.com/color-scheme-6657.html
-$primary-color: #2E4372; // blue
-$info-color: #226666; // aquaish
-$warning-color: #AA6C39; // brown
-$success-color: #2D882D; // greenish
-$danger-color: #AA3939; // red
-
-$z-index-article-summary: 10;
+$z-index-article-summary: 2;
 $z-index-page-overlay: $z-index-article-summary - 1;
 
 body {

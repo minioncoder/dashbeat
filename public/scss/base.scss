@@ -6,9 +6,20 @@
 // @import 'grid/_span-columns.scss';
 // @import 'grid/_outer-container.scss';
 
+// http://www.colorcombos.com/color-scheme-6657.html
+$primary-color: #2E4372; // blue
+$info-color: #226666; // aquaish
+$warning-color: #AA6C39; // brown
+$success-color: #2D882D; // greenish
+$danger-color: #AA3939; // red
+
 // Stole from bootstrap until we decide what we wanna do
 $screen-md: 992px;
 $screen-sm: 768px;
+
+body {
+  margin: 0;
+}
 
 .text-center {
   text-align: center;
@@ -28,4 +39,94 @@ $screen-sm: 768px;
 
 .hidden {
   display: none;
+}
+
+/** Nav bar stuff */
+$navbar-height: 60px;
+$navbar-z-index: 100;
+$navbar-padding: 20px;
+
+.navbar-button {
+  line-height: $navbar-height / 3;
+  padding-top: $navbar-height / 3;
+  padding-bottom: $navbar-height / 3;
+}
+
+.navbar {
+  @include row();
+  height: $navbar-height;
+  background: $primary-color;
+  color: white;
+  padding: 0px $navbar-padding;
+  z-index: $navbar-z-index;
+
+  a {
+    text-decoration: none;
+  }
+
+  .home-button {
+    @include span-columns(2);
+    @extend .navbar-button;
+
+    &, * {
+      color: white !important;
+    }
+  }
+
+  .dashboards-container {
+    @include span-columns(10);
+    .dashboards {
+      @include outer_container();
+      background: $primary-color;
+
+      @media (max-width: $screen-sm) {
+        position: absolute;
+        background-color: #2E4372;
+        width: 100%;
+        left: 0;
+        margin-top: 60px;
+        z-index: $navbar-z-index;
+        display: none;
+        height: 1px;
+        overflow: hidden;
+
+        &.show {
+          display: block;
+        }
+      }
+
+      .option {
+        @extend .navbar-button;
+        @extend .text-center;
+        cursor: pointer;
+
+        @media (max-width: $screen-sm) {
+          @include row();
+        }
+
+        @media (min-width: $screen-sm) {
+          @include span-columns(3);
+        }
+
+        &, * {
+          color: $warning-color !important;
+        }
+      }
+    }
+  }
+
+  .menu-toggle {
+    @extend .navbar-button;
+    position: absolute;
+    right: $navbar-padding;
+    top: 0;
+    cursor: pointer;
+
+    @media (min-width: $screen-sm) {
+      display: none;
+    }
+    .fa {
+      margin-left: 2px;
+    }
+  }
 }
