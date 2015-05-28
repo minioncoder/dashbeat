@@ -168,7 +168,9 @@ export default class Beat {
   */
   save(data) {
     if (typeof this.schema === 'undefined') return Promise.reject(`'schema' not found in ${this.name}`);
-    let doc = new this.schema(data);
+    let doc = new this.schema({
+      articles: data
+    });
     return doc.save();
   }
 }
