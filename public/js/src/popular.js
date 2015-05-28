@@ -1,7 +1,6 @@
 'use strict';
 
 import _each from 'lodash/collection/forEach';
-import io from 'socket.io-browserify';
 import crypto from 'crypto';
 
 import DashSocket from './lib/socket';
@@ -12,18 +11,12 @@ const MAX_ARTICLES = 50;
 var currentArticles = {};
 var totalReaders = AnimateNumber(0, 'total-readers');
 var articlesContainer = document.getElementsByClassName('articles')[0];
-var socket = io.connect();
 
 // emit toppages event which will be directed to toppages route
 // and join toppages room
-//socket.emit('toppages');
-var dash = new DashSocket(socket, 'toppages');
-dash.on('data', function(data) {
-  console.log(data);
-  socket.disconnect();
-});
-// listing on data event
-/*socket.on('data', function(data) {
+var dash = new DashSocket(['toppages', 'quickstats']);
+dash.room('toppages').on('data', function(data) {
+  data = data.articles;
   let removeArticles = {};
   for (let key in currentArticles) {
     removeArticles[key] = true;
@@ -62,10 +55,9 @@ dash.on('data', function(data) {
     document.getElementById(id).remove();
     delete currentArticles[id];
   });
-});*/
-/*
-socket.emit('quickstats');
-socket.on('data', function(data) {
+});
+
+dash.room('quickstats').on('data', function(data) {
   let value = 0;
   _each(data, function(stats, host) {
     value += stats.visits;
@@ -81,4 +73,4 @@ function generateId(url) {
   let sha1 = crypto.createHash('sha1');
   sha1.update(url);
   return sha1.digest('hex');
-}*/
+}

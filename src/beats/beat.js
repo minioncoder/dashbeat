@@ -28,17 +28,18 @@ export default class Beat {
   */
   constructor(app, name, schema, apiType='live', version=3, limit=50) {
     Object.assign(this, { app, name, schema, apiType, version, limit });
-    this.createSocket();
+    this.createSocketRoute();
     return this;
   }
 
   /**
-  * Connects to socket under the API name
+  * Creates a socket route that clients can `emit` to and joins clients to rooms
+  * The important thing to note is that the route has the same name as the room
   *
   * @memberof Beat#
   * @return {Object} The Beat instance
   */
-  createSocket() {
+  createSocketRoute() {
     this.app.io.route(this.name, req => {
       logger.info('Connected to ' + this.name);
       req.io.join(this.name);
@@ -135,7 +136,7 @@ export default class Beat {
     try {
       responses = await Promise.all([for (url of urls) getAsync(url)]);
     } catch (err) {
-      throw new Error(err);
+      logger.error(err);
     }
 
     logger.info(`Received responses for: ${this.name}`);
@@ -143,11 +144,10 @@ export default class Beat {
     try {
       data = await this.save(data);
     } catch (err) {
-      throw new Error(err);
+      logger.warn(err);
     }
 
-    data = data.articles;
-    this.app.io.room(this.name).broadcast('data', data);
+    this.app.io.room(this.name).broadcast(`${this.name}-data`, data);
   }
 
   /**
