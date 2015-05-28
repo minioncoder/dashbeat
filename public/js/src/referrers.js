@@ -151,7 +151,7 @@ let referrersContainer = document.getElementsByClassName('referrers')[0];
 let referrers = new Referrers(referrersContainer);
 
 socket.emit('referrers');
-socket.on('referrers', function(data) {
+socket.on('referrers-data', function(data) {
   console.log(data);
 
   // Iterate over each host in the returned data

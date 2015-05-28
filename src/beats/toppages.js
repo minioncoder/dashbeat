@@ -32,12 +32,4 @@ export default class TopPages extends Beat {
 
     return articles;
   }
-
-  save(data) {
-    super.save(data);
-    let doc = new this.schema({
-      articles: data
-    });
-    return doc.save();
-  }
 }
