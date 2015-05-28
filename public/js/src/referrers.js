@@ -1,7 +1,7 @@
 
 import _each from 'lodash/collection/forEach';
 
-import base from './lib/base';
+import Framework from './framework/index';
 import io from 'socket.io-browserify';
 import Referrer from './jsx/referrer.jsx';
 import d3 from 'd3';
@@ -95,7 +95,7 @@ class Referrers {
   draw(limit=15) {
     var totals = [];
     _each(this.referrers, function(referrer, name) {
-      if (referrer.name === DARK_SOCIAL) return;
+      // if (referrer.name === DARK_SOCIAL) return;
       totals.push({
         referrer,
         value: referrer.getTotal()

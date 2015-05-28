@@ -3,7 +3,7 @@
 import _each from 'lodash/collection/forEach';
 import crypto from 'crypto';
 
-import Base from './lib/base';
+import Framework from './framework/index';
 import DashSocket from './lib/socket';
 import Article from './jsx/article.jsx';
 import AnimateNumber from './jsx/animate-number.jsx';

@@ -1,9 +1,7 @@
-/** Used for common things across all pages (e.g. navbar, etc) */
-
 import $ from 'domtastic';
 import Velocity from 'velocity-animate';
 
-class Navbar {
+export default class Navbar {
   constructor() {
     this.selectors = {
       menuToggle: '.menu-toggle',
@@ -46,8 +44,4 @@ class Navbar {
 
     });
   }
-}
-
-module.exports = {
-  navbar: new Navbar()
 }

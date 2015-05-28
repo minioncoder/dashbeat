@@ -1,6 +1,6 @@
 'use strict';
 
-import base from './lib/base';
+import Framework from './framework/index';
 import io from 'socket.io-browserify';
 
 socket = io.connect();
