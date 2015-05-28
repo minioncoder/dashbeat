@@ -5,7 +5,6 @@
 
 import moment from 'moment';
 import request from 'request';
-import polyfill from 'babel/polyfill';
 import _each from 'lodash/collection/forEach';
 
 import { User } from '../db';
@@ -29,20 +28,24 @@ export default class Beat {
   */
   constructor(app, name, schema, apiType='live', version=3, limit=50) {
     Object.assign(this, { app, name, schema, apiType, version, limit });
-    this.createSocket();
+    this.createSocketRoute();
     return this;
   }
 
   /**
-  * Connects to socket under the API name
+  * Creates a socket route that clients can `emit` to and joins clients to rooms
+  * The important thing to note is that the route has the same name as the room
   *
   * @memberof Beat#
   * @return {Object} The Beat instance
   */
-  createSocket() {
+  createSocketRoute() {
     this.app.io.route(this.name, req => {
       logger.info('Connected to ' + this.name);
       req.io.join(this.name);
+      this.app.io.room(this.name).broadcast('announce', {
+        message: 'You joined room: ' + this.name
+      });
     });
     return this;
   }
@@ -57,7 +60,6 @@ export default class Beat {
   */
   async fetch() {
     logger.info(`Fetching ${this.apiUrl} for ${this.name}`);
-    //var apiInfo = [{ apikey, hosts }];
     let apiInfo;
     try {
       apiInfo = await User.find().exec();
@@ -134,7 +136,7 @@ export default class Beat {
     try {
       responses = await Promise.all([for (url of urls) getAsync(url)]);
     } catch (err) {
-      throw new Error(err);
+      logger.error(err);
     }
 
     logger.info(`Received responses for: ${this.name}`);
@@ -142,11 +144,11 @@ export default class Beat {
     try {
       await this.save(data);
     } catch (err) {
-      throw new Error(err);
+      logger.warn(err);
     }
 
     logger.info(`Sending response for ${this.name}`);
-    this.app.io.room(this.name).broadcast(this.name, data);
+    this.app.io.room(this.name).broadcast(`${this.name}-data`, data);
   }
 
   /**

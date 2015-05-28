@@ -1,9 +1,10 @@
 'use strict';
 
-import base from './lib/base';
-import { each, keys, drop }  from 'lodash';
-import io from 'socket.io-browserify';
+import _each from 'lodash/collection/forEach';
 import crypto from 'crypto';
+
+import Base from './lib/base';
+import DashSocket from './lib/socket';
 import Article from './jsx/article.jsx';
 import AnimateNumber from './jsx/animate-number.jsx';
 
@@ -11,11 +12,13 @@ const MAX_ARTICLES = 50;
 var currentArticles = {};
 var totalReaders = AnimateNumber(0, 'total-readers');
 var articlesContainer = document.getElementsByClassName('articles')[0];
-var socket = io.connect();
 
-socket.emit('toppages');
-socket.on('toppages', function(data) {
-  var removeArticles = {};
+// emit toppages event which will be directed to toppages route
+// and join toppages room
+var dash = new DashSocket(['toppages', 'quickstats']);
+dash.room('toppages').on('data', function(data) {
+  data = data.articles;
+  let removeArticles = {};
   for (let key in currentArticles) {
     removeArticles[key] = true;
   }
@@ -30,7 +33,7 @@ socket.on('toppages', function(data) {
   for (let i = 0; i < dlength; i++) {
     let articleData = data[i];
     articleData.rank = i;
-    var id = generateId(articleData.path);
+    let id = generateId(articleData.path);
 
     if (id in currentArticles) {
       currentArticles[id].setProps({
@@ -41,7 +44,7 @@ socket.on('toppages', function(data) {
       continue;
     }
 
-    var div = document.createElement('div');
+    let div = document.createElement('div');
     div.id = id;
     div.className += 'article-container container-fluid';
     articlesContainer.appendChild(div);
@@ -49,16 +52,15 @@ socket.on('toppages', function(data) {
     currentArticles[id] = new Article(articleData, id);
   }
 
-  each(removeArticles, function(val, id) {
+  _each(removeArticles, function(val, id) {
     document.getElementById(id).remove();
     delete currentArticles[id];
   });
 });
 
-socket.emit('quickstats');
-socket.on('quickstats', function(data) {
+dash.room('quickstats').on('data', function(data) {
   let value = 0;
-  each(data, function(stats, host) {
+  _each(data, function(stats, host) {
     value += stats.visits;
   });
 
@@ -68,7 +70,7 @@ socket.on('quickstats', function(data) {
 });
 
 function generateId(url) {
-  /*  Given a URL of an article, generate a unique key for it */
+  // Given a URL of an article, generate a unique key for it
   let sha1 = crypto.createHash('sha1');
   sha1.update(url);
   return sha1.digest('hex');

@@ -81,7 +81,7 @@ gulp.task('babel', function() {
   gutil.log('Babel is generating ' + src + ' files to ' + dist + ' ...');
 
   return gulp.src(src)
-    .pipe(babel({ stage: 0 }))
+    .pipe(babel({ stage: 0, optional: ['runtime'] }))
     .pipe(gulp.dest(dist));
 });
 
@@ -150,7 +150,7 @@ function bundlejs(file, bcb, src, dist) {
 
   var b = browserify(srcFull, { debug: true });
   return b
-    .transform(babelify, { stage: 0 })
+    .transform(babelify.configure({ stage: 0, optional: ['runtime'] }))
     .transform(reactify)
     .transform(browserifyShim, { global: true })
     .bundle()
