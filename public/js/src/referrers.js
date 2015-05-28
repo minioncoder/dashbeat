@@ -2,7 +2,7 @@
 import _each from 'lodash/collection/forEach';
 
 import base from './lib/base';
-import io from 'socket.io-browserify';
+import DashSocket from './lib/socket';
 import Referrer from './jsx/referrer.jsx';
 import d3 from 'd3';
 
@@ -146,14 +146,12 @@ class Referrers {
   }
 }
 
-let socket = io.connect();
-let referrersContainer = document.getElementsByClassName('referrers')[0];
-let referrers = new Referrers(referrersContainer);
+var referrersContainer = document.getElementsByClassName('referrers')[0];
+var referrers = new Referrers(referrersContainer);
 
-socket.emit('referrers');
-socket.on('referrers-data', function(data) {
+var dash = new DashSocket('referrers');
+dash.room('referrers').on('data', function(data) {
   console.log(data);
-
   // Iterate over each host in the returned data
   _each(data, function(values, host) {
 

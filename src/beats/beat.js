@@ -43,7 +43,7 @@ export default class Beat {
     this.app.io.route(this.name, req => {
       logger.info('Connected to ' + this.name);
       req.io.join(this.name);
-      this.app.io.room(this.name).broadcast('announce', {
+      req.io.broadcast('announce', {
         message: 'You joined room: ' + this.name
       });
     });
