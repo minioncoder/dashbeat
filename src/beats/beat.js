@@ -5,7 +5,6 @@
 
 import moment from 'moment';
 import request from 'request';
-import polyfill from 'babel/polyfill';
 import _each from 'lodash/collection/forEach';
 
 import { User } from '../db';
@@ -43,6 +42,9 @@ export default class Beat {
     this.app.io.route(this.name, req => {
       logger.info('Connected to ' + this.name);
       req.io.join(this.name);
+      this.app.io.room(this.name).broadcast('announce', {
+        message: 'You joined room: ' + this.name
+      });
     });
     return this;
   }
@@ -57,7 +59,6 @@ export default class Beat {
   */
   async fetch() {
     logger.info(`Fetching ${this.apiUrl} for ${this.name}`);
-    //var apiInfo = [{ apikey, hosts }];
     let apiInfo;
     try {
       apiInfo = await User.find().exec();
@@ -146,7 +147,7 @@ export default class Beat {
     }
 
     data = data.articles;
-    this.app.io.room(this.name).broadcast(this.name, data);
+    this.app.io.room(this.name).broadcast('data', data);
   }
 
   /**
