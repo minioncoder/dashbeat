@@ -6,17 +6,14 @@ import DashSocket from './lib/socket';
 import Referrer from './jsx/referrer.jsx';
 import d3 from 'd3';
 
-var DIAMETER = 960;
-var DARK_SOCIAL = 'dark social';
+var DARK_SOCIAL = 'Dark Social';
 // Size the SVG element
-function sizeReferrerContainer() {
+function getReferrerHeight() {
   var windowHeight = window.innerHeight;
   var containerTop = referrersContainer.offsetTop;
   if (windowHeight <= containerTop) return;
 
-  var restOfScreen = windowHeight - containerTop - 5;
-  // referrersContainer.style.height = restOfScreen + 'px';
-  referrersContainer.style.height = DIAMETER + 'px';
+  return windowHeight - containerTop - 5;
 }
 
 /**
@@ -32,13 +29,55 @@ class Referrers {
     this.referrers = {};
     this.referrersContainer = referrersContainer
     this.svg = d3.select('.referrers');
-    this.bubble = d3.layout.pack()
-      .sort(null)
-      .size([DIAMETER, DIAMETER])
-      .padding(1.5);
     this.color = d3.scale.category20c();
+  }
 
-    sizeReferrerContainer();
+
+  /**
+   * Generates the d3.layout.pack() based on the current size of the screen
+   * @memberof Referrers#
+   */
+  bubble() {
+    var height = getReferrerHeight();
+    var width = window.innerWidth;
+    return d3.layout.pack()
+      .sort(null)
+      .size([width, height])
+      .padding(1.5);
+  }
+
+  /**
+   * Gets a meaningful referrer name from a url. E.g. t.co -> Twitter
+   * @memberof Referrers#
+   * @param {String} [referrer] URL of a referrer
+   * @return {String} Meaningful referrer name
+   */
+  parseReferrer(referrer) {
+    if (!referrer) return DARK_SOCIAL;
+
+    let key = referrer;
+    if (referrer.indexOf('google.') != -1) {
+      key = 'Google Search';
+    }
+    else if (referrer === 't.co' || referrer.indexOf('twitter.') != -1) {
+      key = 'Twitter';
+    }
+    else if (referrer.indexOf('facebook.') != -1) {
+      key = 'Facebook';
+    }
+    else if (referrer === 'news.google.com') {
+      key = 'Google News';
+    }
+    else if (referrer === 'r.search.yahoo.com') {
+      key = 'Yahoo Search';
+    }
+    else if (referrer === 'tpc.googlesyndication.com') {
+      key = 'Google Ad Sense';
+    }
+    else if (referrer === 'hsrd.yahoo.com') {
+      key = 'Yahoo News';
+    }
+    return key;
   }
 
   /**
@@ -49,14 +88,10 @@ class Referrers {
    * @param {Number} [value] Number of referrals to [host] from [referrer]
    */
   addReferrer(referrer, host, value) {
-    // According to the API docs (https://chartbeat.com/docs/api/explore/#endpoint=live/referrers/v3/+host=gizmodo.com)
-    // a referrer === '' is a result of direct traffic to the page
-    //
     // TODO be smarter with this. We get like 10 different google sites (google.co, google.ca, etc),
     // so we can combine those and alot of others into one
-    if (!referrer) {
-      referrer = DARK_SOCIAL;
-    }
+    console.log(referrer, this.parseReferrer(referrer));
+    referrer = this.parseReferrer(referrer);
 
     if (!(referrer in this.referrers)) {
 
@@ -102,8 +137,8 @@ class Referrers {
       })
     });
 
-    totals.sort(function(a, b) {
-      return parseInt(b.total) - parseInt(a.total);
+    totals = totals.sort(function(a, b) {
+      return parseInt(b.value) - parseInt(a.value);
     });
 
     // var referralTotal = this.getTopReferrerTotal(totals, limit);
@@ -118,22 +153,19 @@ class Referrers {
     //   }
     // });
     this.referrersContainer.innerHTML = '';
+    referrersContainer.style.height = getReferrerHeight() + 'px';
+
     var node = this.svg.selectAll('.referrer')
-      .data(this.bubble.nodes({
+      .data(this.bubble().nodes({
         children: totals.slice(0, limit)
       })
         .filter(function(d) { return !d.children; }))
       .enter().append('g')
         .attr('class', 'referrer')
-        .attr('transform', function(d) {
-          console.log(d);
-          return 'translate(' + d.x + ',' + d.y + ')';
-        });
+        .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
 
     node.append('title')
-      .text(function(d) {
-        return d.referrer.name;
-      });
+      .text(function(d) { return d.referrer.name; });
 
     node.append('circle')
       .attr('r', function(d) { return d.r; })
@@ -161,6 +193,5 @@ dash.room('referrers').on('data', function(data) {
       referrers.addReferrer(referrer, host, value);
     });
   });
-  // console.log(referrers.referrers);
   referrers.draw();
 });
