@@ -56,7 +56,10 @@ class Referrers {
     if (!referrer) return DARK_SOCIAL;
 
     let key = referrer;
-    if (referrer.indexOf('google.') != -1) {
+    if (referrer === 'news.google.com') {
+      key = 'Google News';
+    }
+    else if (referrer.indexOf('google.') != -1) {
       key = 'Google Search';
     }
     else if (referrer === 't.co' || referrer.indexOf('twitter.') != -1) {
@@ -88,19 +91,9 @@ class Referrers {
    * @param {Number} [value] Number of referrals to [host] from [referrer]
    */
   addReferrer(referrer, host, value) {
-    // TODO be smarter with this. We get like 10 different google sites (google.co, google.ca, etc),
-    // so we can combine those and alot of others into one
-    console.log(referrer, this.parseReferrer(referrer));
+
     referrer = this.parseReferrer(referrer);
-
     if (!(referrer in this.referrers)) {
-
-      // Create the HTML
-      // let circle = document.createElement('circle');
-      // circle.id = referrer;
-      // circle.className += 'referrer';
-      // referrersContainer.appendChild(circle);
-
       // Create the Referrer instance
       this.referrers[referrer] = new Referrer(referrer);
     }
@@ -141,17 +134,6 @@ class Referrers {
       return parseInt(b.value) - parseInt(a.value);
     });
 
-    // var referralTotal = this.getTopReferrerTotal(totals, limit);
-
-    // _each(totals, function(referrer, index) {
-    //   let hide = index >= limit;
-    //   if (hide) {
-    //     referrer.hide();
-    //   }
-    //   else {
-    //     referrer.draw();
-    //   }
-    // });
     this.referrersContainer.innerHTML = '';
     referrersContainer.style.height = getReferrerHeight() + 'px';
 
@@ -171,10 +153,10 @@ class Referrers {
       .attr('r', function(d) { return d.r; })
       .style('fill', (d) => { return this.color(d.referrer.name); });
 
-    node.append("text")
-        .attr("dy", ".3em")
-        .style("text-anchor", "middle")
-        .text(function(d) { return d.referrer.name.substring(0, d.r / 3); });
+    node.append('text')
+      .attr('dy', '.3em')
+      .style('text-anchor', 'middle')
+      .text(function(d) { return `${d.referrer.name.substring(0, d.r / 3)}: ${d.value}`; });
   }
 }
 
