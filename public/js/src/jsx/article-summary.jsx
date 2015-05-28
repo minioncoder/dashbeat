@@ -1,11 +1,11 @@
 import $ from 'domtastic';
-import { each } from 'lodash';
+import _each from 'lodash/collection/forEach';
 import React from 'react';
 import request from 'request';
 import Velocity from 'velocity-animate';
-import { parse } from '../lib/index';
-import Summary from 'node-summary';
 import moment from 'moment';
+
+import { parse } from '../lib/index';
 
 // JSX
 import ReactNumberEasing from 'react-number-easing';
@@ -28,7 +28,7 @@ var ArticleSummary = React.createClass({
   },
   getArticleBody(article) {
     var bodyHtml = '';
-    each(article.body, function(element) {
+    _each(article.body, function(element) {
       if(!('type' in element) || element.type !== 'text') return;
 
       bodyHtml += element.value;

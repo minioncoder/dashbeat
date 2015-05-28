@@ -20,6 +20,10 @@ router.get('/big-picture/', function(req, res, next) {
   res.render('big-picture');
 });
 
+router.get('/referrers/', function(req, res, next) {
+  res.render('referrers');
+});
+
 router.get('/get-article/', async function(req, res, next) {
   logger.debug(req.query);
 

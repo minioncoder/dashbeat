@@ -9,6 +9,7 @@ import logger from '../logger';
 import { loopInterval } from '../lib/constant';
 import TopPages from './toppages';
 import QuickStats from './quickstats';
+import Referrers from './referrers';
 
 /**
 * Controller - Sets constant loop to grab data from Beats
@@ -26,7 +27,8 @@ export default class Controller {
   constructor(app) {
     this.beats = [
       new TopPages(app),
-      new QuickStats(app)
+      new QuickStats(app),
+      new Referrers(app)
     ];
     return this;
   }

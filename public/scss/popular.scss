@@ -12,7 +12,9 @@ a, a:visited, a:active, a:hover {
 }
 
 .content-container {
-  @include outer-container();
+  @include row();
+  padding: 0% 2%;
+
   .summary {
     @media (max-width: $screen-md) {
       @include row();
@@ -40,7 +42,7 @@ $article-border: 1px;
   }
 
   @media (min-width: $screen-md) {
-    @include span-columns(9);
+    @include span-columns(10);
   }
   // margin: 0 10%;
 
@@ -50,11 +52,6 @@ $article-border: 1px;
     top: 100%;
     width: 100%;
     margin-bottom: 10px;
-
-    @media (min-width: $screen-md) {
-      padding-right: 10%;
-      padding-left: 10%;
-    }
 
     .article {
       position: relative;

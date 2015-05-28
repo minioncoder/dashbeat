@@ -140,12 +140,12 @@ export default class Beat {
     logger.info(`Received responses for: ${this.name}`);
     let data = this.parse(responses);
     try {
-      data = await this.save(data);
+      await this.save(data);
     } catch (err) {
       throw new Error(err);
     }
 
-    data = data.articles;
+    logger.info(`Sending response for ${this.name}`);
     this.app.io.room(this.name).broadcast(this.name, data);
   }
 
@@ -165,10 +165,7 @@ export default class Beat {
   * Saves documents in Schema
   */
   save(data) {
-    if (typeof this.schema === 'undefined') return Promise.reject(`'schema' not found in ${this.name}`);
-    let doc = new this.schema({
-      articles: data
-    });
-    return doc.save();
+    if (typeof this.schema === 'undefined') return Promise.resolve(`'schema' not found in ${this.name}`);
+    return Promise.resolve('Default save() function called');
   }
 }
