@@ -1,4 +1,5 @@
-import $ from 'domtastic';
+import $ from './_$.js';
+import { pixelToNumber } from '../lib/style';
 import Velocity from 'velocity-animate';
 
 export default class Navbar {
@@ -28,14 +29,14 @@ export default class Navbar {
 
       let callback;
       if ($navbar.hasClass('show')) {
-        let width = $container[0].scrollWidth;
+        let width = pixelToNumber(window.getComputedStyle(document.getElementsByClassName('dashboards-container')[0])['width']);
         left = width * -1;
       }
       else {
         left = 0;
       }
 
-      $(this.selectors.navbar).toggleClass('show');
+      $navbar.toggleClass('show');
       Velocity($(this.selectors.dashboardContainer), {
         left: left
       }, () => {

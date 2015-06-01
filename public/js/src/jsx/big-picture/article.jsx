@@ -1,6 +1,4 @@
-
-// import selector from 'domtastic/commonjs/selector';
-var selector = require('domtastic/commonjs/selector');
+import $ from '../../framework/_$.js';
 import React from 'react';
 import request from 'request';
 import imagesLoaded from 'imagesloaded';
@@ -8,8 +6,6 @@ import Velocity from 'velocity-animate';
 
 // JSX
 import ArticleSummary from '../article-summary.jsx';
-
-var $ = selector.$;
 
 var articleImages = {}
 
@@ -33,15 +29,16 @@ var Article = React.createClass({
     this.setProps({ summary: new ArticleSummary(data, 'summary-container') });
   },
   getArticleContainer() {
-    return $(this.getDOMNode()).find('.article-content')[0];
+    var domNode = $(this.getDOMNode());
+    return domNode.find('.article-content')[0];
   },
   loadImage() {
     // set up the imagesLoaded callback
-    imagesLoaded($(this.getDOMNode()).find('.image-to-load'), () => {
+    // imagesLoaded($(this.getDOMNode()).find('.image-to-load'), () => {
       this.setProps({
         loading: false
       });
-    });
+    // });
   },
   slideOut() {
     Velocity(this.getArticleContainer(), {
@@ -63,11 +60,10 @@ var Article = React.createClass({
       left: '0'
     });
   },
+  componentDidMount() {
+    this.loadImage();
+  },
   componentWillReceiveProps(nextProps) {
-    // If we've got a new imageUrl, load the image
-    if (this.props.imageUrl !== nextProps.imageUrl) {
-      this.loadImage();
-    }
 
     // Once we're done loading the pcitures and we flushed everything to the
     // DOM, slide the article in
@@ -78,6 +74,12 @@ var Article = React.createClass({
     // If we've received a new article, slide out
     if (!this.props.next && !!nextProps.next) {
       this.slideOut();
+    }
+  },
+  componentDidUpdate(prevProps, prevState) {
+    // If we've got a new imageUrl, load the image
+    if ((this.props.imageUrl !== prevProps.imageUrl) && !!this.props.imageUrl) {
+      this.loadImage();
     }
   },
   renderNewArticle(article, imageUrl) {
