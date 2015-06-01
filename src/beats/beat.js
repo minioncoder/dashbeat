@@ -1,5 +1,5 @@
 /**
-* @module Beat
+* @module beat
 */
 'use strict';
 
@@ -165,6 +165,9 @@ export default class Beat {
 
   /**
   * Saves documents in Schema
+  *
+  * @memberof Beat#
+  * @param {Object} [data] The data to save to the mongoose schema
   */
   save(data) {
     if (typeof this.schema === 'undefined') return Promise.reject(`'schema' not found in ${this.name}`);
