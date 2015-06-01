@@ -3,7 +3,7 @@ import _each from 'lodash/collection/forEach';
 
 import Framework from './framework/index';
 import DashSocket from './lib/socket';
-import Referrer from './jsx/referrer.jsx';
+import Referrer from './jsx/referrer/referrer.jsx';
 import d3 from 'd3';
 
 var DARK_SOCIAL = 'Dark Social';
@@ -59,15 +59,6 @@ class Referrers {
     if (referrer === 'news.google.com') {
       key = 'Google News';
     }
-    else if (referrer.indexOf('google.') != -1) {
-      key = 'Google Search';
-    }
-    else if (referrer === 't.co' || referrer.indexOf('twitter.') != -1) {
-      key = 'Twitter';
-    }
-    else if (referrer.indexOf('facebook.') != -1) {
-      key = 'Facebook';
-    }
     else if (referrer === 'news.google.com') {
       key = 'Google News';
     }
@@ -80,6 +71,22 @@ class Referrers {
     else if (referrer === 'hsrd.yahoo.com') {
       key = 'Yahoo News';
     }
+    else if (referrer.indexOf('google.') != -1) {
+      key = 'Google Search';
+    }
+    else if (referrer === 't.co' || referrer.indexOf('twitter.') != -1) {
+      key = 'Twitter';
+    }
+    else if (referrer.indexOf('facebook.') != -1) {
+      key = 'Facebook';
+    }
+    else if (referrer.indexOf('taboola.') != -1) {
+      key = 'Direct Related Articles';
+    }
+    else if (referrer.indexOf('reddit.') != -1) {
+      key = 'Reddit';
+    }
+
     return key;
   }
 

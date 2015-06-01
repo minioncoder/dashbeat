@@ -32,6 +32,7 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.4",
+    "imagesloaded": "^3.1.8",
     "jade": "~1.9.2",
     "jquery": "^2.1.4",
     "leaflet": "^0.7.3",

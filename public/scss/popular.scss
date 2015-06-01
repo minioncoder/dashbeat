@@ -1,7 +1,5 @@
-@import 'base.scss';
-
-$z-index-article-summary: 2;
-$z-index-page-overlay: $z-index-article-summary - 1;
+@import 'base';
+@import './components/summary-container';
 
 body {
   // color: $primary-color;
@@ -31,8 +29,8 @@ a, a:visited, a:active, a:hover {
       }
     }
   }
-
 }
+
 $article-height: 50px;
 $article-border: 1px;
 .articles {
@@ -100,147 +98,6 @@ $article-border: 1px;
       }
     }
   }
-}
-
-#summary-container {
-  $container-padding: 2%;
-  position: fixed;
-  top: 0;
-  left: 102%;
-  height: 100%;
-  min-height: 500px;
-  overflow-x: scroll;
-  width: 100%;
-  background: #eee;
-  min-height: 500px;
-  box-shadow: 0 0 1em black;
-  padding: $container-padding;
-  z-index: $z-index-article-summary;
-  @include outer-container();
-
-  @media (min-width: $screen-sm) {
-    width: 50%;
-  }
-
-
-  .article-summary {
-    position: relative;
-    height: 100%;
-
-    // State
-    &.loaded {
-      .article-info {
-        display: block;
-      }
-      .article-loading {
-        display: none;
-      }
-    }
-    &.loading {
-      .article-info {
-        display: none;
-      }
-      .article-loading {
-        display: block;
-      }
-    }
-
-    .article-loading {
-      width: 100%;
-      height: 100%;
-      padding-top: 25%;
-      text-align: center;
-      vertical-align: middle;
-    }
-
-    .article-info {
-      height: 100%;
-      position: relative;
-      @include outer-container();
-
-      .article-image, .title, .summary-container, .article-loading {
-        @include row();
-      }
-
-      .article-image {
-        height: 20%;
-        width: 100%;
-        margin-bottom: 20px;
-
-        @media (min-width: $screen-md) {
-          height: 30%;
-        }
-
-        img {
-          max-width: 50%;
-          max-height: 100%;
-          box-shadow: 1px 1px 5px #c8c8c8; // Taken from gannett site
-        }
-      }
-
-      .title {
-        // height: 10%;
-        margin: 20px 0px;
-        font-size: 30px;
-        font-family: helvetica,arial,sans-serif;
-      }
-
-      .article-stats {
-        // height: 5%;
-        @include outer-container();
-
-        div {
-          @include span-columns(4);
-        }
-
-        .readers {
-          background: $danger-color;
-          color: white;
-        }
-
-        .date {
-          font-style: italic;
-          color: grey;
-        }
-      }
-
-      .summary-container {
-        margin: 20px 0px;
-        max-height: 40%;
-        overflow: hidden;
-        position: relative;
-
-        .overflow-shadow {
-          position: absolute;
-          bottom: -1px;
-          width: 100%;
-          height: 1px;
-          box-shadow: 0 0 1em 2px black;
-        }
-      }
-    }
-  }
-
-  .close-summary {
-    position: absolute;
-    top: 0px;
-    right: 5px;
-    color: black;
-    cursor: pointer;
-    z-index: $z-index-article-summary;
-  }
-}
-
-.page-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  // opacity: 0;
-  display: none;
-  background: rgba(#000, .3);
-  width: 100%;
-  height: 100%;
-  z-index: $z-index-page-overlay;
 }
 
 .button-container {

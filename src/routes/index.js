@@ -40,6 +40,8 @@ router.get('/get-article/', async function(req, res, next) {
     throw new Error(err);
   }
 
+  logger.debug('Returned from ' + url);
+
   res.json(response.body);
 });
 

@@ -20,6 +20,14 @@ export default class TopPages extends Beat {
       let host = getHostFromResponse(response);
       _each(body.pages, function(article) {
         if (isSectionPage(article.path)) return;
+
+        let urlAppends = ['www.', 'http://'];
+        for (let i = 0; i < urlAppends.length; i++) {
+          let append = urlAppends[i];
+          if (article.path.indexOf(append) !== 0) {
+            article.path = append + article.path;
+          }
+        }
         articles.push({
           host: host,
           path: article.path,

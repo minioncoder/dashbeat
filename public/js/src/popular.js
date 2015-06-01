@@ -5,7 +5,7 @@ import crypto from 'crypto';
 
 import Framework from './framework/index';
 import DashSocket from './lib/socket';
-import Article from './jsx/article.jsx';
+import Article from './jsx/popular/article.jsx';
 import AnimateNumber from './jsx/animate-number.jsx';
 
 const MAX_ARTICLES = 50;
@@ -37,8 +37,7 @@ dash.room('toppages').on('data', function(data) {
 
     if (id in currentArticles) {
       currentArticles[id].setProps({
-        readers: articleData.visits,
-        rank: articleData.rank
+        article: articleData
       });
       delete removeArticles[id];
       continue;

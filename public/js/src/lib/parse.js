@@ -19,7 +19,22 @@ function stripTags(html) {
   return html.replace(/<(?:.|\n)*?>/gm, '');
 }
 
+
+/**
+ * Given a string [url], add a slash to the end of the url if necessary
+ *
+ * @param {String} url - URL to slash-ify
+ */
+function addSlash(url) {
+  if (url[url.length - 1] !== '/') {
+    url += '/';
+  }
+
+  return url;
+}
+
 module.exports = {
   getHost,
-  stripTags
+  stripTags,
+  addSlash
 }

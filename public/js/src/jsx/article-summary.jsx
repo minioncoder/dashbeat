@@ -69,7 +69,7 @@ var ArticleSummary = React.createClass({
     this.setState({ loading: false });
   },
   fetchInfo() {
-    var url = this.props.url + 'json';
+    var url = this.props.article.props.article.path + 'json';
     var that = this;
 
     if (url in this.articleCache) {
@@ -149,9 +149,12 @@ var ArticleSummary = React.createClass({
 
     this.articleCache = {};
   },
+  componentDidMount() {
+    this.openSummary();
+  },
   componentDidUpdate(prevProps, prevState) {
     // Only open the summary if we've received a new URL
-    if (!prevProps.url && !!this.props.url) {
+    if (!prevProps.article && !!this.props.article) {
       this.openSummary();
     }
   },
@@ -174,7 +177,7 @@ var ArticleSummary = React.createClass({
     // TODO revisit this - it probably means i can do this a bit better
     var readersElement;
     if (this.props.article) {
-      readersElement = <ReactNumberEasing value={ this.props.article.props.readers }/>
+      readersElement = <ReactNumberEasing value={ this.props.article.props.article.visits }/>
     }
     else {
       readersElement = '';
@@ -212,7 +215,7 @@ var ArticleSummary = React.createClass({
 
 module.exports = function(data, id) {
   return React.render(
-    <ArticleSummary/>,
+    <ArticleSummary article={ data.article } url={ data.url } title={ data.title }/>,
     document.getElementById(id)
   )
 }

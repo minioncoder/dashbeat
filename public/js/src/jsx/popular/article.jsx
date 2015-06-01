@@ -2,23 +2,15 @@
 
 import React from 'react';
 import Velocity from 'velocity-animate/velocity.min';
-import { style } from '../lib/';
+import { style } from '../../lib/';
 
 // JSX
-import ArticleSummary from './article-summary.jsx';
+import ArticleSummary from '../article-summary.jsx';
 import ReactNumberEasing from 'react-number-easing';
 
 var Article = React.createClass({
-  getDefaultProps() {
-    return {
-      url: '',
-      title: '',
-      article: '',
-      summary: undefined
-    }
-  },
   moveArticle() {
-    var rank = this.props.rank;
+    var rank = this.props.article.rank;
     var obj = this.getDOMNode().parentNode;
     var height = obj.scrollHeight;
     height += style.pixelToNumber(style.getStyle(obj, 'margin-bottom'));
@@ -33,8 +25,8 @@ var Article = React.createClass({
   },
   handleClick() {
     var data = {
-      url: this.props.url,
-      title: this.props.title,
+      url: this.props.article.path,
+      title: this.props.article.title,
       article: this
     };
 
@@ -47,39 +39,32 @@ var Article = React.createClass({
     // Update the summary
     if (this.props.summary) {
       this.props.summary.setProps({
-        url: this.props.url,
-        title: this.props.title,
+        url: this.props.article.path,
+        title: this.props.article.title,
         article: this
       });
+    }
+  },
+  componentWillMount() {
+    this.props.authorsClass = 'authors ';
+    if (!this.props.article.authors.length) {
+      this.props.authorsClass += 'hidden';
     }
   },
   componentDidMount() {
     this.moveArticle();
   },
-  componentWillMount() {
-    var urlAppends = ['www.', 'http://'];
-    for (var i = 0; i < urlAppends.length; i++) {
-      var append = urlAppends[i];
-      if (this.props.url.indexOf(append) !== 0) {
-        this.props.url = append + this.props.url;
-      }
-    }
-    this.props.authorsClass = 'authors ';
-    if (!this.props.authors.length) {
-      this.props.authorsClass += 'hidden';
-    }
-  },
   render() {
     return (
       <div className='article' onClick={ this.handleClick }>
-        <ReactNumberEasing value={ this.props.readers } className='readers'/>
+        <ReactNumberEasing value={ this.props.article.visits } className='readers'/>
         <div className='article-title'>
           <div className='title'>
-            <a target='_blank' href={ this.props.url }>{ this.props.title }</a>
+            <a target='_blank' href={ this.props.article.path }>{ this.props.article.title }</a>
           </div>
           <div className='info'>
             <div className={ this.props.authorsClass }>
-              { this.props.authors.join(', ') }
+              { this.props.article.authors.join(', ') }
             </div>
             <div className='time'>
             </div>
@@ -92,7 +77,7 @@ var Article = React.createClass({
 
 module.exports = function(data, id) {
   return React.render(
-    <Article readers={ data.visits } url={ data.path } title={ data.title } rank={ data.rank } authors= { data.authors }/>,
+    <Article article={ data }/>,
     // document.getElementById(id)
     document.getElementById(id)
   )
