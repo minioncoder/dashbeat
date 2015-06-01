@@ -53,90 +53,69 @@ $navbar-padding: 20px;
 }
 
 .navbar {
-  @include row();
-  height: $navbar-height;
-  background: $primary-color;
-  color: white;
-  padding: 0px $navbar-padding;
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: $navbar-z-index;
+
+  &.show {
+    .menu-toggle {
+      .fa {
+        @include transform(rotate(0deg));
+      }
+    }
+  }
 
   a {
     text-decoration: none;
   }
 
-  .home-button {
-    @include span-columns(2);
-    @extend .navbar-button;
+  .menu-toggle {
+    position: relative;
+    top:0;
+    left: 0;
+    background: $primary-color;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 0px 0px 5px 0px;
+    cursor: pointer;
 
-    &, * {
-      color: white !important;
+    .fa {
+      @include transform(rotate(90deg));
+      @include transition(transform 250ms ease-in);
     }
   }
 
   .dashboards-container {
-    @include span-columns(10);
-    .dashboards {
-      @include outer_container();
+    position: absolute;
+    width: 300px;
+    left: -300px;
+    @include outer-container;
+
+    .menu-header {
       background: $primary-color;
+      color: $warning-color;
+      padding: 5px;
+      border-top-right-radius: 5px;
+    }
 
-      @media (max-width: $screen-sm) {
-        position: absolute;
-        background-color: #2E4372;
-        width: 100%;
-        left: 0;
-        margin-top: 60px;
-        z-index: $navbar-z-index;
-        display: none;
-        height: 1px;
-        overflow: hidden;
-        border-top: 1px solid darken($primary-color, 10%);
-
-        &.show {
-          display: block;
-        }
-      }
-
-      @media (min-width: $screen-sm) {
-        max-height: $navbar-height;
-      }
-
+    .dashboards {
+      border-top: 1px solid darken($primary-color, 30%);
       .option {
-        @extend .navbar-button;
-        @extend .text-center;
-        cursor: pointer;
+        @include row();
+        background: $primary-color;
+        text-align: center;
+        color: white;
+        padding: 10px;
 
-        @media (max-width: $screen-sm) {
-          @include row();
-        }
-
-        @media (min-width: $screen-sm) {
-          @include span-columns(3);
-        }
-
-        &, * {
-          color: $warning-color;
+        &:last-child {
+          border-bottom-right-radius: 5px;
         }
 
         &:hover {
           background: $danger-color;
-          color: white;
         }
       }
-    }
-  }
-
-  .menu-toggle {
-    @extend .navbar-button;
-    position: absolute;
-    right: $navbar-padding;
-    top: 0;
-    cursor: pointer;
-
-    @media (min-width: $screen-sm) {
-      display: none;
-    }
-    .fa {
-      margin-left: 2px;
     }
   }
 }

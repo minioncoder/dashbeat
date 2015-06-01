@@ -4,9 +4,11 @@ import Velocity from 'velocity-animate';
 export default class Navbar {
   constructor() {
     this.selectors = {
-      menuToggle: '.menu-toggle',
-      dashboardMenu: '.dashboards',
-      dashboardOption: '.dashboards .option'
+      navbar: '.navbar',
+      menuToggle: '.navbar .menu-toggle',
+      dashboardContainer: '.navbar .dashboards-container',
+      dashboardMenu: '.navbar .dashboards',
+      dashboardOption: '.navbar .dashboards .option'
     }
 
     this.initHandlers();
@@ -20,27 +22,25 @@ export default class Navbar {
       if (this.animating) return;
 
       this.animating = true;
+      let $container = $(this.selectors.dashboardContainer);
+      let $navbar = $(this.selectors.navbar);
+      let left;
 
-      let height = 1;
       let callback;
-      if (!$(this.selectors.dashboardMenu).hasClass('show')) {
-        $(this.selectors.dashboardMenu).addClass('show');
-        let $options = $(this.selectors.dashboardOption)
-        height = $options.length * $options[0].scrollHeight;
-        callback = () => {
-          this.animating = false;
-        };
+      if ($navbar.hasClass('show')) {
+        let width = $container[0].scrollWidth;
+        left = width * -1;
       }
       else {
-        callback = () => {
-          $(this.selectors.dashboardMenu).toggleClass('show');
-          this.animating = false;
-        }
+        left = 0;
       }
 
-      Velocity($(this.selectors.dashboardMenu), {
-        height: height
-      }, callback);
+      $(this.selectors.navbar).toggleClass('show');
+      Velocity($(this.selectors.dashboardContainer), {
+        left: left
+      }, () => {
+          this.animating = false;
+      });
 
     });
   }
