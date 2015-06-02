@@ -1,4 +1,4 @@
-import $ from 'domtastic';
+import $ from '../framework/_$';
 import _each from 'lodash/collection/forEach';
 import React from 'react';
 import request from 'request';
@@ -129,8 +129,8 @@ var ArticleSummary = React.createClass({
       }
     });
 
-    $('.page-overlay').css({ display: 'none' })
-      .off('click');
+    $('.page-overlay').css({ display: 'none' });
+    $('.page-overlay').off('click');
   },
   closeSummary() {
     this.slideOut();
