@@ -32,26 +32,43 @@ var Article = React.createClass({
     var domNode = $(this.getDOMNode());
     return domNode.find('.article-content')[0];
   },
+  hasNextArticle() {
+    // Checks to see if we 1) have a 'next' property, 2) this.props.next isn't
+    // undefined and 3) this.props.next.imageUrl exists
+    return ('next' in this.props) && this.props.next && ('imageUrl' in this.props.next);
+  },
   loadImage() {
     // set up the imagesLoaded callback
-    // imagesLoaded($(this.getDOMNode()).find('.image-to-load'), () => {
-      this.setProps({
-        loading: false
-      });
-    // });
+    imagesLoaded($(this.getDOMNode()).find('.image-to-load'), () => {
+      this.slideOut();
+    });
   },
   slideOut() {
+
+    // If we don't have a new image to load (i.e. this is the first image being
+    // loaded) just say we're done loading the image and return
+    if (!this.hasNextArticle()) {
+      this.setProps({
+        next: undefined,
+        loading: false
+      });
+      return;
+    }
+
+    // If we've gottten to this point, we have to slide out the old artile to
+    // make way for the new one.
     Velocity(this.getArticleContainer(), {
       left: '-100%'
     }, (elements) => {
       $(elements).css({ left: '100%' });
       let next = this.props.next;
 
+      // Set up the new article for rendering
       this.setProps({
         next: undefined,
+        loading: false,
         imageUrl: next.imageUrl,
-        article: next.article,
-        loading: true
+        article: next.article
       });
     });
   },
@@ -64,22 +81,25 @@ var Article = React.createClass({
     this.loadImage();
   },
   componentWillReceiveProps(nextProps) {
-
-    // Once we're done loading the pcitures and we flushed everything to the
-    // DOM, slide the article in
-    if (!nextProps.loading && this.props.loading) {
-      this.slideIn();
-    }
-
-    // If we've received a new article, slide out
-    if (!this.props.next && !!nextProps.next) {
-      this.slideOut();
+    if (nextProps.loading) {
+      this.loadImage();
     }
   },
   componentDidUpdate(prevProps, prevState) {
-    // If we've got a new imageUrl, load the image
-    if ((this.props.imageUrl !== prevProps.imageUrl) && !!this.props.imageUrl) {
-      this.loadImage();
+
+    // Slide in the element if we're now done loading the image
+    if (!this.props.loading && prevProps.loading) {
+      this.slideIn();
+    }
+
+    // If we're receiving a new article and it's a new image, load the image
+    // Wait until the image is drawn to the DOM before calling this.loadImage
+    //
+    // ONly do this if we're not currently loading an image
+    if (!this.props.loading && this.hasNextArticle() && (this.props.next.imageUrl != this.props.imageUrl)) {
+      this.setProps({
+        loading: true
+      });
     }
   },
   renderNewArticle(article, imageUrl) {
@@ -92,23 +112,25 @@ var Article = React.createClass({
   },
   render() {
     let className = 'article';
-    let backgroundImageStyle = {};
-    if (this.props.loading) {
-
-      // Show the DOM element
-      className += ' loading';
+    let backgroundImageStyle = {
+      backgroundImage: `url(${this.props.imageUrl})`
     }
+
+    // Check if there's a new image we should be loading
+    let imageLink = ''
+    // This is for loading new articles
+    if (this.hasNextArticle()) {
+      imageLink = this.props.next.imageUrl;
+    }
+    // This is for the first time rendering
     else {
-      // Only add the image after it's done loading
-      backgroundImageStyle = {
-        backgroundImage: `url(${this.props.imageUrl})`
-      }
+      imageLink = this.props.imageUrl;
     }
 
     return (
       <div className={ className }>
         <div className='article-content' onClick={ this.handleClick }>
-          <img className='image-to-load' src={this.props.imageUrl}/>
+          <img className='image-to-load' src={ imageLink }/>
           <div className='image-background' style={ backgroundImageStyle }></div>
           <div className='article-info'>
             <div className='title'>
