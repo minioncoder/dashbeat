@@ -1,4 +1,4 @@
-import $ from '../../framework/_$.js';
+import $ from '../../framework/$.js';
 import React from 'react';
 import request from 'request';
 import imagesLoaded from 'imagesloaded';

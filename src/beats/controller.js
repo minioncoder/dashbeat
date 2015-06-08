@@ -10,6 +10,7 @@ import { loopInterval } from '../lib/constant';
 import TopPages from './toppages';
 import QuickStats from './quickstats';
 import Referrers from './referrers';
+import Reports from './reports';
 
 /**
 * Controller - Sets constant loop to grab data from Beats
@@ -26,9 +27,10 @@ export default class Controller {
   */
   constructor(app) {
     this.beats = [
-      new TopPages(app),
-      new QuickStats(app),
-      new Referrers(app)
+      // new TopPages(app),
+      // new QuickStats(app),
+      // new Referrers(app),
+      new Reports(app)
     ];
     return this;
   }

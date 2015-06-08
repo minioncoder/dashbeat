@@ -1,4 +1,4 @@
-import $ from './_$.js';
+import $ from './$.js';
 import { pixelToNumber } from '../lib/style';
 import Velocity from 'velocity-animate';
 

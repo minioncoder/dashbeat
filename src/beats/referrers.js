@@ -1,3 +1,5 @@
+'use strict';
+
 import _each from 'lodash/collection/forEach';
 
 import { getHostFromResponse } from '../lib/parse';

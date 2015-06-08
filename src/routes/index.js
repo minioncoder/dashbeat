@@ -24,6 +24,10 @@ router.get('/referrers/', function(req, res, next) {
   res.render('referrers');
 });
 
+router.get('/daily-perspective/', function(req, res, next) {
+  res.render('daily-perspective');
+});
+
 router.get('/get-article/', async function(req, res, next) {
   logger.debug(req.query);
 

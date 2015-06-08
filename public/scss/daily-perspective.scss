@@ -1,0 +1,46 @@
+@import 'base';
+
+#hosts {
+  @include span-columns(12);
+  position: relative;
+
+  @media (min-width: $screen-md) {
+    @include span-columns(2);
+  }
+
+  .toggle {
+    cursor: pointer;
+    border: 1px solid #eee;
+    background-color: $info-color;
+    color: white;
+    text-align: center;
+    height: 20px;
+  }
+
+  .host-dropdown {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    width: 100%;
+
+    &.show {
+      display: block;
+    }
+
+    .host {
+      @include row();
+      background-color: $primary-color;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #eee;
+
+      &:hover, &.active {
+        color: $info-color;
+        background-color: white;
+      }
+    }
+  }
+
+}

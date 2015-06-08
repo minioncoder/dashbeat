@@ -1,4 +1,4 @@
-import $ from '../framework/_$';
+import $ from '../framework/$';
 import _each from 'lodash/collection/forEach';
 import React from 'react';
 import request from 'request';
