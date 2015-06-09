@@ -1,9 +1,13 @@
 @import 'base';
+@import '../../../../node_modules/hint.css/src/hint.scss';
 
+
+$z-index-hosts: 100;
 #hosts {
   @include span-columns(12);
   position: relative;
   float: none !important;
+  z-index: $z-index-hosts;
 
   @media (min-width: $screen-md) {
     @include span-columns(2);
@@ -49,12 +53,17 @@ $zindex-article-series: -1;
 .article {
   @include outer-container();
   position: relative;
+  border: 1px solid #eee;
+  margin-bottom: 10px;
+  cursor: pointer;
+  height: 100px;
 
   .side-stats, .main-panel {
     z-index: $zindex-article-series + 5;
 
     & > div {
       @include row();
+      padding: 5px 0px;
     }
 
     & * {
@@ -62,19 +71,78 @@ $zindex-article-series: -1;
     }
   }
 
+  .rank {
+    @include span-columns(1);
+    color: white;
+    background-color: $primary-color;
+    height: 100%;
+    text-align: center;
+    font-size: 20px;
+    padding-top: 35px;
+  }
+
   .side-stats {
     @include span-columns(3);
+
+    .value {
+      width: 100%;
+      text-align: center;
+
+      .fa {
+        margin: 0px 5px;
+      }
+
+      &.up {
+
+        .delta {
+          color: $success-color;
+
+          .fa-caret-down {
+            display: none;
+          }
+          .fa-caret-up {
+            display: inline-block;
+          }
+        }
+      }
+
+      &.down {
+        .delta {
+          color: $danger-color;
+
+          .fa-caret-down {
+            display: inline-block;
+          }
+          .fa-caret-up {
+            display: none;
+          }
+        }
+      }
+    }
 
     .social-shares {
       @include outer-container();
       & > div {
         @include span-columns(6);
+        text-align: center;
+      }
+
+      .fa {
+        margin-right: 10px;
+      }
+
+      .fa-facebook {
+        color: $facebook-blue;
+      }
+
+      .fa-twitter {
+        color: $twitter-blue;
       }
     }
   }
 
   .main-panel {
-    @include span-columns(9);
+    @include span-columns(8);
   }
 
   .series-data {
@@ -86,9 +154,10 @@ $zindex-article-series: -1;
     z-index: $zindex-article-series;
 
     .point {
-      background-color: rgba(#2D882D, .3);
+      background-color: rgba(#2D882D, .1);
       display: inline-block;
       z-index: inherit;
+      position: absolute;
     }
   }
 }

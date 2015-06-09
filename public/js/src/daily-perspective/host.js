@@ -1,5 +1,6 @@
 import _each from 'lodash/collection/forEach';
 import React from 'react';
+import numeral from 'numeral';
 
 export default class Host {
   constructor(hostName, data) {
@@ -70,15 +71,6 @@ export default class Host {
 
 /* React Components */
 class HostReact extends React.Component {
-  getDefaultProps() {
-    return {
-      hostName: '',
-      overview: undefined,
-      toppages: undefined,
-      topauthors: undefined,
-      topsections: undefined
-    }
-  }
 
   render() {
 
@@ -97,34 +89,35 @@ class HostReact extends React.Component {
 }
 
 class Articles extends React.Component {
-  getDefaultProps() {
-    return {
-      data: undefined
+  constructor() {
+    this.props = {
+      clickedArticle: undefined,
+      data: {}
     }
   }
+
+  articleClick(articleData) {
+    return function() {
+      console.log(`Clicked on ${articleData.data.title}`);
+    }
+  }
+
   renderArticle(articleData, index) {
-    return <Article notes={ articleData.notes } data={ articleData.data } madlibs={ articleData.madlibs } index={ index }/>
+    return function(articleData, index) {
+      return <Article onClick={ this.articleClick(articleData) } notes={ articleData.notes } data={ articleData.data } madlibs={ articleData.madlibs } rank={ index + 1 }/>
+    }
   }
 
   render() {
     return (
       <div className='articles'>
-        { this.props.data.page_list.map(this.renderArticle) }
+        { this.props.data.page_list.map(this.renderArticle().bind(this)) }
       </div>
     )
   }
 }
 
 class Article extends React.Component {
-  getDefaultProps() {
-    return {
-      index: -1,
-      notes: [],
-      data: undefined,
-      madlibs: []
-    }
-  }
-
   componentWillMount() {
     this.props.data.path = 'http://' + this.props.data.path;
   }
@@ -147,7 +140,7 @@ class Article extends React.Component {
   generateSeries(series) {
     let seriesData = [];
     let pointWidth = series.length > 100 ? (100 / series.length) : (series.length / 100);
-    let maxHeight = 0.95;
+    let maxHeight = 0.90;
 
     // Need to iterate over the series to find the highest value
     let maxValue = 0;
@@ -158,7 +151,7 @@ class Article extends React.Component {
     });
 
     // Now iterate over the values again, this time assigning a width
-    _each(series, function(value) {
+    _each(series, function(value, index) {
       let height;
       if (value == maxValue) {
         height = maxHeight * 100;
@@ -169,11 +162,25 @@ class Article extends React.Component {
 
       seriesData.push({
         width: pointWidth + '%',
-        height: height + '%'
+        height: height + '%',
+        bottom: 0,
+        left: (pointWidth * index) + '%'
       });
     });
 
     return seriesData;
+  }
+
+  /**
+   * Because of JSX parsing, it doesn't look like you can put ES6 string templates
+   * in HTML attributes. This is a simple wrapper which allows you to do so
+   *
+   * @memberof Article#
+   * @param {String} [string] String to be generated
+   * @return {String} returns [string] argument
+   */
+  generateString(string) {
+    return string;
   }
 
   /**
@@ -186,40 +193,68 @@ class Article extends React.Component {
    */
   renderSeries(point, index) {
     return (
-      <div className='point' style={ point }></div>
+      <div className='point' id={index} style={ point }></div>
     )
   }
 
   render() {
     let stats = this.props.data.stats;
 
-    let totalEngagedTime = parseInt(stats.total_engaged.num);
+    let totalEngagedTime = numeral(parseInt(stats.total_engaged.num)).format('0,0');
+    let increase = (stats.total_engaged.delta >= 0.0) ? true : false;
+    let engageDelta = (stats.total_engaged.delta * 100).toFixed(2);
     let avgEngage = stats.engaged_time.toFixed(2);
     let fbLikes = stats.facebook_likes;
     let twitterShares = stats.twitter_shares;
 
     let series = this.generateSeries(stats.people_series);
 
+    let engagedTimeClass = 'value hint--bottom';
+    if (increase) {
+      engagedTimeClass += ' up';
+    }
+    else {
+      engagedTimeClass += ' down';
+    }
+
+    if (engageDelta >=  0.0) {
+      engageDelta = '+' + engageDelta;
+    }
+
+    engageDelta += '%';
+
     return (
-      <div className='article'>
+      <div className='article' onClick={ this.props.onClick }>
+        <div className='rank'>
+          { this.props.rank }
+        </div>
         <div className='series-data'>
           { series.map(this.renderSeries) }
         </div>
         <div className='side-stats'>
-          <div className='total-engaged'>
-            { totalEngagedTime } Minutes
+          <div className='total-engage'>
+            <div className={ engagedTimeClass } data-hint={ this.generateString(`Users spent a combined ${totalEngagedTime} minutes on this article. This is a ${engageDelta} change from the number ${this.props.rank} ranked article yesterday`) }>
+              { totalEngagedTime } min
+              <span className='delta'>
+                <i className='fa fa-caret-down'></i>
+                <i className='fa fa-caret-up'></i>
+                { engageDelta }
+              </span>
+            </div>
           </div>
           <div className='avg-engaged'>
-            { avgEngage } Seconds
+            <div className='value hint--bottom' data-hint={ this.generateString(`Users spent an averate of ${avgEngage} seconds on this article`) }>
+              { avgEngage } sec
+            </div>
           </div>
           <div className='social-shares'>
-            <div className='fb-likes'>
-              <i className="fa fa-facebook"></i>
-              { fbLikes }
+            <div className='fb-likes hint--bottom' data-hint={ this.generateString(`This article was liked ${fbLikes} times on Facebook`) }>
+              <i className='fa fa-facebook'></i>
+              <span className='value'>{ fbLikes }</span>
             </div>
-            <div className='twitter-shares'>
-              <i className="fa fa-twitter"></i>
-              { twitterShares }
+            <div className='twitter-shares hint--bottom' data-hint={ this.generateString(`This article was shared ${twitterShares} times on Twitter`) }>
+              <i className='fa fa-twitter'></i>
+              <span className='value'>{ twitterShares }</span>
             </div>
           </div>
         </div>
@@ -233,6 +268,13 @@ class Article extends React.Component {
         </div>
       </div>
     )
+  }
+}
+
+class ArticleSummary extends React.Component {
+
+  render() {
+
   }
 }
 
