@@ -1,4 +1,4 @@
-import Frameowkr from './framework/index';
+import Framework from './framework/index';
 import DashSocket from './lib/socket';
 import Controller from './daily-perspective/controller';
 

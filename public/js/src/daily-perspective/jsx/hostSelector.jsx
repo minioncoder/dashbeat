@@ -26,7 +26,7 @@ let HostSelector = React.createClass({
     return {
       hideHosts: true,
       hosts: [],
-      callback: function() {},
+      controller: undefined,
       activeHost: ''
     }
   },
@@ -37,7 +37,9 @@ let HostSelector = React.createClass({
     });
   },
   hostClick(hostName) {
-    this.props.callback(hostName);
+    let controller = this.props.controller;
+    controller.hostChange(hostName);
+
     this.setProps({
       activeHost: hostName
     })
@@ -65,10 +67,10 @@ let HostSelector = React.createClass({
   }
 });
 
-module.exports = function(hosts, callback) {
+module.exports = function(hosts, controller) {
 
   return React.render(
-    <HostSelector hosts={ hosts } callback={ callback }/>,
+    <HostSelector hosts={ hosts } controller={ controller }/>,
     document.getElementById('hosts')
   )
 }

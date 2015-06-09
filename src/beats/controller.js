@@ -27,9 +27,9 @@ export default class Controller {
   */
   constructor(app) {
     this.beats = [
-      // new TopPages(app),
-      // new QuickStats(app),
-      // new Referrers(app),
+      new TopPages(app),
+      new QuickStats(app),
+      new Referrers(app),
       new Reports(app)
     ];
     return this;

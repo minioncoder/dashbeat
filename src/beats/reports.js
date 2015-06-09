@@ -46,9 +46,7 @@ export default class Reports extends Beat {
       let host = getHostFromResponse(response);
       let body = JSON.parse(response.body);
 
-      data[host] = {
-        articles: body.data.toppages
-      }
+      data[host] = body.data;
     });
     return data;
   }

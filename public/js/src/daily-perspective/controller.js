@@ -24,18 +24,12 @@ export default class Controller {
   init(data) {
     let hosts = [];
     _each(data, (stats, hostName) => {
-      this.createHost(hostName);
+      this.createHost(hostName, stats);
       hosts.push(hostName);
     });
 
-    // Create the options in the dropdown
-    hosts = hosts.sort();
-    _each(hosts, (hostName) => {
-      $('#hosts #dropdown').append(`<div val=${hostName}>${hostName}</div>`)
-    });
-
     // Set up the host selector dropdown
-    HostSelector(hosts, this.hostChange);
+    HostSelector(hosts, this);
 
     this.doneIniting = true;
   }
@@ -47,11 +41,14 @@ export default class Controller {
    * @param {String} [hostName] Name of host, whose data will be displayed
    */
   hostChange(hostName) {
-    if (this.hosts.indexOf(hostName) < 0) return;
+    if (!(hostName in this.hosts)) return;
+
+    if (this.activeHost) this.activeHost.deactivate();
+
     this.activeHost = this.hosts[hostName];
     this.activeHostName = hostName;
-
     console.log(`New host change: ${this.activeHostName}`);
+    this.activeHost.activate();
   }
 
   /**
@@ -59,10 +56,11 @@ export default class Controller {
    *
    * @memberof Controller#
    * @param {String} [hostName] Name of host (e.g. freep.com)
+   * @param {Object} [stats] Response data from API call for the given [hostName]
    *
    */
-  createHost(hostName) {
-    this.hosts[hostName] = new Host(hostName);
+  createHost(hostName, stats) {
+    this.hosts[hostName] = new Host(hostName, stats);
   }
 
   /**
