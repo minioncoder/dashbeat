@@ -1,8 +1,10 @@
 @import 'base';
 @import '../../../../node_modules/hint.css/src/hint.scss';
 
-
 $z-index-hosts: 100;
+$z-index-article-summary: $z-index-hosts * 2;
+
+
 #hosts {
   @include span-columns(12);
   position: relative;
@@ -119,26 +121,6 @@ $zindex-article-series: -1;
         }
       }
     }
-
-    .social-shares {
-      @include outer-container();
-      & > div {
-        @include span-columns(6);
-        text-align: center;
-      }
-
-      .fa {
-        margin-right: 10px;
-      }
-
-      .fa-facebook {
-        color: $facebook-blue;
-      }
-
-      .fa-twitter {
-        color: $twitter-blue;
-      }
-    }
   }
 
   .main-panel {
@@ -159,5 +141,132 @@ $zindex-article-series: -1;
       z-index: inherit;
       position: absolute;
     }
+  }
+}
+
+
+.article-summary {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: $z-index-article-summary;
+
+  &.closed {
+    display: none;
+  }
+
+  .article-summary-container {
+    // @include outer-container();
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 75%;
+    overflow-y: auto;
+    background: #eee;
+    z-index: $z-index-article-summary;
+    margin: 0 12.5%;
+
+    & > div {
+      @include row();
+    }
+
+    .title {
+      text-align: center;
+      font-size: 40px;
+    }
+
+    .summary {
+
+      & > div {
+        @include span-columns(6);
+      }
+
+      .notes {
+        // @include outer-container();
+
+        .note {
+          @include row();
+        }
+      }
+    }
+
+    .referrals {
+      & > div {
+        @include row();
+      }
+    }
+  }
+
+  .overlay {
+    background-color: rgba(grey, .3);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: $z-index-article-summary - 1;
+  }
+
+  .series {
+    height: 200px;
+
+    .series-data {
+      height: 100%;
+      width: 100%;
+      position: relative;
+
+      .point {
+        background-color: rgba(#2D882D, .9);
+        display: inline-block;
+        z-index: inherit;
+        position: absolute;
+      }
+    }
+  }
+
+  #percentages {
+    height: 400px;
+    overflow: visible;
+
+    svg {
+      overflow: visible;
+      width: 100%;
+      height: 100%;
+    }
+
+    path.slice{
+      stroke-width:2px;
+    }
+
+    polyline{
+      opacity: .3;
+      stroke: black;
+      stroke-width: 2px;
+      fill: none;
+    }
+  }
+}
+
+// For common stuff between article and article-summary
+.social-shares {
+  @include outer-container();
+  & > div {
+    @include span-columns(6);
+    text-align: center;
+  }
+
+  .fa {
+    margin-right: 10px;
+  }
+
+  .fa-facebook {
+    color: $facebook-blue;
+  }
+
+  .fa-twitter {
+    color: $twitter-blue;
   }
 }

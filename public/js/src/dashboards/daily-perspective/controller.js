@@ -1,7 +1,7 @@
 import _each from 'lodash/collection/forEach';
 
-import $ from '../framework/$';
-import Host from './host';
+import $ from '../../framework/$';
+import Host from './host/index';
 import HostSelector from './jsx/hostSelector.jsx';
 
 export default class Controller {
@@ -32,6 +32,8 @@ export default class Controller {
     HostSelector(hosts, this);
 
     this.doneIniting = true;
+    this.activeHost = this.hosts['freep.com'];
+    this.activeHost.activate();
   }
 
   /**

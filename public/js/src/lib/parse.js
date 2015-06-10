@@ -33,8 +33,57 @@ function addSlash(url) {
   return url;
 }
 
+/**
+ * Gets a meaningful referrer name from a url. E.g. t.co -> Twitter
+ *
+ * @param {String} [referrer] URL of a referrer
+ * @return {String} Meaningful referrer name
+ */
+function parseReferrer(referrer) {
+    let DARK_SOCIAL = 'Dark Social';
+    if (!referrer) return DARK_SOCIAL;
+
+    let key = referrer;
+    if (referrer === 'news.google.com') {
+      key = 'Google News';
+    }
+    else if (referrer === 'news.google.com') {
+      key = 'Google News';
+    }
+    else if (referrer === 'r.search.yahoo.com') {
+      key = 'Yahoo Search';
+    }
+    else if (referrer === 'tpc.googlesyndication.com') {
+      key = 'Google Ad Sense';
+    }
+    else if (referrer === 'hsrd.yahoo.com') {
+      key = 'Yahoo News';
+    }
+    else if (referrer.indexOf('google.') != -1) {
+      key = 'Google Search';
+    }
+    else if (referrer === 't.co' || referrer.indexOf('twitter.') != -1) {
+      key = 'Twitter';
+    }
+    else if (referrer.indexOf('facebook.') != -1) {
+      key = 'Facebook';
+    }
+    else if (referrer.indexOf('taboola.') != -1) {
+      key = 'Direct Related Articles';
+    }
+    else if (referrer.indexOf('reddit.') != -1) {
+      key = 'Reddit';
+    }
+    else if (referrer.indexOf('bleacherreport.') != -1) {
+      key = 'Bleacher Report';
+    }
+
+    return key;
+  }
+
 module.exports = {
   getHost,
   stripTags,
-  addSlash
+  addSlash,
+  parseReferrer
 }
