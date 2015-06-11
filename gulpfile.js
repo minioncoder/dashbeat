@@ -22,6 +22,7 @@ var babelify = require("babelify");
 var reactify = require('reactify');
 var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
+var pkgify = require('pkgify');
 var source = require('vinyl-source-stream');
 var each = require('lodash/collection/forEach');
 var browserifyShim = require('browserify-shim');
@@ -156,6 +157,15 @@ function bundleJs(file, bcb) {
   gutil.log('Browserify is compiling ' + file.path);
   var b = browserify(file.path, { debug: true })
     .transform(babelify.configure({ stage: 0, optional: ['runtime'] }))
+    .transform(pkgify, {
+      packages: {
+        publicLib: './public/js/src/lib',
+        jsx: './public/js/src/jsx',
+        charts: './public/js/src/charts',
+        framework: './public/js/src/framework'
+      },
+      relative: __dirname
+    })
     .transform(reactify)
     .transform(browserifyShim, { global: true });
 
