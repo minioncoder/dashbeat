@@ -8,6 +8,8 @@ var sass = require('gulp-sass');
 var gutil = require('gulp-util');
 var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
+var plumber = require('gulp-plumber');
+var tap = require('gulp-tap');
 var sourcemaps = require('gulp-sourcemaps');
 var neat = require('node-neat');
 var crashSound;
@@ -27,6 +29,7 @@ var browserifyShim = require('browserify-shim');
 var config = require('./config');
 
 var jsSrc = './public/js/src/';
+var jsDist = './public/js/dist/';
 var jsBundle = ['authors.js', 'popular.js', 'big-picture.js', 'referrers.js',
                 'daily-perspective.js'];
 
@@ -41,9 +44,8 @@ gulp.task('sass', function() {
   paths = paths.concat(neat.includePaths);
 
   return gulp.src(cssFiles)
-    .pipe(sass({
-      includePaths: paths
-    }).on('error', gutil.log))
+    .pipe(plumber(gutil.log))
+    .pipe(sass({ includePaths: paths }))
     .pipe(gulp.dest(cssDist));
 });
 
@@ -56,15 +58,34 @@ gulp.task('browserify', function(cb) {
     };
   })();
   each(jsBundle, function(fname) {
-    bundlejs(fname, bcb);
+    var filePath = jsSrc + fname;
+    gulp.src(filePath)
+        .pipe(plumber(gutil.log))
+        .pipe(tap(bundlejs))
+        .pipe(gulp.dest(jsDist))
+        .on('end', function() {
+          gutil.log('Browserify finished creating: ' + filePath);
+          // if (typeof bcb === 'function') bcb();
+        });
   });
 });
 
+// This gulp task now restarts after each JS error yaaaaay
 gulp.task('watch', function() {
+  // https://gist.github.com/RnbWd/2456ef5ce71a106addee
   each(jsBundle, function(fname) {
     gutil.log('Watching ' + fname + ' ...');
-    gulp.watch(jsSrc + fname, function() {
-      return bundlejs(fname);
+    var filePath = jsSrc + fname;
+    gulp.watch(filePath, function() {
+      // return bundlejs(fname);
+      return gulp.src(filePath)
+        .pipe(plumber(gutil.log))
+        .pipe(tap(bundlejs))
+        .pipe(gulp.dest(jsDist))
+        .on('end', function() {
+          gutil.log('Browserify finished creating: ' + filePath);
+          // if (typeof bcb === 'function') bcb();
+        });
     });
   });
 
@@ -135,35 +156,50 @@ gulp.task('resetDb', function(cb) {
   });
 });
 
-function bundlejs(file, bcb, src, dist) {
-  if (typeof src === 'undefined') src = jsSrc;
-  if (typeof dist === 'undefined') dist = './public/js/dist/';
+// https://gist.github.com/RnbWd/2456ef5ce71a106addee
+function bundlejs(file, bcb) {
 
-  var srcFull = src + file;
-  var distFull = dist + file;
-
-  if (!fs.existsSync(srcFull)) {
-    gutil.log('Could not find ' + srcFull + ', ignoring')
+  if (!fs.existsSync(file.path)) {
+    gutil.log('Could not find ' + file.path + ', ignoring')
     return;
   }
 
-  gutil.log('Browserify is compiling ' + distFull + ' from ' + srcFull);
-
-  var b = browserify(srcFull, { debug: true });
-  return b
+  gutil.log('Browserify is compiling ' + file.path);
+  var b = browserify(file.path, { debug: true })
     .transform(babelify.configure({ stage: 0, optional: ['runtime'] }))
     .transform(reactify)
-    .transform(browserifyShim, { global: true })
-    .bundle()
-    .pipe(source(file))
+    .transform(browserifyShim, { global: true });
+
+  // Do the necessary thing for tap/plumber
+  var stream = b.bundle();
+  file.contents = stream;
+
+  // Source map
+  stream
+    .pipe(source(file.path))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
       .on('error', gutil.log)
     //  .pipe(uglify())
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(dist))
-    .on('end', function() {
-      gutil.log('Browserify finished creating: ' + distFull);
-      if (typeof bcb === 'function') bcb();
-    });
+    .pipe(gulp.dest(jsDist));
+
+
+  // var b = browserify(srcFull, { debug: true });
+  // return b
+  //   .transform(babelify.configure({ stage: 0, optional: ['runtime'] }))
+  //   .transform(reactify)
+  //   .transform(browserifyShim, { global: true })
+  //   .bundle()
+    // .pipe(source(file))
+    // .pipe(buffer())
+    // .pipe(sourcemaps.init({loadMaps: true}))
+    //   .on('error', gutil.log)
+    // //  .pipe(uglify())
+    // .pipe(sourcemaps.write('./'))
+  //   .pipe(gulp.dest(dist))
+  //   .on('end', function() {
+  //     gutil.log('Browserify finished creating: ' + distFull);
+  //     if (typeof bcb === 'function') bcb();
+  //   });
 }
