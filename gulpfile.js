@@ -34,19 +34,7 @@ var jsBundle = ['authors.js', 'popular.js', 'big-picture.js', 'referrers.js',
                 'daily-perspective.js'];
 
 gulp.task('sass', function() {
-  var cssSrc = './public/scss/';
-  var cssDist = './public/css/';
-  var cssFiles = cssSrc + '**/*.scss';
-
-  gutil.log('Compiling SASS files ...');
-
-  var paths = ['./node_modules/'];
-  paths = paths.concat(neat.includePaths);
-
-  return gulp.src(cssFiles)
-    .pipe(plumber(gutil.log))
-    .pipe(sass({ includePaths: paths }))
-    .pipe(gulp.dest(cssDist));
+  return bundleSass();
 });
 
 gulp.task('browserify', function(cb) {
@@ -61,7 +49,7 @@ gulp.task('browserify', function(cb) {
     var filePath = jsSrc + fname;
     gulp.src(filePath)
         .pipe(plumber(gutil.log))
-        .pipe(tap(bundlejs))
+        .pipe(tap(bundleJs))
         .pipe(gulp.dest(jsDist))
         .on('end', function() {
           gutil.log('Browserify finished creating: ' + filePath);
@@ -77,10 +65,9 @@ gulp.task('watch', function() {
     gutil.log('Watching ' + fname + ' ...');
     var filePath = jsSrc + fname;
     gulp.watch(filePath, function() {
-      // return bundlejs(fname);
       return gulp.src(filePath)
         .pipe(plumber(gutil.log))
-        .pipe(tap(bundlejs))
+        .pipe(tap(bundleJs))
         .pipe(gulp.dest(jsDist))
         .on('end', function() {
           gutil.log('Browserify finished creating: ' + filePath);
@@ -93,7 +80,9 @@ gulp.task('watch', function() {
   gulp.watch('./src/**/*.js', ['babel']);
 
   gutil.log('Watching scss files ...');
-  gulp.watch('./public/scss/**/*.scss', ['sass']);
+  gulp.watch('./public/scss/**/*.scss', function() {
+    return bundleSass();
+  });
 });
 
 gulp.task('babel', function() {
@@ -157,7 +146,7 @@ gulp.task('resetDb', function(cb) {
 });
 
 // https://gist.github.com/RnbWd/2456ef5ce71a106addee
-function bundlejs(file, bcb) {
+function bundleJs(file, bcb) {
 
   if (!fs.existsSync(file.path)) {
     gutil.log('Could not find ' + file.path + ', ignoring')
@@ -183,23 +172,23 @@ function bundlejs(file, bcb) {
     //  .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(jsDist));
+}
 
+function bundleSass() {
+  var cssSrc = './public/scss/';
+  var cssDist = './public/css/';
+  var cssFiles = cssSrc + '**/*.scss';
 
-  // var b = browserify(srcFull, { debug: true });
-  // return b
-  //   .transform(babelify.configure({ stage: 0, optional: ['runtime'] }))
-  //   .transform(reactify)
-  //   .transform(browserifyShim, { global: true })
-  //   .bundle()
-    // .pipe(source(file))
-    // .pipe(buffer())
-    // .pipe(sourcemaps.init({loadMaps: true}))
-    //   .on('error', gutil.log)
-    // //  .pipe(uglify())
-    // .pipe(sourcemaps.write('./'))
-  //   .pipe(gulp.dest(dist))
-  //   .on('end', function() {
-  //     gutil.log('Browserify finished creating: ' + distFull);
-  //     if (typeof bcb === 'function') bcb();
-  //   });
+  gutil.log('Compiling SASS files ...');
+
+  var paths = ['./node_modules/'];
+  paths = paths.concat(neat.includePaths);
+
+  return gulp.src(cssFiles)
+    .pipe(plumber(gutil.log))
+    .pipe(sass({ includePaths: paths }))
+    .pipe(gulp.dest(cssDist))
+    .on('end', function() {
+      gutil.log('Done compiling SASS files');
+    });
 }
