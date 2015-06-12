@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Velocity from 'velocity-animate/velocity.min';
-import { style } from '../../lib/';
+import { style } from 'publicLib/';
 
 // JSX
 import ArticleSummary from '../article-summary.jsx';

@@ -40,6 +40,8 @@ export default class Beat {
   * @return {Object} The Beat instance
   */
   createSocketRoute() {
+    if (!this.app) return;
+
     this.app.io.route(this.name, req => {
       logger.info('Connected to ' + this.name);
       req.io.join(this.name);
@@ -146,6 +148,19 @@ export default class Beat {
     } catch (err) {
       logger.warn(err);
     }
+
+    this.sendData(data);
+  }
+
+  /**
+   * Broadcast the data to the room
+   *
+   * @memberof Beat#
+   * @param {Object} [data] Compiled data from responses of ChartBeat API calls
+   * @return {Object} The Beat Instance
+   */
+  sendData(data) {
+    if (!this.app) return;
 
     logger.info(`Sending response for ${this.name}`);
     this.app.io.room(this.name).broadcast(`${this.name}-data`, data);

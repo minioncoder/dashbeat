@@ -40,50 +40,69 @@ function addSlash(url) {
  * @return {String} Meaningful referrer name
  */
 function parseReferrer(referrer) {
-    let DARK_SOCIAL = 'Dark Social';
-    if (!referrer) return DARK_SOCIAL;
+  let DARK_SOCIAL = 'Dark Social';
+  if (!referrer) return DARK_SOCIAL;
 
-    let key = referrer;
-    if (referrer === 'news.google.com') {
-      key = 'Google News';
-    }
-    else if (referrer === 'news.google.com') {
-      key = 'Google News';
-    }
-    else if (referrer === 'r.search.yahoo.com') {
-      key = 'Yahoo Search';
-    }
-    else if (referrer === 'tpc.googlesyndication.com') {
-      key = 'Google Ad Sense';
-    }
-    else if (referrer === 'hsrd.yahoo.com') {
-      key = 'Yahoo News';
-    }
-    else if (referrer.indexOf('google.') != -1) {
-      key = 'Google Search';
-    }
-    else if (referrer === 't.co' || referrer.indexOf('twitter.') != -1) {
-      key = 'Twitter';
-    }
-    else if (referrer.indexOf('facebook.') != -1) {
-      key = 'Facebook';
-    }
-    else if (referrer.indexOf('taboola.') != -1) {
-      key = 'Direct Related Articles';
-    }
-    else if (referrer.indexOf('reddit.') != -1) {
-      key = 'Reddit';
-    }
-    else if (referrer.indexOf('bleacherreport.') != -1) {
-      key = 'Bleacher Report';
-    }
-
-    return key;
+  let key = referrer;
+  if (referrer === 'news.google.com') {
+    key = 'Google News';
   }
+  else if (referrer === 'news.google.com') {
+    key = 'Google News';
+  }
+  else if (referrer === 'r.search.yahoo.com') {
+    key = 'Yahoo Search';
+  }
+  else if (referrer === 'tpc.googlesyndication.com') {
+    key = 'Google Ad Sense';
+  }
+  else if (referrer === 'hsrd.yahoo.com') {
+    key = 'Yahoo News';
+  }
+  else if (referrer.indexOf('google.') != -1) {
+    key = 'Google Search';
+  }
+  else if (referrer === 't.co' || referrer.indexOf('twitter.') != -1) {
+    key = 'Twitter';
+  }
+  else if (referrer.indexOf('facebook.') != -1) {
+    key = 'Facebook';
+  }
+  else if (referrer.indexOf('taboola.') != -1) {
+    key = 'Direct Related Articles';
+  }
+  else if (referrer.indexOf('reddit.') != -1) {
+    key = 'Reddit';
+  }
+  else if (referrer.indexOf('bleacherreport.') != -1) {
+    key = 'Bleacher Report';
+  }
+
+  return key;
+}
+
+/**
+ * Because of JSX parsing, it doesn't look like you can put ES6 string templates
+ * in HTML attributes. This is a simple wrapper which allows you to do so
+ *
+ * @param {String} [string] String to be generated
+ * @return {String} returns [string] argument
+ */
+function generateString(string) {
+  return string;
+}
+
+// http://stackoverflow.com/a/196991/1337683
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
 
 module.exports = {
   getHost,
   stripTags,
   addSlash,
-  parseReferrer
+  parseReferrer,
+  generateString,
+  toTitleCase
 }

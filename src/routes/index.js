@@ -5,6 +5,7 @@ import request from 'request';
 
 import logger from  '../logger';
 import getAsync from '../lib/promise';
+import Report from '../beats/reports';
 
 var router = express.Router();
 
@@ -29,7 +30,6 @@ router.get('/daily-perspective/', function(req, res, next) {
 });
 
 router.get('/get-article/', async function(req, res, next) {
-  logger.debug(req.query);
 
   if (!('url' in req.query) || !req.query.url) {
     res.json({});
@@ -47,6 +47,16 @@ router.get('/get-article/', async function(req, res, next) {
   logger.debug('Returned from ' + url);
 
   res.json(response.body);
+});
+
+router.get('/get-daily-perspective/', function(req, res, next) {
+  let date;
+  if ('date' in req.query) {
+    date = req.query.date;
+  }
+  logger.debug(date);
+  let report = new Report(undefined, 'reports', res, date);
+  report.fetch();
 });
 
 module.exports = router;

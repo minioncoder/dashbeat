@@ -1,11 +1,11 @@
-import $ from '../framework/$';
+import $ from 'framework/$';
 import _each from 'lodash/collection/forEach';
 import React from 'react';
 import request from 'request';
 import Velocity from 'velocity-animate';
 import moment from 'moment';
 
-import { parse } from '../lib/index';
+import { parse } from 'publicLib/index';
 
 // JSX
 import ReactNumberEasing from 'react-number-easing';

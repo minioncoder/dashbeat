@@ -9,6 +9,11 @@ export default class PieChart {
    *
    * @constructs
    * @param {Array} [data] Array of objects that hold the data
+   *    Each object format:
+   *    {
+   *      data: {Number},
+   *      label: {String}
+   *    }
    * @param {Object} [element] DOM object where the data should be drawn
    */
   constructor(data, element) {

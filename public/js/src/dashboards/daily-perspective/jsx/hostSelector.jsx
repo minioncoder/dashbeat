@@ -1,76 +1,67 @@
 import React from 'react';
 
-let Host = React.createClass({
-  getDefaultProps() {
-    return {
-      hostName: '',
-      callback: function() {},
-      active: false
-    }
-  },
+class Host extends React.Component {
   hostClick() {
     this.props.callback(this.props.hostName);
-  },
+  }
   render() {
     let className = 'host';
     if (this.props.active) className += ' active';
 
     return(
-      <div className={ className } onClick={ this.hostClick }>{ this.props.hostName }</div>
+      <div className={ className } onClick={ this.hostClick.bind(this) }>{ this.props.hostName }</div>
     )
   }
-});
+}
 
-let HostSelector = React.createClass({
-  getDefaultProps() {
-    return {
-      hideHosts: true,
-      hosts: [],
-      controller: undefined,
-      activeHost: ''
-    }
-  },
+export default class HostSelector extends React.Component {
+  constructor(data) {
+    super(data);
+
+    this.state = {
+      hideHosts: true
+    };
+  }
   toggleDropdown() {
     // Toggle the state of the dropdown
-    this.setProps({
-      hideHosts: !this.props.hideHosts
+    this.setState({
+      hideHosts: !this.state.hideHosts
     });
-  },
-  hostClick(hostName) {
-    let controller = this.props.controller;
-    controller.hostChange(hostName);
+  }
 
-    this.setProps({
+  hostClick(hostName) {
+    this.props.hostChange(hostName);
+
+    this.setState({
       activeHost: hostName
     })
-  },
-  render() {
-    var renderOption = (hostName, index) => {
-      let active = false;
-      if (this.props.activeHost === hostName) active = true;
+  }
 
-      return <Host hostName={ hostName } callback={ this.hostClick } active={ active }/>
+  renderOption(hostName, index) {
+    let active = false;
+    if (this.props.activeHost === hostName) active = true;
+
+    return <Host hostName={ hostName } callback={ this.hostClick.bind(this) } active={ active }/>
+  }
+
+  render() {
+    if (!this.state) {
+      return (
+        <div className=''></div>
+      );
     }
 
     let hostDropdownClass = 'host-dropdown';
-    if (!this.props.hideHosts) {
+    if (!this.state.hideHosts) {
       hostDropdownClass += ' show';
     }
     return(
-      <div className='host-select-container'>
-        <div className='toggle' onClick={ this.toggleDropdown }>Hosts <i className='fa fa-caret-down'></i></div>
+      <div className='hosts'>
+        <div className='toggle' onClick={ this.toggleDropdown.bind(this) }>Hosts <i className='fa fa-caret-down'></i></div>
         <div className={ hostDropdownClass }>
-          { this.props.hosts.map(renderOption) }
+          { this.props.hosts.map(this.renderOption.bind(this)) }
         </div>
       </div>
     )
   }
-});
-
-module.exports = function(hosts, controller) {
-
-  return React.render(
-    <HostSelector hosts={ hosts } controller={ controller }/>,
-    document.getElementById('hosts')
-  )
 }

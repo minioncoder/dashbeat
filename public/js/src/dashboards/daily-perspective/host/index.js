@@ -3,90 +3,98 @@
  */
 
 import _each from 'lodash/collection/forEach';
+import _values from 'lodash/object/values';
 import React from 'react';
-import Articles from './articles';
 
-export default class Host {
-  constructor(hostName, data) {
-    this.hostName = hostName;
-    this.reactComponent = undefined;
+import Articles from './dashboards/articles';
+import Authors from './dashboards/authors';
+import Sections from './dashboards/sections';
 
-    // These values are expected to be the first set of keys in the data Object
-    this.expectedData = [
-      'overview',
-      'toppages',
-      'topauthors',
-      'topsections'
-    ];
+/* React Components */
+export default class Host extends React.Component {
+  constructor(data) {
+    super(data);
 
-    this.compileData(data)
+    this.compileDashboardOptions(this.props);
+
+    this.currentDashboard = this.dashboardOptions.Articles.name;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.compileDashboardOptions(nextProps);
   }
 
   /**
-   * Draws the dashbaord for this host to the DOM
-   *
-   * @memberof Host#
+   * Update data stored for a given host. use this.dashboardOptions
    */
-  activate() {
-    if (!this.data) return;
-
-    this.reactComponent = React.render(
-      <HostReact hostName={ this.hostName } overview={ this.overview } toppages={ this.toppages } topauthors={ this.topauthors } topsections={ this.topsections }/>,
-      document.getElementById('dashboard')
-    )
-  }
-
-  deactivate() {
-    this.reactComponent = undefined;
-  }
-
-  updateData(data) {
-    this.compileData(data)
-
-    if (this.reactComonent) {
-      this.reactComponent.setProps({
-        data: this.data
-      });
+  compileDashboardOptions(data) {
+    this.dashboardOptions = {
+      Articles: {
+        name: 'Articles',
+        data: data.toppages,
+        obj: <Articles data={ data.toppages }/>
+      },
+      Authors: {
+        name: 'Authors',
+        data: data.topauthors,
+        obj: <Authors data={ data.topauthors }/>
+      },
+      Sections: {
+        name: 'Sections',
+        data: data.topsections,
+        obj: <Sections data={ data.topsections }/>
+      }
     }
   }
 
-  /**
-   * Parse the [data] response from the API call, breaking it into smaller,
-   * more usable chunks
-   *
-   * @memberof Host#
-   * @param {Object} [data] Object returned from an API call for the given host
-   */
-  compileData(data) {
-    this.data = data;
+  dashboardOptionClick(name) {
+    if (!(name in this.dashboardOptions)) return;
 
-    _each(this.expectedData, (key) => {
-      if (!(key in this.data)) {
-        throw new Error(`Expected key ${key} not found in data response. Unable to process data`);
-      }
-    });
-
-    this.overview = data.overview;
-    this.toppages = data.toppages;
-    this.topauthors = data.topauthors;
-    this.topsections = data.topsections;
+    this.currentDashboard = name;
+    this.setState({
+      asdf: true
+    })
+    // this.render();
   }
-}
 
-/* React Components */
-class HostReact extends React.Component {
+  generateDashboardOption(option, index) {
+    return <DashboardSelector name={ option.name } clickHandler={ this.dashboardOptionClick.bind(this) } selected={ this.currentDashboard === option.name }/>
+  }
+
+  generateDashboardContent() {
+    return this.dashboardOptions[this.currentDashboard].obj;
+  }
 
   render() {
 
     let className = `host-dashboard ${this.props.hostName}`;
-    return(
+    return (
       <div className={ className }>
         <div className='host-name'>{ this.props.hostName }</div>
-        <div className='dashboard-content'>
-          <div className='articles-container'>
-            <Articles data={ this.props.toppages }/>
-          </div>
+        <div className='dashboard-selector'>
+          { _values(this.dashboardOptions).map(this.generateDashboardOption.bind(this)) }
         </div>
+        <div className='dashboard-content'>
+          { this.generateDashboardContent() }
+        </div>
+      </div>
+    )
+  }
+}
+
+class DashboardSelector extends React.Component {
+  handleClick() {
+    this.props.clickHandler(this.props.name);
+  }
+
+  render() {
+    let className = 'dashboard-option';
+    if (this.props.selected) {
+      className += ' selected';
+    }
+    return (
+      <div className={ className } onClick={ this.handleClick.bind(this) }>
+        { this.props.name }
       </div>
     )
   }

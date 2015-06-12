@@ -1,6 +1,6 @@
 @import 'bourbon';
 @import 'neat';
-@import '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
 
 // http://www.colorcombos.com/color-scheme-6657.html
 $primary-color: #2E4372; // blue
@@ -42,7 +42,7 @@ body {
 
 /** Nav bar stuff */
 $navbar-height: 60px;
-$navbar-z-index: 100;
+$navbar-z-index: 10000;
 $navbar-padding: 20px;
 
 .navbar-button {

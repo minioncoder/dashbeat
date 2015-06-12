@@ -1,58 +1,119 @@
 @import 'base';
-@import '../../../../node_modules/hint.css/src/hint.scss';
+@import '/react-datepicker/dist/react-datepicker.min.css';
+// @import '../../../../node_modules/hint.css/src/hint.scss';
 
 $z-index-hosts: 100;
 $z-index-article-summary: $z-index-hosts * 2;
 
-
-#hosts {
-  @include span-columns(12);
-  position: relative;
-  float: none !important;
-  z-index: $z-index-hosts;
-
-  @media (min-width: $screen-md) {
-    @include span-columns(2);
+body {
+  &.summary-open {
+    overflow: hidden;
   }
+}
 
-  .toggle {
-    cursor: pointer;
-    border: 1px solid #eee;
-    background-color: $info-color;
-    color: white;
-    text-align: center;
-    height: 20px;
-  }
 
-  .host-dropdown {
-    display: none;
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    width: 100%;
+.dashboard-control {
+  @include row();
 
-    &.show {
-      display: block;
+  .control-container {
+    @include span-columns(6);
+
+    & > div {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 50%;
+      }
+    }
+    &.left {
+      & > div {
+        margin-right: 0;
+        margin-left: auto;
+      }
     }
 
-    .host {
-      @include row();
-      background-color: $primary-color;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      border: 1px solid #eee;
+    &.right {
+      & > div {
+        margin-left: 0;
+        margin-right: auto;
+      }
+    }
+  }
+  .hosts {
+    // @include span-columns(12);
+    position: relative;
+    float: none !important;
+    z-index: $z-index-hosts;
 
-      &:hover, &.active {
-        color: $info-color;
-        background-color: white;
+    @media (min-width: $screen-md) {
+      // @include span-columns(2);
+    }
+
+    .toggle {
+      cursor: pointer;
+      border: 1px solid #eee;
+      background-color: $info-color;
+      color: white;
+      text-align: center;
+      height: 20px;
+    }
+
+    .host-dropdown {
+      display: none;
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      width: 100%;
+
+      &.show {
+        display: block;
+      }
+
+      .host {
+        @include row();
+        background-color: $primary-color;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #eee;
+
+        &:hover, &.active {
+          color: $info-color;
+          background-color: white;
+        }
+      }
+    }
+  }
+}
+
+.host-dashboard {
+
+  .dashboard-selector {
+    @include outer-container();
+    height: 50px;
+    margin-bottom: 10px;
+
+    .dashboard-option {
+      @include span-columns(4);
+      height: 100%;
+      background-color: white;
+      color: $primary-color;
+      text-align: center;
+      line-height: 50px;
+      vertical-align: middle;
+      cursor:pointer;
+      @include transition(backround-color 200ms ease-in);
+
+      &:hover, &.selected {
+        background-color: $primary-color;
+        color: white;
       }
     }
   }
 }
 
 $zindex-article-series: -1;
-.article {
+.dashboard-item {
   @include outer-container();
   position: relative;
   border: 1px solid #eee;
@@ -85,46 +146,28 @@ $zindex-article-series: -1;
 
   .side-stats {
     @include span-columns(3);
-
-    .value {
-      width: 100%;
-      text-align: center;
-
-      .fa {
-        margin: 0px 5px;
-      }
-
-      &.up {
-
-        .delta {
-          color: $success-color;
-
-          .fa-caret-down {
-            display: none;
-          }
-          .fa-caret-up {
-            display: inline-block;
-          }
-        }
-      }
-
-      &.down {
-        .delta {
-          color: $danger-color;
-
-          .fa-caret-down {
-            display: inline-block;
-          }
-          .fa-caret-up {
-            display: none;
-          }
-        }
-      }
-    }
+    height: 100%;
   }
 
   .main-panel {
     @include span-columns(8);
+    height: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 100px;
+    vertical-align: middle;
+    font-size: 15px;
+    white-space: nowrap;
+
+    @media (min-width: $screen-md) {
+      font-size: 30px;
+    }
+
+    .title {
+      color: $primary-color;
+      display: inline;
+    }
+
   }
 
   .series-data {
@@ -165,6 +208,7 @@ $zindex-article-series: -1;
     height: 100%;
     width: 75%;
     overflow-y: auto;
+    overflow-x: visible;
     background: #eee;
     z-index: $z-index-article-summary;
     margin: 0 12.5%;
@@ -254,8 +298,12 @@ $zindex-article-series: -1;
 .social-shares {
   @include outer-container();
   & > div {
-    @include span-columns(6);
+    // @include row();
     text-align: center;
+
+    // @media (min-width: $screen-sm) {
+      @include span-columns(6);
+    // }
   }
 
   .fa {
@@ -268,5 +316,41 @@ $zindex-article-series: -1;
 
   .fa-twitter {
     color: $twitter-blue;
+  }
+}
+
+.value {
+  width: 100%;
+  text-align: center;
+
+  .fa {
+    margin: 0px 5px;
+  }
+
+  &.up {
+
+    .delta {
+      color: $success-color;
+
+      .fa-caret-down {
+        display: none;
+      }
+      .fa-caret-up {
+        display: inline-block;
+      }
+    }
+  }
+
+  &.down {
+    .delta {
+      color: $danger-color;
+
+      .fa-caret-down {
+        display: inline-block;
+      }
+      .fa-caret-up {
+        display: none;
+      }
+    }
   }
 }

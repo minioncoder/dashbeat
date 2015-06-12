@@ -10,7 +10,7 @@ import { loopInterval } from '../lib/constant';
 import TopPages from './toppages';
 import QuickStats from './quickstats';
 import Referrers from './referrers';
-import Reports from './reports';
+// import Reports from './reports';
 
 /**
 * Controller - Sets constant loop to grab data from Beats
@@ -30,7 +30,7 @@ export default class Controller {
       new TopPages(app),
       new QuickStats(app),
       new Referrers(app),
-      new Reports(app)
+      // new Reports(app)
     ];
     return this;
   }

@@ -87,14 +87,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('babel', function() {
-  var src = './src/**/*.js';
-  var dist = './dist';
-
-  gutil.log('Babel is generating ' + src + ' files to ' + dist + ' ...');
-
-  return gulp.src(src)
-    .pipe(babel({ stage: 0, optional: ['runtime'] }))
-    .pipe(gulp.dest(dist));
+  babelBundle();
 });
 
 gulp.task('default', ['sass', 'babel', 'browserify']);
@@ -182,6 +175,21 @@ function bundleJs(file, bcb) {
     //  .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(jsDist));
+}
+
+function babelBundle() {
+  var src = './src/**/*.js';
+  var dist = './dist';
+
+  gutil.log('Babel is generating ' + src + ' files to ' + dist + ' ...');
+
+  return gulp.src(src)
+    .pipe(plumber(gutil.log))
+    .pipe(babel({ stage: 0, optional: ['runtime'] }))
+    .pipe(gulp.dest(dist))
+    .on('end', function() {
+      gutil.log('Done babelifying');
+    });
 }
 
 function bundleSass() {

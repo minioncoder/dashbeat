@@ -1,9 +1,7 @@
 import Framework from './framework/index';
-import DashSocket from './lib/socket';
-import Controller from './dashboards/daily-perspective/controller';
+// import DashSocket from './lib/socket';
+import Dashboard from './dashboards/daily-perspective/dashboard';
+import request from 'request';
 
-let dash = new DashSocket(['reports']);
-let controller = new Controller();
-dash.room('reports').on('data', function(data) {
-  controller.updateData(data);
-});
+let dashboard = new Dashboard();
+dashboard.fetchData();
