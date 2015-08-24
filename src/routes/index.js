@@ -2,8 +2,9 @@
 
 import express from 'express';
 import request from 'request';
+import debug from 'debug';
+var logger = debug('app:routes');
 
-import logger from  '../logger';
 import getAsync from '../lib/promise';
 import Report from '../beats/reports';
 
@@ -44,7 +45,7 @@ router.get('/get-article/', async function(req, res, next) {
     throw new Error(err);
   }
 
-  logger.debug('Returned from ' + url);
+  logger('Returned from ' + url);
 
   res.json(response.body);
 });
@@ -54,7 +55,7 @@ router.get('/get-daily-perspective/', function(req, res, next) {
   if ('date' in req.query) {
     date = req.query.date;
   }
-  logger.debug(date);
+  logger(date);
   let report = new Report(undefined, 'reports', res, date);
   report.fetch();
 });

@@ -2,7 +2,6 @@
 
 import _each from 'lodash/collection/forEach';
 
-import logger from '../logger';
 import { getHostFromResponse } from '../lib/parse';
 import Beat from './beat';
 

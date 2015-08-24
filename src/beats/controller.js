@@ -3,9 +3,11 @@
 */
 'use strict';
 
+import debug from 'debug';
+var logger = debug('app:controller');
+
 import _each from 'lodash/collection/forEach';
 
-import logger from '../logger';
 import { loopInterval } from '../lib/constant';
 import TopPages from './toppages';
 import QuickStats from './quickstats';
@@ -41,11 +43,11 @@ export default class Controller {
   * @return {Object} The Controller instance
   */
   start() {
-    logger.info('Starting loop...');
+    logger('Starting loop...');
     _each(this.beats, function(beat) {
       beat.fetch();
     });
-    logger.info('...ending loop');
+    logger('...ending loop');
 
     setTimeout(this.start.bind(this), loopInterval);
     return this;

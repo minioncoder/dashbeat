@@ -46,6 +46,7 @@ gulp.task('browserify', function(cb) {
       if (counter == jsBundle.length) return cb();
     };
   })();
+
   each(jsBundle, function(fname) {
     var filePath = jsSrc + fname;
     gulp.src(filePath)

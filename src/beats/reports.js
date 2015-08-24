@@ -1,10 +1,12 @@
 'use strict';
 
+import debug from 'debug';
+var logger = debug('app:reports');
+
 import moment from 'moment';
 import _each from 'lodash/collection/forEach';
 
 import Beat from './beat';
-import logger from '../logger';
 import { getHostFromResponse } from '../lib/parse';
 import fs from 'fs';
 
@@ -46,7 +48,7 @@ export default class Report extends Beat {
         date: this.date
       }, 'https://chartbeat.com/report_api/reports/daily/?'));
     });
-    logger.debug(urls);
+    logger(urls);
     return urls;
   }
 
@@ -106,7 +108,7 @@ export default class Report extends Beat {
   }
 
   parse(responses) {
-    logger.debug('parseing responses');
+    logger('Parsing responses');
     let data = {};
     _each(responses, (response) => {
       let host = getHostFromResponse(response);
@@ -118,7 +120,7 @@ export default class Report extends Beat {
   }
 
   sendData(data) {
-    logger.debug('Sending back Report data');
+    logger('Sending back Report data');
     this.res.json(data);
     // this.res.json({
     //   test: true

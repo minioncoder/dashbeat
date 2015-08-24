@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --harmony ./dist/app.js",
-    "istart": "iojs --es_staging ./dist/app.js"
+    "start": "node --harmony ./dist/app.js"
   },
   "dependencies": {
     "babel": "^5.2.17",
@@ -23,10 +22,11 @@
     "d3": "^3.5.5",
     "debug": "~2.1.1",
     "domtastic": "^0.10.2",
+    "errorhandler": "^1.4.2",
     "express": "~4.12.2",
     "express.io": "^1.1.13",
     "font-awesome": "^4.3.0",
-    "gulp": "^3.8.11",
+    "gulp": "*",
     "gulp-babel": "^5.1.0",
     "gulp-plumber": "^1.0.1",
     "gulp-sass": "^2.0.1",

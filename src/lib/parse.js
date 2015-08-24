@@ -1,5 +1,7 @@
 'use strict';
 import url from 'url';
+import debug from 'debug';
+var logger = debug('app:parse');
 
 import _each from 'lodash/collection/each';
 import _trim from 'lodash/string/trim';
@@ -46,7 +48,7 @@ function getHostFromResponse(response) {
   var urlParts = url.parse(respUrl, true);
 
   if (!('host' in urlParts.query)) {
-    console.log('No host param in url \'' + respUrl + '\'')
+    logger('No host param in url \'' + respUrl + '\'')
     return false;
   }
 
@@ -65,14 +67,6 @@ function parseAuthors(authors) {
   });
 
   return [for (a of parsedAuthors) if (_trim(a)) toTitleCase(_trim(a).replace(/\s*by\s+/, ''))];
-}
-
-/**
- * Given a JSON response from a /json HTTP call to an article, generate a summary
- * for the article and save it in the json.article.summary attribute
- */
-function summarizeArticle(json) {
-
 }
 
 module.exports = {

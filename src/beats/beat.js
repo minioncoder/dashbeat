@@ -3,12 +3,14 @@
 */
 'use strict';
 
+import debug from 'debug';
+var logger = debug('app:beat');
+
 import moment from 'moment';
 import request from 'request';
 import _each from 'lodash/collection/forEach';
 
 import { User } from '../db';
-import logger from '../logger';
 import getAsync from '../lib/promise';
 import { chartbeatApi, loopInterval } from '../lib/constant';
 
@@ -43,7 +45,7 @@ export default class Beat {
     if (!this.app) return;
 
     this.app.io.route(this.name, req => {
-      logger.info('Connected to ' + this.name);
+      logger('Connected to ' + this.name);
       req.io.join(this.name);
       req.io.broadcast('announce', {
         message: 'You joined room: ' + this.name
@@ -61,16 +63,16 @@ export default class Beat {
   * @return {Object} The coroutine
   */
   async fetch() {
-    logger.info(`Fetching ${this.apiUrl} for ${this.name}`);
+    logger(`Fetching ${this.apiUrl} for ${this.name}`);
     let apiInfo;
     try {
       apiInfo = await User.find().exec();
     } catch (e) {
-      logger.error(e);
+      logger(e);
     }
 
     if (!apiInfo.length) {
-      logger.warn('No User records, cannot request chartbeat data');
+      logger('No User records, cannot request chartbeat data');
       return;
     }
 
@@ -138,15 +140,15 @@ export default class Beat {
     try {
       responses = await Promise.all([for (url of urls) getAsync(url)]);
     } catch (err) {
-      logger.error(err);
+      logger(err);
     }
 
-    logger.info(`Received responses for: ${this.name}`);
+    logger(`Received responses for: ${this.name}`);
     let data = this.parse(responses);
     try {
       data = await this.save(data);
     } catch (err) {
-      logger.warn(err);
+      logger(err);
     }
 
     this.sendData(data);
@@ -162,7 +164,7 @@ export default class Beat {
   sendData(data) {
     if (!this.app) return;
 
-    logger.info(`Sending response for ${this.name}`);
+    logger(`Sending response for ${this.name}`);
     this.app.io.room(this.name).broadcast(`${this.name}-data`, data);
   }
 
@@ -174,7 +176,7 @@ export default class Beat {
   * @return {Array} The Chartbeat response data
   */
   parse(responses) {
-    logger.debug('Default parse called for ' + this.apiUrl);
+    logger('Default parse called for ' + this.apiUrl);
     return responses;
   }
 
