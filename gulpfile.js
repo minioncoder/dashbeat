@@ -29,8 +29,8 @@ var browserifyShim = require('browserify-shim');
 
 var config = require('./config');
 
-var jsSrc = './public/js/src/';
-var jsDist = './public/js/dist/';
+var jsSrc = './src/client/';
+var jsDist = './public/js/';
 var jsBundle = ['authors.js', 'popular.js', 'big-picture.js', 'referrers.js',
                 'daily-perspective.js'];
 
@@ -79,16 +79,16 @@ gulp.task('watch', function() {
   });
 
   gutil.log('Watching node modules ...');
-  gulp.watch('./src/**/*.js', ['babel']);
+  gulp.watch('./src/server/**/*.js', ['babel']);
 
   gutil.log('Watching scss files ...');
-  gulp.watch('./public/scss/**/*.scss', function() {
+  gulp.watch('./src/scss/**/*.scss', function() {
     return bundleSass();
   });
 });
 
-gulp.task('babel', function() {
-  babelBundle();
+gulp.task('babel', function(done) {
+  babelBundle(done);
 });
 
 gulp.task('default', ['sass', 'babel', 'browserify']);
@@ -153,10 +153,10 @@ function bundleJs(file, bcb) {
     .transform(babelify.configure({ stage: 0, optional: ['runtime'] }))
     .transform(pkgify, {
       packages: {
-        publicLib: './public/js/src/lib',
-        jsx: './public/js/src/jsx',
-        charts: './public/js/src/charts',
-        framework: './public/js/src/framework'
+        publicLib: './src/client/lib',
+        jsx: './src/client/jsx',
+        charts: './src/client/charts',
+        framework: './src/client/framework'
       },
       relative: __dirname
     })
@@ -178,8 +178,8 @@ function bundleJs(file, bcb) {
     .pipe(gulp.dest(jsDist));
 }
 
-function babelBundle() {
-  var src = './src/**/*.js';
+function babelBundle(cb) {
+  var src = './src/server/**/*.js';
   var dist = './dist';
 
   gutil.log('Babel is generating ' + src + ' files to ' + dist + ' ...');
@@ -190,11 +190,12 @@ function babelBundle() {
     .pipe(gulp.dest(dist))
     .on('end', function() {
       gutil.log('Done babelifying');
+      cb();
     });
 }
 
 function bundleSass() {
-  var cssSrc = './public/scss/';
+  var cssSrc = './src/scss/';
   var cssDist = './public/css/';
   var cssFiles = cssSrc + '**/*.scss';
 

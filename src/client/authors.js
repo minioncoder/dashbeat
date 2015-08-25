@@ -10,7 +10,7 @@ var _sortByOrder = require('lodash/collection/sortByOrder');
 var io = require('socket.io-browserify');
 var d3 = require('d3');
 var colorbrewer = require('colorbrewer');
-var parse = require('../../../src/lib/parse');
+var parse = require('../server/lib/parse');
 
 /*
 * Globals for the scripts, mainly d3 variables setting the dimensions
