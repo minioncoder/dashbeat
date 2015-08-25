@@ -5,7 +5,6 @@ import express from 'express.io';
 
 import configureMiddleware from './middleware';
 import routes from './routes/index';
-import Controller from './beats/controller';
 
 var BASE_DIR = path.dirname(__dirname);
 

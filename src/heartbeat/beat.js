@@ -12,7 +12,7 @@ import _each from 'lodash/collection/forEach';
 
 import { User } from '../db';
 import getAsync from '../lib/promise';
-import { chartbeatApi, loopInterval } from '../lib/constant';
+import { chartbeatApi } from '../lib/constant';
 
 /**
 * Beat - Base class used to grab all chartbeat request data, save it, and send it over a socket
@@ -63,7 +63,7 @@ export default class Beat {
   * @return {Object} The coroutine
   */
   async fetch() {
-    logger(`Fetching ${this.apiUrl} for ${this.name}`);
+    logger(`Fetching data for ${this.name}`);
     let apiInfo;
     try {
       apiInfo = await User.find().exec();
@@ -76,9 +76,7 @@ export default class Beat {
       return;
     }
 
-    _each(apiInfo, info =>
-      this.get(info.apikey, info.hosts)
-    );
+    return Promise.all([for (info of apiInfo) this.get(info.apikey, info.hosts)]);
   }
 
   /**
@@ -106,11 +104,8 @@ export default class Beat {
   * Compiles Chartbeat API URL based
   *
   * @memberof Beat#
-  * @param {String} [apiUrl] Chartbeat API URL: http://api.chartbeat.com
-  * @param {String} [apiType] Chartbeat API type: live, historical
-  * @param {String} [name] The Chartbeat API name: toppages, quickstats, recent
-  * @param {Number|String} [version] The Chartbeat API version number
   * @param {Object} [args] The request GET values to append to the request: apikey=123, host=freep.com, limit=50
+  * @param {String} [apiUrl] Chartbeat API URL: http://api.chartbeat.com
   * @return {String} The formated chartbeat API URL
   */
   _compileUrl(args = {}, apiUrl = chartbeatApi) {
@@ -176,7 +171,7 @@ export default class Beat {
   * @return {Array} The Chartbeat response data
   */
   parse(responses) {
-    logger('Default parse called for ' + this.apiUrl);
+    logger('Default parse called for ' + this.name);
     return responses;
   }
 

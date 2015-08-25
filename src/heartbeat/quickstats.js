@@ -1,7 +1,5 @@
 'use strict';
 
-import _each from 'lodash/collection/forEach';
-
 import { getHostFromResponse } from '../lib/parse';
 import Beat from './beat';
 
@@ -12,10 +10,12 @@ export default class QuickStats extends Beat {
 
   parse(responses) {
     var stats = {};
-    _each(responses, function(response) {
-      var host = getHostFromResponse(response);
-      stats[host] = JSON.parse(response.body);
-    });
+
+    for (let i = 0; i < responses.length; i++) {
+      let resp = responses[i];
+      let host = getHostFromResponse(resp);
+      stats[host] = JSON.parse(resp.body);
+    }
 
     return stats;
   }

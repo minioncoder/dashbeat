@@ -1,7 +1,5 @@
 'use strict';
 
-import _each from 'lodash/collection/forEach';
-
 import { getHostFromResponse } from '../lib/parse';
 import Beat from './beat';
 
@@ -12,10 +10,11 @@ export default class Referrers extends Beat {
 
   parse(responses) {
     var referrers = {};
-    _each(responses, function(response) {
-      var host = getHostFromResponse(response);
-      referrers[host] = JSON.parse(response.body).referrers;
-    });
+    for (let i = 0; i < responses.length; i++) {
+      let resp = responses[i];
+      let host = getHostFromResponse(resp);
+      referrers[host] = JSON.parse(resp.body).referrers;
+    }
 
     return referrers;
   }

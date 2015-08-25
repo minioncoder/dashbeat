@@ -7,12 +7,13 @@ var logger = debug('app:status');
 import app from './app';
 import { connect, disconnect } from './db';
 import { db } from '../config';
+import heartbeat from './heartbeat/index';
 
 mongoose.connection.on('error', logger);
 
 connect(process.env.DASHBEAT_DB || db).then(function() {
-  let controller = new Controller(app);
-  controller.start();
+  let rythm = heartbeat.createRythm(app);
+  heartbeat.startPacemaker(rythm);
 }).catch(function(err) {
   throw new Error(err);
 });

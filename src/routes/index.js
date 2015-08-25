@@ -6,7 +6,7 @@ import debug from 'debug';
 var logger = debug('app:routes');
 
 import getAsync from '../lib/promise';
-import Report from '../beats/reports';
+import Report from '../heartbeat/reports';
 
 var router = express.Router();
 
@@ -31,7 +31,6 @@ router.get('/daily-perspective/', function(req, res, next) {
 });
 
 router.get('/get-article/', async function(req, res, next) {
-
   if (!('url' in req.query) || !req.query.url) {
     res.json({});
     return;
@@ -55,7 +54,7 @@ router.get('/get-daily-perspective/', function(req, res, next) {
   if ('date' in req.query) {
     date = req.query.date;
   }
-  logger(date);
+
   let report = new Report(undefined, 'reports', res, date);
   report.fetch();
 });
