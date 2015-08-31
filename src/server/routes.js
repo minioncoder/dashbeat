@@ -5,8 +5,9 @@ import request from 'request';
 import debug from 'debug';
 var logger = debug('app:routes');
 
-import getAsync from '../lib/promise';
-import Report from '../heartbeat/reports';
+import SupervisordApi from './lib/api';
+import getAsync from './lib/promise';
+import Report from './heartbeat/reports';
 
 var router = express.Router();
 
@@ -57,6 +58,16 @@ router.get('/get-daily-perspective/', function(req, res, next) {
 
   let report = new Report(undefined, 'reports', res, date);
   report.fetch();
+});
+
+router.get('/supervisord', function(req, res, next) {
+  let client = new SupervisordApi('localhost', '9001');
+  client.getAllProcessInfo(function(err, procs) {
+    if (err) return next(err);
+
+    logger(procs);
+    res.render('supervisord', {procs});
+  });
 });
 
 module.exports = router;

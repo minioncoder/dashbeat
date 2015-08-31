@@ -4,7 +4,7 @@ import path from 'path';
 import express from 'express.io';
 
 import configureMiddleware from './middleware';
-import routes from './routes/index';
+import routes from './routes';
 
 var BASE_DIR = path.dirname(__dirname);
 
