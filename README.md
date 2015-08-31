@@ -39,16 +39,45 @@ mongod
 ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgent
 ```
 
-## Setup
-* Create a config.js, copy the example file which is located `./config_default.js`
+## Configure
+To start pulling data from chartbeat, we need to create a user with an
+API key and associated hosts.  The easiest way to create a user for development:
+```
+gulp addUser
+```
+
+This requires a `config.js` file to be added to the base directory:
+```
+module.exports = {
+    apikey: '1234567890',
+    hosts: [
+        "detroitnews.com",
+        "freep.com",
+        "battlecreekenquirer.com",
+        "hometownlife.com",
+        "lansingstatejournal.com",
+        "livingstondaily.com",
+        "thetimesherald.com",
+    ]
+};
+```
 
 ## Run
 ```bash
-# Node
 npm start
+```
 
-# iojs
-npm run istart
+Without an environment variable `DASHBEAT_DB` pointing to the DB URI then it will
+default to: mongodb://localhost:27017/dashbeat
+
+To change the default database:
+```
+DASHBEAT_DB=mongodb://localhost:27017/beat npm start
+```
+
+## Debugging
+```
+DEBUG=app:* npm start
 ```
 
 #### Docker

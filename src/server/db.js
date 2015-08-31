@@ -4,11 +4,7 @@ import mongoose from 'mongoose';
 import debug from 'debug';
 var logger = debug('app:db');
 
-import { db } from '../config';
-
-if (typeof db === 'undefined') {
-  throw new Error("`db` key in config.js is required to connect to mongodb, ex: db: 'mongodb://localhost:27017/db'");
-}
+var db = process.env.DASHBEAT_DB || 'mongodb://localhost:27017/dashbeat';
 
 var Schema = mongoose.Schema;
 

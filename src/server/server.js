@@ -12,8 +12,8 @@ import heartbeat from './heartbeat/index';
 mongoose.connection.on('error', logger);
 
 connect(process.env.DASHBEAT_DB || db).then(function() {
-  let rythm = heartbeat.createRythm(app);
-  heartbeat.startPacemaker(rythm);
+  let rhythm = heartbeat.createRhythm(app);
+  heartbeat.startPacemaker(rhythm);
 }).catch(function(err) {
   throw new Error(err);
 });

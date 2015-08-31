@@ -12,10 +12,6 @@ var plumber = require('gulp-plumber');
 var tap = require('gulp-tap');
 var sourcemaps = require('gulp-sourcemaps');
 var neat = require('node-neat');
-var crashSound;
-try {
-  crashSound = require('gulp-crash-sound');
-} catch (e) {}
 
 var uuid = require('uuid');
 var babelify = require("babelify");
@@ -26,8 +22,6 @@ var pkgify = require('pkgify');
 var source = require('vinyl-source-stream');
 var each = require('lodash/collection/forEach');
 var browserifyShim = require('browserify-shim');
-
-var config = require('./config');
 
 var jsSrc = './src/client/';
 var jsDist = './public/js/';
@@ -94,6 +88,7 @@ gulp.task('babel', function(done) {
 gulp.task('default', ['sass', 'babel', 'browserify']);
 
 gulp.task('addUser', function(cb) {
+  var config = require('./config');
   var db = require('./dist/db');
   db.connect();
   gutil.log('Adding default user for development ...');

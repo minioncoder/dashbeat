@@ -23,18 +23,18 @@ var defaultBeats = [
  *
  * @param {Object} [app] Express application instance
  * @param {Function[]} [beats] Array of beat functions to be instantiated when server starts
- * @return {Object} The rythm that makes up a heartbeat
+ * @return {Object} The rhythm that makes up a heartbeat
  */
-function createRythm(app, beats=defaultBeats) {
-  logger("Creating rythm ...");
+function createRhythm(app, beats=defaultBeats) {
+  logger("Creating rhythm ...");
 
-  let rythm = [];
+  let rhythm = [];
   for (let i = 0; i < beats.length; i++) {
     let beat = new beats[i](app);
-    rythm.push(beat);
+    rhythm.push(beat);
   }
 
-  return rythm;
+  return rhythm;
 }
 
 /**
@@ -52,13 +52,13 @@ async function startPacemaker(beats, loopInterval=defaultLoopInterval) {
     logger(err);
   }
 
-  logger(`Heart dialation, next contraction in ${loopInterval}ms ...`);
+  logger(`Heart dilation, next contraction in ${loopInterval}ms ...`);
 
   setTimeout(startPacemaker.bind(this, beats, loopInterval), loopInterval);
 }
 
 module.exports = {
   startPacemaker,
-  createRythm,
+  createRhythm,
   beats: defaultBeats
 };
