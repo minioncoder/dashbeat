@@ -25,7 +25,7 @@ var browserifyShim = require('browserify-shim');
 
 var jsSrc = './src/client/';
 var jsDist = './public/js/';
-var jsBundle = ['authors.js', 'popular.js', 'big-picture.js', 'referrers.js',
+var jsBundle = ['authors.js', 'popular_n.js', 'big-picture.js', 'referrers.js',
                 'daily-perspective.js'];
 
 gulp.task('sass', function() {

@@ -140,13 +140,11 @@ var ArticleSummary = React.createClass({
     }
   },
   openSummary() {
-
     this.slideIn();
     this.fetchInfo();
   },
   componentWillMount() {
     this.setState({ loading: true });
-
     this.articleCache = {};
   },
   componentDidMount() {

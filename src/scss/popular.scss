@@ -33,7 +33,7 @@ a, a:visited, a:active, a:hover {
 
 $article-height: 50px;
 $article-border: 1px;
-.articles {
+#articles {
   position: relative;
   @media (max-width: $screen-md) {
     @include row();
@@ -44,7 +44,7 @@ $article-border: 1px;
   }
   // margin: 0 10%;
 
-  .article-container {
+  .articleList {
     height: $article-height;
     position: absolute;
     top: 100%;
