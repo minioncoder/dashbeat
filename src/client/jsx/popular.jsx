@@ -11,32 +11,57 @@ export default function renderList(data, el) {
 }
 
 class ArticleList extends React.Component {
+    state = {
+        data: []
+    };
+
     render() {
-        var articles = this.props.data.map(function(article) {
+        var sortedCopy = this.state.data.slice().sort(function(a, b) {
+            return parseInt(b.visits) - parseInt(a.visits);
+        });
+
+        var articles = this.state.data.map(function(article, pos) {
+            console.log(pos);
+            let authors = "";
+            if (article.authors && article.authors.length) {
+                authors = article.authors.join(", ");
+            }
             return (
-                <Article visits={article.visits} path={article.path} title={article.title} authors={article.authors} />
+                <Article
+                    key={article.path}
+                    visits={article.visits}
+                    path={article.path}
+                    title={article.title}
+                    authors={authors}
+                    position={pos*60} />
             );
         });
         return (
-            <div className="articleList">
+            <ol className="articleList">
                 {articles}
-            </div>
+            </ol>
         );
     };
 };
 
+/*
+<ReactCSSTransitionGroup transitionName="example" transitionAppear={true}>
+    {articles}
+</ReactCSSTransitionGroup>
+ */
+
 class Article extends React.Component {
     constructor(props) {
         super(props);
-        this.props.authorsClass = 'authors';
-        if (!this.props.authors.length) {
-            this.props.authorsClass = 'hidden';
-        }
     };
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.visits != nextProps.visits || this.props.position != nextProps.position;
+    }
 
     render() {
         return (
-          <div className='article' onClick={ this.handleClick }>
+          <li className='article' onClick={ this.handleClick } style={ {top: this.props.position+'px' } }>
             <ReactNumberEasing value={ this.props.visits } className='readers'/>
             <div className='article-title'>
               <div className='title'>
@@ -44,16 +69,13 @@ class Article extends React.Component {
               </div>
               <div className='info'>
                 <div className={ this.props.authorsClass }>
-                  { this.props.authors.join(', ') }
+                  { this.props.authors }
                 </div>
                 <div className='time'></div>
               </div>
             </div>
-          </div>
+          </li>
         )
     };
 };
 
-/*module.exports = {
-    Article, ArticleList
-};*/
