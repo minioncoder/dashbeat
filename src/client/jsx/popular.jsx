@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-//import addons from 'react/addons';
-//const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+import addons from 'react/addons';
+const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 //import ReactNumberEasing from 'react-number-easing';
 
 export default function renderList(data, el) {
@@ -18,13 +18,15 @@ class ArticleList extends React.Component {
     };
 
     render() {
+        // we must preserve the original order in which the articles
+        // are generated in the DOM or else react will destroy/recreate those
+        // elements and lose its previous state
         var sortedCopy = this.state.data.slice().sort(function(a, b) {
             return a.path.localeCompare(b.path);
         });
 
         let articles = [];
 
-        console.log(sortedCopy[0]);
         for (let i = 0; i < sortedCopy.length; i++) {
             let article = sortedCopy[i];
             let authors = "";
@@ -50,17 +52,13 @@ class ArticleList extends React.Component {
 
         return (
             <ol className="articleList">
-                {articles}
+                <ReactCSSTransitionGroup transitionName="example" transitionAppear={true}>
+                    {articles}
+                </ReactCSSTransitionGroup>
             </ol>
         );
     };
 };
-
-/*
-<ReactCSSTransitionGroup transitionName="example" transitionAppear={true}>
-    {articles}
-</ReactCSSTransitionGroup>
- */
 
 class Article extends React.Component {
     constructor(props) {

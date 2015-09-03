@@ -7,7 +7,7 @@ var articleList = renderList([], document.getElementById('articles'));
 
 var dash = new DashSocket(['toppages', 'quickstats']);
 dash.room('toppages').on('data', function(data) {
-  var sortedCopy = data.articles.slice().sort(function(a, b) {
+  data.articles.sort(function(a, b) {
       var visitsA = parseInt(a.visits);
       var visitsB = parseInt(b.visits);
 
@@ -16,6 +16,7 @@ dash.room('toppages').on('data', function(data) {
       }
       return visitsB - visitsA;
   });
-  articleList.setState({ data: sortedCopy });
+
+  articleList.setState({ data: data.articles.slice(0, 25) });
 });
 
