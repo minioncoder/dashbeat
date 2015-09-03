@@ -10,9 +10,10 @@ ol {
 
 li {
   margin: 0;
-  transition: all 0.5s ease;
+  transition: all 1.5s ease;
   position: absolute;
   box-sizing: border-box;
+  top: 100%;
 }
 
 body {
@@ -59,7 +60,7 @@ $article-border: 1px;
   // margin: 0 10%;
 
   .articleList {
-    height: $article-height;
+    height: 1000px;
     //position: absolute;
     top: 100%;
     width: 100%;

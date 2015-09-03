@@ -7,6 +7,6 @@ var articleList = renderList([], document.getElementById('articles'));
 
 var dash = new DashSocket(['toppages', 'quickstats']);
 dash.room('toppages').on('data', function(data) {
-  articleList.setState({ data: data.articles });
+  articleList.setState({ data: data.articles.slice(0, 25) });
 });
 
