@@ -7,6 +7,16 @@ var articleList = renderList([], document.getElementById('articles'));
 
 var dash = new DashSocket(['toppages', 'quickstats']);
 dash.room('toppages').on('data', function(data) {
-  articleList.setState({ data: data.articles.slice(0, 25) });
+  var sortedCopy = data.articles.slice().sort(function(a, b) {
+    var visitsA = parseInt(a.visits);
+    var visitsB = parseInt(b.visits);
+
+    if (visitsA == visitsB) {
+      return a.title.localeCompare(b.title);
+    }
+    return visitsB - visitsA;
+  });
+
+  articleList.setState({ data: sortedCopy.slice(0, 25) });
 });
 

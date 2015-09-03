@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import addons from 'react/addons';
+const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 //import ReactNumberEasing from 'react-number-easing';
 
 export default function renderList(data, el) {
@@ -16,17 +18,7 @@ class ArticleList extends React.Component {
     };
 
     render() {
-        var sortedCopy = this.state.data.slice().sort(function(a, b) {
-            var visitsA = parseInt(a.visits);
-            var visitsB = parseInt(b.visits);
-
-            if (visitsA == visitsB) {
-                return a.title.localeCompare(b.title);
-            }
-            return visitsB - visitsA;
-        });
-
-        var articles = sortedCopy.map(article => {
+        var articles = this.state.data.map(function(article, pos) {
             let authors = "";
             let id = /\/(\d+)\/$/.exec(article.path);
             if (!id) return;
@@ -35,20 +27,21 @@ class ArticleList extends React.Component {
                 authors = article.authors.join(", ");
             }
 
-            let pos = this.state.data.indexOf(article);
+            //let pos = this.state.data.indexOf(article);
 
-            return <Article key={ id[1] }
+            return <Article key={ article.path }
                 visits={ article.visits }
                 path={ article.path }
                 title={ article.title }
                 authors={ authors }
-                position={ pos }
-                style={ {top: (pos*60)+'px' } } />
+                position={ pos } />
         });
 
         return (
             <ol className="articleList">
-                {articles}
+                <ReactCSSTransitionGroup transitionName="example" transitionAppear={true}>
+                    {articles}
+                </ReactCSSTransitionGroup>
             </ol>
         );
     };
@@ -67,7 +60,7 @@ class Article extends React.Component {
 
     render() {
         return (
-          <li className='article' style={ this.props.style }>
+          <li className='article' style={ {top: (this.props.position*60)+'px'} }>
             <div className='readers'>{ this.props.visits }</div>
             <div className='article-title'>
               <div className='title'>
