@@ -4,8 +4,8 @@ import DashSocket from './lib/socket';
 import renderList from './jsx/popular.jsx';
 
 var articleList = renderList([], document.getElementById('articles'));
-
 var dash = new DashSocket(['toppages', 'quickstats']);
+
 dash.room('toppages').on('data', function(data) {
   data.articles.sort(function(a, b) {
       var visitsA = parseInt(a.visits);
@@ -20,3 +20,10 @@ dash.room('toppages').on('data', function(data) {
   articleList.setState({ data: data.articles.slice(0, 25) });
 });
 
+dash.room('quickstats').on('data', function(data) {
+  let value = 0;
+  for (let stats in data) {
+    value += data[stats].visits;
+  }
+  document.getElementById('total-readers').innerHTML = value;
+});
