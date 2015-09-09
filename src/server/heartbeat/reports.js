@@ -15,6 +15,11 @@ import fs from 'fs';
  * it's not constantly updating data, it's functionally different from other
  * and will not be activated every 5 seconds by controller.js, but will instead
  * be activated when there's an AJAX call from a client
+ *
+ * TODO make a cache here. We could keep 5 or so days in memory to be able to
+ * serve them up quicker. I.e. loading the previous day (the day that's loaded
+ * on the page) shouldnt take an API call every time, we should only have to do
+ * it once
  */
 export default class Report extends Beat {
   /**

@@ -151,7 +151,8 @@ function bundleJs(file, bcb) {
         publicLib: './src/client/lib',
         jsx: './src/client/jsx',
         charts: './src/client/charts',
-        framework: './src/client/framework'
+        framework: './src/client/framework',
+        dashboards: './src/client/dashboards'
       },
       relative: __dirname
     })

@@ -1,12 +1,12 @@
 import _each from 'lodash/collection/forEach';
-import _keys from 'lodash/object/keys';
 import request from 'request';
 import React from 'react';
 import moment from 'moment';
+import assign from 'object-assign';
 
 import $ from 'framework/$';
-import Host from './host/index';
-import DashboardControl from './jsx/dashboardControl';
+import DashboardControl from './obj/dashboardControl';
+import { dashboardStore } from './store';
 
 class Dashboard extends React.Component {
   /**
@@ -17,15 +17,21 @@ class Dashboard extends React.Component {
 
     this.hosts = {};
     this.activeHost = undefined;
-    this.yesterday = function() {
-      return moment().subtract(1, 'days')
-    };
-    this.currentDay = this.yesterday(); // yestrday
 
     this.state = {
       doneFetching: false
     }
+
+    this.state = assign({}, this.state, dashboardStore.getState());
+
+    dashboardStore.addChangeListener(this.stateChange.bind(this));
   }
+
+  stateChange() {
+    this.setState(dashboardStore.getState());
+  }
+
+  compnent
 
   /**
    * Makes an AJAX call to the server to get the daily report data
@@ -136,14 +142,7 @@ class Dashboard extends React.Component {
     }
 
     let host = this.hosts[this.activeHost];
-    return (
-      <Host
-        hostName={ host.name }
-        overview={ host.overview }
-        toppages={ host.toppages }
-        topauthors={ host.topauthors }
-        topsections={ host.topsections }/>
-    )
+    return null;
   }
 
   render() {
@@ -160,14 +159,7 @@ class Dashboard extends React.Component {
     else {
       return (
         <div className='dashboard-container'>
-          <DashboardControl
-            hosts={ _keys(this.hosts) }
-            dashboard={ this }
-            currentDay={ this.currentDay }
-            yesterday={ this.yesterday() }
-            hostChange={ this.hostChange.bind(this) }
-            dateChange={ this.dateChange.bind(this) }/>
-
+          <DashboardControl currentDay={ this.state.date }/>
           { this.generateDashboard() }
         </div>
       )
