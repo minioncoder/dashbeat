@@ -5,8 +5,9 @@ import React from 'react';
 import Ajax from '../lib/ajax';
 
 async function getData(id) {
+  let data;
   try {
-    data = await Ajax("https://api.michigan.com/article/" + id + "/");
+    data = await Ajax("https://api.michigan.com/v1/article/" + id + "/");
   } catch (err) {
     throw err;
   }
@@ -24,12 +25,9 @@ async function getData(id) {
 };
 
 class Overview extends React.Component {
-    state = {
-      open: false,
-      hasData: false,
-    };
-
     static defaultProps = {
+      hasData: false,
+      open: false,
       data: {
         url: "",
         visits: 0,
@@ -49,17 +47,23 @@ class Overview extends React.Component {
     };
 
     render() {
-      let rootClass = '';
-      if (!this.props.open)
-        rootClass = 'hidden';
+      let rootClass = 'overview';
+      if (!this.props.open) {
+        rootClass += ' hidden';
+      }
 
-      console.log(this.props.data);
+      if (!this.props.hasData) {
+        return (
+          <div className={ rootClass }></div>
+        );
+      }
+
       return (
         <div className={ rootClass }>
-          <div className='close-summary' onClick={ this.closeOverview }><i className="fa fa-times-circle"></i></div>
+          <div className='close-summary' onClick={ this.props.close }><i className="fa fa-times-circle"></i></div>
           <div className='article-info'>
             <div className='article-image text-center'>
-              <img src={ this.props.data.photo.url } style={ {width: "100%", height: this.props.data.photo.height  + "px" } } />
+              <img src={ this.props.data.photo.url } style={ {width: "100%", height: "auto"} } />
             </div>
             <div className='title text-center'><a target='_blank' href={ this.props.data.url }>{ this.props.data.title }</a></div>
             <div className='article-stats'>
@@ -77,16 +81,8 @@ class Overview extends React.Component {
               <a target='_blank' href={ this.props.data.url } className='button primary center'>See Full Article</a>
             </div>
           </div>
-          <div className='article-loading'>
-            <div>Loading article...</div>
-            <i className='fa fa-spinner fa-spin'></i>
-          </div>
         </div>
       );
-    };
-
-    closeOverview() {
-      this.state.open = false;
     };
 
     slideIn() {

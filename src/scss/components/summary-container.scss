@@ -3,11 +3,10 @@
 $z-index-article-summary: 1000;
 $z-index-page-overlay: $z-index-article-summary - 1;
 
-#summary-container {
+.overview {
   $container-padding: 2%;
   position: fixed;
   top: 0;
-  left: 102%;
   height: 100%;
   min-height: 500px;
   overflow-x: scroll;
@@ -19,9 +18,9 @@ $z-index-page-overlay: $z-index-article-summary - 1;
   z-index: $z-index-article-summary;
   @include outer-container();
 
-  @media (min-width: $screen-sm) {
+  /*@media (min-width: $screen-sm) {
     width: 50%;
-  }
+  }*/
 
   a, a:visited, a:active, a:hover {
     color: $primary-color;

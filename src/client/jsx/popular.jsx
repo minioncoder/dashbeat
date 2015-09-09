@@ -31,8 +31,9 @@ class ArticleList extends React.Component {
         for (let i = 0; i < sortedCopy.length; i++) {
             let article = sortedCopy[i];
             let authors = "";
-            let id = /\/(\d+)\/$/.exec(article.path);
-            if (!id) continue;
+            let re_id = /\/(\d+)\/$/.exec(article.path);
+            if (!re_id.length) continue;
+            let id = re_id[1];
 
             if (article.authors && article.authors.length) {
                 authors = article.authors.join(", ");
@@ -40,7 +41,8 @@ class ArticleList extends React.Component {
 
             let pos = this.state.data.indexOf(article);
 
-            let art = <Article key={ article.id }
+            let art = <Article key={ id }
+                id={ id }
                 visits={ article.visits }
                 path={ article.path }
                 title={ article.title }
@@ -69,24 +71,32 @@ class Article extends React.Component {
 
     state = {
       data: {},
-      hasData: false
+      hasData: false,
+      open: false
     };
 
     async handleClick() {
       if (!this.state.hasData) {
         try {
-          let data = await getData(this.props.key);
-          data.open = true;
-          this.setState({ hasData: true, data });
+          let data = await getData(this.props.id);
+          this.setState({ hasData: true, open: true, data });
+          return;
         } catch (err) {
           throw err;
         }
       }
+
+      this.setState({ open: true });
+    }
+
+    closeOverview(e) {
+      e.stopPropagation();
+      this.setState({ open: false });
     }
 
     render() {
       return (
-        <li className='article' onClick={ this.handleClick } style={ {top: (this.props.position*60)+'px'} }>
+        <li className='article' onClick={ this.handleClick.bind(this) } style={ {top: (this.props.position*60)+'px'} }>
           <div className='readers'>{ this.props.visits }</div>
           <div className='article-title'>
             <div className='title'>
@@ -96,7 +106,13 @@ class Article extends React.Component {
               { this.props.authors }
             </div>
           </div>
-          <Overview key={ this.props.key } visits={ this.props.visits } data={this.state.data}/>
+
+          <Overview key={ this.props.id }
+            visits={ this.props.visits }
+            hasData={ this.state.hasData }
+            open={ this.state.open }
+            close={ this.closeOverview.bind(this) }
+            data={ this.state.data } />
         </li>
       );
     };
