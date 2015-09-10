@@ -1,0 +1,33 @@
+@import 'base';
+
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+li {
+  margin: 0;
+  transition: all 1s ease;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.animate-article-enter {
+  opacity: 0.01;
+}
+
+.animate-article-enter.animate-article-enter-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.animate-article-leave {
+  opacity: 1;
+}
+
+.animate-article-leave.animate-article-leave-active {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}

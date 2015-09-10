@@ -4,7 +4,6 @@ import React from 'react';
 import addons from 'react/addons';
 const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 import { getData, Overview } from './overview.jsx';
-//import ReactNumberEasing from 'react-number-easing';
 
 export default function renderList(data, el) {
     return React.render(
@@ -15,7 +14,8 @@ export default function renderList(data, el) {
 
 class ArticleList extends React.Component {
     state = {
-        data: []
+      freeze: false,
+      data: []
     };
 
     render() {
@@ -55,12 +55,23 @@ class ArticleList extends React.Component {
         }
 
         return (
+          <div>
+            <button type="button" id="articleFreeze" onClick={ this.freeze.bind(this) }>Freeze</button>
             <ol className="articleList">
-                <ReactCSSTransitionGroup transitionName="example" transitionAppear={true}>
+                <ReactCSSTransitionGroup transitionName="animate-article" transitionAppear={true}>
                     {articles}
                 </ReactCSSTransitionGroup>
             </ol>
+          </div>
         );
+    };
+
+    shouldComponentUpdate(nextProps, nextState) {
+      return !nextState.freeze;
+    };
+
+    freeze(ev) {
+      this.setState({ freeze: !this.state.freeze });
     };
 };
 
@@ -98,14 +109,8 @@ class Article extends React.Component {
       return (
         <li className='article' onClick={ this.handleClick.bind(this) } style={ {top: (this.props.position*60)+'px'} }>
           <div className='readers'>{ this.props.visits }</div>
-          <div className='article-title'>
-            <div className='title'>
-              <a target='_blank' href={ this.props.path }>{ this.props.title }</a>
-            </div>
-            <div className='info'>
-              { this.props.authors }
-            </div>
-          </div>
+          <a className='title' target='_blank' href={ this.props.path }>{ this.props.title }</a>
+          <div className='info'>{ this.props.authors }</div>
 
           <Overview key={ this.props.id }
             visits={ this.props.visits }

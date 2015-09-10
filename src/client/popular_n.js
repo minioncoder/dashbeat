@@ -1,5 +1,6 @@
 'use strict';
 
+import Framework from './framework/index';
 import DashSocket from './lib/socket';
 import renderList from './jsx/popular.jsx';
 

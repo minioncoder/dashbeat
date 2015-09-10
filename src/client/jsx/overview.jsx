@@ -84,38 +84,6 @@ class Overview extends React.Component {
         </div>
       );
     };
-
-    slideIn() {
-      var parent = this.getDOMNode().parentNode;
-      var windowWidth = window.innerWidth;
-      var left = windowWidth >= 768 ? '50%' : '0%';
-      var that = this;
-
-      Velocity(parent, { left: left }, {
-        // easing: EASING,
-      });
-
-      $('.page-overlay')
-        .css({ display: 'block' })
-        .on('click', function() {
-            that.closeSummary();
-        });
-    };
-
-    slideOut() {
-      var parent = this.getDOMNode().parentNode;
-      var that = this;
-      Velocity(parent, { left: '102%' }, {
-        // easing: EASING,
-        complete: function() {
-          that.setState({ loading: true });
-          that.setProps(DEFAULT_PROPS);
-        }
-      });
-
-      $('.page-overlay').css({ display: 'none' });
-      $('.page-overlay').off('click');
-    };
 }
 
 module.exports = {

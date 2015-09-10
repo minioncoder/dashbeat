@@ -8,7 +8,7 @@ import moment from 'moment';
 import { parse } from 'publicLib/index';
 
 // JSX
-import ReactNumberEasing from 'react-number-easing';
+//import ReactNumberEasing from 'react-number-easing';
 
 var EASING = [0.680, -0.550, 0.265, 1.550];
 var DEFAULT_PROPS = {

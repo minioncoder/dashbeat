@@ -6,7 +6,7 @@ import { style } from 'publicLib/';
 
 // JSX
 import ArticleSummary from '../article-summary.jsx';
-import ReactNumberEasing from 'react-number-easing';
+//import ReactNumberEasing from 'react-number-easing';
 
 var Article = React.createClass({
   moveArticle() {
