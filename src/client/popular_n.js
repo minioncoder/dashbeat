@@ -26,5 +26,5 @@ dash.room('quickstats').on('data', function(data) {
   for (let stats in data) {
     value += data[stats].visits;
   }
-  document.getElementById('total-readers').innerHTML = value;
+  document.getElementById('totalReaders').innerHTML = value;
 });

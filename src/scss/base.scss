@@ -24,6 +24,8 @@ $twitter-blue: #00aced;
 // Stole from bootstrap until we decide what we wanna do
 $screen-md: 992px;
 $screen-sm: 768px;
+$mobile: new-breakpoint(max-width 768px 12);
+$desktop: new-breakpoint(min-width 992px 12);
 
 .text-center {
   text-align: center;

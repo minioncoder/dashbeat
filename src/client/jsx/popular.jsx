@@ -4,6 +4,7 @@ import React from 'react';
 import addons from 'react/addons';
 const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 import { getData, Overview } from './overview.jsx';
+import Screen from '../lib/screen';
 
 export default function renderList(data, el) {
     return React.render(
@@ -55,10 +56,10 @@ class ArticleList extends React.Component {
         }
 
         return (
-          <div>
+          <div className="articleContainer">
             <button type="button" id="articleFreeze" onClick={ this.freeze.bind(this) }>Freeze</button>
             <ol className="articleList">
-                <ReactCSSTransitionGroup transitionName="animate-article" transitionAppear={true}>
+                <ReactCSSTransitionGroup transitionName="animateArticle" transitionAppear={true}>
                     {articles}
                 </ReactCSSTransitionGroup>
             </ol>
@@ -98,20 +99,43 @@ class Article extends React.Component {
       }
 
       this.setState({ open: true });
-    }
+    };
 
     closeOverview(e) {
       e.stopPropagation();
       this.setState({ open: false });
-    }
+    };
+
+    handleResize() {
+      console.log("RESIZE!");
+      this.forceUpdate();
+    };
+
+    componentDidMount() {
+      window.addEventListener('resize', this.handleResize.bind(this));
+    };
+
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.handleResize);
+    };
+
+    getTopPosition(w, d) {
+      let screen = Screen(w, d);
+      let topFactor = 60;
+      if (screen.width < 768) {
+        topFactor = 40;
+      }
+      return this.props.position * topFactor;
+    };
 
     render() {
       return (
-        <li className='article' onClick={ this.handleClick.bind(this) } style={ {top: (this.props.position*60)+'px'} }>
+        <li className='article' onClick={ this.handleClick.bind(this) } style={ {top: this.getTopPosition(window, document)+'px'} }>
           <div className='readers'>{ this.props.visits }</div>
-          <a className='title' target='_blank' href={ this.props.path }>{ this.props.title }</a>
-          <div className='info'>{ this.props.authors }</div>
-
+          <div className='content'>
+            <a className='title' target='_blank' href={ this.props.path }>{ this.props.title }</a>
+            <div className='info'>{ this.props.authors }</div>
+          </div>
           <Overview key={ this.props.id }
             visits={ this.props.visits }
             hasData={ this.state.hasData }
