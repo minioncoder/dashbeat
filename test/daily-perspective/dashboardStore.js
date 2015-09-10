@@ -6,15 +6,17 @@ import { dashboardStore } from '../../src/client/dashboards/daily-perspective/st
 import { DashboardActions } from '../../src/client/dashboards/daily-perspective/action';
 
 let actions = new DashboardActions();
-let yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
+let yesterday = moment().subtract(1, 'days');
 
 describe('Daily Perspective store tests', function() {
   it('Tests date change', function() {
     let currentDate = dashboardStore.getState().date;
-    equal(currentDate, yesterday, 'Default date should be yesterday');
+    equal(dashboardStore.sameDates(currentDate, yesterday), true, 'Default date should be yesterday');
 
     let newDate = moment().subtract(100, 'days');
     actions.dateChange(newDate);
-    equal(dashboardStore.getState().date, newDate.format('YYYY-MM-DD'), 'New date didn\'t update');
+    let storedDate = dashboardStore.getState().date;
+
+    equal(dashboardStore.sameDates(newDate, storedDate), true, 'New date didn\'t update');
   });
 })

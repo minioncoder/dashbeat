@@ -3,6 +3,7 @@ import Dispatcher from '../dispatcher';
 /** Actions */
 export let DATECHANGE = 'date-change';
 export let CHANGEEVENT = 'dashboard-change';
+export let OPTIONCHANGE = 'option-change';
 
 /** Action class */
 export class DashboardActions {
@@ -16,6 +17,13 @@ export class DashboardActions {
     Dispatcher.dispatch({
       type: DATECHANGE,
       value: date
+    })
+  }
+
+  dashboardOptionChange(option) {
+    Dispatcher.dispatch({
+      type: OPTIONCHANGE,
+      value: option
     })
   }
 }

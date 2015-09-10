@@ -26,21 +26,40 @@ export default class Report extends Beat {
    * @constructs
    * @param {Object} [app] Express app object
    * @param {String} [name] Name of Beat
-   * @param {Object} [res] Express response object that will be used to return
-   *    the response data
    */
-  constructor(app, name='reports', res, date=undefined) {
+  constructor(app, name='reports') {
     super(app, name)
 
-    this.res = res;
+    this.cache = {};
 
+  }
+
+  yesterday() {
+    return moment().subtract(1, 'days').format('YYYY-MM-DD');
+  }
+
+  /**
+   * Fetch data. If we have data in our cache, return it
+   *
+   * @param {Object} res Express response object that will be used to return
+   * @param {String} date - (Optional) String represending the desired day
+   *    the response data
+   */
+  async fetch(res, date) {
     if (typeof date === 'undefined') {
       // Yesterday
-      this.date = moment().subtract(1, 'days').format('YYYY-MM-DD');
+      date = this.yesterday();
     }
-    else {
-      this.date = date;
+
+    if (date in this.cache) {
+      res.json(this.cache[date]);
+      return;
     }
+
+    this.res = res;
+    this.date = date;
+
+    super.fetch();
   }
 
   compileUrls(apikey, hosts) {
@@ -126,9 +145,12 @@ export default class Report extends Beat {
 
   sendData(data) {
     logger('Sending back Report data');
+    logger(JSON.stringify(data).length);
+
+    if (this.date === this.yesterday()) {
+      this.cache[this.date] = data;
+    }
+
     this.res.json(data);
-    // this.res.json({
-    //   test: true
-    // })
   }
 }

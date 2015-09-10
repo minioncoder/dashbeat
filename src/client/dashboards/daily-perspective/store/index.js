@@ -1,4 +1,4 @@
-import dashboardStore from './dashboardStore';
+import { dashboardStore } from './dashboardStore';
 
 module.exports = {
   dashboardStore

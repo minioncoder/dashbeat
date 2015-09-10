@@ -6,7 +6,19 @@ import assign from 'object-assign';
 
 import $ from 'framework/$';
 import DashboardControl from './obj/dashboardControl';
+import Host from './obj/host';
 import { dashboardStore } from './store';
+import { DATEFORMAT } from './store/dashboardStore';
+
+let hostNames = {
+  'freep.com': 'Free Press',
+  'detroitnews.com': 'Detroit News',
+  'battlecreekenquirer.com': 'Battle Creek Enquirer',
+  'hometownlife.com': 'Hometown Life',
+  'lansingstatejournal.com': 'Lansing State Journal',
+  'livingstondaily.com': 'Livingston Daily',
+  'thetimesherald.com': 'The Times Herald'
+}
 
 class Dashboard extends React.Component {
   /**
@@ -16,10 +28,9 @@ class Dashboard extends React.Component {
     super();
 
     this.hosts = {};
-    this.activeHost = undefined;
 
     this.state = {
-      doneFetching: false
+      doneFetching: true
     }
 
     this.state = assign({}, this.state, dashboardStore.getState());
@@ -28,10 +39,16 @@ class Dashboard extends React.Component {
   }
 
   stateChange() {
+    // Don't change the state if we're in the middle of fetching
+    if (!this.state.doneFetching) return;
     this.setState(dashboardStore.getState());
   }
 
-  compnent
+  componentWillUpdate(nextProps, nextState) {
+    if (!dashboardStore.sameDates(this.state.date, nextState.date)) {
+      this.fetchData(nextState.date);
+    }
+  }
 
   /**
    * Makes an AJAX call to the server to get the daily report data
@@ -39,20 +56,17 @@ class Dashboard extends React.Component {
    * @memberof Dashboard#
    * @param {Date} [date] Date requested, default=undefined
    */
-  fetchData(date=undefined) {
+  fetchData(date=this.state.date) {
     this.setState({
       doneFetching: false
     });
-
-    if (typeof date != 'undefined') {
-      this.currentDay = moment(date);
-    }
+    console.log('fetching data');
 
     request({
       baseUrl: document.location.origin,
       url: '/get-daily-perspective/',
       qs: {
-        date
+        date: date.format(DATEFORMAT)
       }
     },
     (error, response, body) => {
@@ -65,6 +79,7 @@ class Dashboard extends React.Component {
       catch(e) {
         throw new Error(e);
       }
+      console.log(parsed);
 
       this.updateData(parsed);
 
@@ -86,36 +101,6 @@ class Dashboard extends React.Component {
       this.compileHostData(hostName, stats);
     });
 
-    if (!this.activeHost) {
-      this.activeHost = 'freep.com';
-    }
-  }
-
-  /**
-   * When the host selector dropdown changes host, set the active host
-   *
-   * @memberof Dashboard#
-   * @param {String} [hostName] Name of host, whose data will be displayed
-   */
-  hostChange(hostName) {
-    if (!(hostName in this.hosts)) return;
-
-    this.activeHost = hostName;
-    console.log(`New host change: ${this.activeHost}`);
-
-    this.setState({
-      hostChange: true
-    });
-  }
-
-  /**
-   * When the date selector changes, re-fetch the data
-   *
-   * @memberof Dashboard#
-   * @param {Object} [date] Moment date object
-   */
-  dateChange(date) {
-    this.fetchData(date.format('YYYY-MM-DD'));
   }
 
   /**
@@ -136,13 +121,21 @@ class Dashboard extends React.Component {
     }
   }
 
-  generateDashboard() {
-    if (!this.activeHost) {
-      return '';
+  renderDashboard() {
+    let hosts = [];
+    for (var host in this.hosts) {
+      hosts.push(
+        <Host host={ host }
+          name={ host in hostNames ? hostNames[host] : host }
+          data={ this.hosts[host] }
+          activeOption={ this.state.activeOption }/>
+      )
     }
-
-    let host = this.hosts[this.activeHost];
-    return null;
+    return (
+      <div className='hosts'>
+        { hosts }
+      </div>
+    );
   }
 
   render() {
@@ -159,8 +152,10 @@ class Dashboard extends React.Component {
     else {
       return (
         <div className='dashboard-container'>
-          <DashboardControl currentDay={ this.state.date }/>
-          { this.generateDashboard() }
+          <DashboardControl currentDay={ this.state.date }
+              availableOptions={ dashboardStore.getDashboardOptions() }
+              activeOption={ this.state.activeOption}/>
+          { this.renderDashboard() }
         </div>
       )
     }

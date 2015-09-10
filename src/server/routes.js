@@ -10,6 +10,7 @@ import getAsync from './lib/promise';
 import Report from './heartbeat/reports';
 
 var router = express.Router();
+let report = new Report(undefined, 'reports');
 
 router.get('/', function(req, res, next) {
   res.render('popular');
@@ -56,8 +57,7 @@ router.get('/get-daily-perspective/', function(req, res, next) {
     date = req.query.date;
   }
 
-  let report = new Report(undefined, 'reports', res, date);
-  report.fetch();
+  report.fetch(res, date);
 });
 
 router.get('/supervisord', function(req, res, next) {

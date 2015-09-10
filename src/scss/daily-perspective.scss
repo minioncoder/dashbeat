@@ -2,355 +2,181 @@
 @import '/react-datepicker/dist/react-datepicker.min.css';
 // @import '../../../../node_modules/hint.css/src/hint.scss';
 
+// Based on the michigan.com green color
+// http://paletton.com/#uid=72E0u0kkCrqaRHdgcvHp7o6snj3
+$michigan-com-green: #71bf44; // Green
+$michigan-com-info: #349173; // turqouise...ish
+$michigan-com-danger: #C94765; // Redish
+$michigan-com-warning: #DA7D4E; // Orange
+
 $z-index-hosts: 100;
 $z-index-article-summary: $z-index-hosts * 2;
 
 body {
+  font-family: Lucida Grande, Lucida Sans Unicode, Lucida Sans, Geneva, Verdana, sans-serif;
+
   &.summary-open {
     overflow: hidden;
   }
 }
 
+.option-select {
+  text-transform: capitalize;
+}
 
-.dashboard-control {
-  @include row();
+.host-container {
+  width: 100%;
+  margin: 0 auto;
+  display: inline-block;
+  float: left;
+  margin-bottom: 10px;
 
-  .control-container {
-    @include span-columns(6);
+  .host {
+    width: 90%;
+    margin: 0 auto;
+    color: $michigan-com-green;
+    background-color: white;
+    border-radius: 20px;
 
-    & > div {
+    .host-title {
       width: 100%;
+      margin-bottom: 10px;
+      font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
+      font-size: 20px;
+      text-transform: uppercase;
+      text-align: center;
 
-      @media (min-width: $screen-md) {
-        width: 50%;
+      @media (max-width: $screen-sm) {
+        font-size: 15px;
       }
     }
-    &.left {
-      & > div {
-        margin-right: 0;
-        margin-left: auto;
-      }
-    }
 
-    &.right {
-      & > div {
-        margin-left: 0;
-        margin-right: auto;
-      }
+    .host-data-container {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 20px;
     }
   }
-  .hosts {
-    // @include span-columns(12);
-    position: relative;
-    float: none !important;
-    z-index: $z-index-hosts;
+}
 
-    @media (min-width: $screen-md) {
-      // @include span-columns(2);
-    }
+/*.host-container:nth-child(4n+1), .host-container:nth-child(4n) {*/
+.host-container:nth-child(2n) {
+  .host {
+    background-color: $michigan-com-green;
+    color: white;
+    box-shadow: 0 0 3px black;
+  }
+}
 
-    .toggle {
+
+/** Quick stats stuff */
+.host-data-container.quick-stats {
+
+  .stat-list-item {
+    width: 100%;
+    margin-bottom: 10px;
+    text-indent: 10px;
+
+    .stat-content {
+      margin: 10px;
+      position: relative;
       cursor: pointer;
-      border: 1px solid #eee;
-      background-color: $info-color;
-      color: white;
-      text-align: center;
-      height: 20px;
     }
 
-    .host-dropdown {
+    .stat-name {
+      color: $michigan-com-info;
+      font-weight: bold;
+    }
+
+    .delta {
+      cursor: pointer;
+
+      &.positive {
+        /*color: $success-color;*/
+
+        .fa-arrow-down {
+          display: none;
+        }
+      }
+
+      &.negative {
+        /*color: $danger-color;*/
+
+        .fa-arrow-up {
+          display: none;
+        }
+      }
+    }
+
+    .popup {
+      text-indent: 0;
       display: none;
-      cursor: pointer;
       position: absolute;
-      top: 20px;
-      width: 100%;
+      top: 125%;
+      background-color: $michigan-com-info;
+      color: white;
+      box-shadow: 0 0 3px black;
+      z-index: 10;
+      border-radius: 5px;
+      padding: 20px;
+
+      &:before {
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        width: 0;
+        border-bottom: 10px solid $michigan-com-info;
+        border-right: 10px solid transparent;
+        border-left: 10px solid transparent;
+        content: " ";
+        font-size: 0;
+        line-height: 0;
+      }
 
       &.show {
         display: block;
       }
-
-      .host {
-        @include row();
-        background-color: $primary-color;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        border: 1px solid #eee;
-
-        &:hover, &.active {
-          color: $info-color;
-          background-color: white;
-        }
-      }
     }
+
   }
 }
 
-.host-dashboard {
-
-  .dashboard-selector {
-    @include outer-container();
-    height: 50px;
-    margin-bottom: 10px;
-
-    .dashboard-option {
-      @include span-columns(4);
-      height: 100%;
-      background-color: white;
-      color: $primary-color;
-      text-align: center;
-      line-height: 50px;
-      vertical-align: middle;
-      cursor:pointer;
-      @include transition(backround-color 200ms ease-in);
-
-      &:hover, &.selected {
-        background-color: $primary-color;
-        color: white;
-      }
-    }
-  }
-}
-
-$zindex-article-series: -1;
-.dashboard-item {
-  @include outer-container();
+.notes {
   position: relative;
-  border: 1px solid #eee;
-  margin-bottom: 10px;
-  cursor: pointer;
-  height: 100px;
 
-  .side-stats, .main-panel {
-    z-index: $zindex-article-series + 5;
-
-    & > div {
-      @include row();
-      padding: 5px 0px;
-    }
-
-    & * {
-      z-index: inherit;
-    }
-  }
-
-  .rank {
-    @include span-columns(1);
-    color: white;
-    background-color: $primary-color;
-    height: 100%;
-    text-align: center;
-    font-size: 20px;
-    padding-top: 35px;
-  }
-
-  .side-stats {
-    @include span-columns(3);
-    height: 100%;
-  }
-
-  .main-panel {
-    @include span-columns(8);
-    height: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    line-height: 100px;
-    vertical-align: middle;
-    font-size: 15px;
-    white-space: nowrap;
-
-    @media (min-width: $screen-md) {
-      font-size: 30px;
-    }
-
-    .title {
-      color: $primary-color;
-      display: inline;
-    }
-
-  }
-
-  .series-data {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: $zindex-article-series;
-
-    .point {
-      background-color: rgba(#2D882D, .1);
-      display: inline-block;
-      z-index: inherit;
-      position: absolute;
-    }
-  }
-}
-
-
-.article-summary {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  z-index: $z-index-article-summary;
-
-  &.closed {
+  .notes-container {
     display: none;
-  }
-
-  .article-summary-container {
-    // @include outer-container();
     position: absolute;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    width: 75%;
-    overflow-y: auto;
-    overflow-x: visible;
-    background: #eee;
-    z-index: $z-index-article-summary;
-    margin: 0 12.5%;
+    top: 115%;
+    background: white;
+    color: $michigan-com-green;
+    z-index: 20;
+    border: 1px solid $michigan-com-green;
+    border-radius: 20px;
+    opacity: 0;
+    box-shadow: 0 0 3px black;
+    @include transition(opacity 250ms ease-in);
+  }
 
-    & > div {
-      @include row();
+  &.show {
+    .notes-container {
+      opacity: 1;
+      display: block;
+
     }
 
-    .title {
-      text-align: center;
-      font-size: 40px;
-    }
-
-    .summary {
-
-      & > div {
-        @include span-columns(6);
-      }
-
-      .notes {
-        // @include outer-container();
-
-        .note {
-          @include row();
-        }
-      }
-    }
-
-    .referrals {
-      & > div {
-        @include row();
-      }
-    }
-  }
-
-  .overlay {
-    background-color: rgba(grey, .3);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: $z-index-article-summary - 1;
-  }
-
-  .series {
-    height: 200px;
-
-    .series-data {
-      height: 100%;
-      width: 100%;
-      position: relative;
-
-      .point {
-        background-color: rgba(#2D882D, .9);
-        display: inline-block;
-        z-index: inherit;
-        position: absolute;
-      }
-    }
-  }
-
-  #percentages {
-    height: 400px;
-    overflow: visible;
-
-    svg {
-      overflow: visible;
-      width: 100%;
-      height: 100%;
-    }
-
-    path.slice{
-      stroke-width:2px;
-    }
-
-    polyline{
-      opacity: .3;
-      stroke: black;
-      stroke-width: 2px;
-      fill: none;
-    }
-  }
-}
-
-// For common stuff between article and article-summary
-.social-shares {
-  @include outer-container();
-  & > div {
-    // @include row();
-    text-align: center;
-
-    // @media (min-width: $screen-sm) {
-      @include span-columns(6);
-    // }
-  }
-
-  .fa {
-    margin-right: 10px;
-  }
-
-  .fa-facebook {
-    color: $facebook-blue;
-  }
-
-  .fa-twitter {
-    color: $twitter-blue;
-  }
-}
-
-.value {
-  width: 100%;
-  text-align: center;
-
-  .fa {
-    margin: 0px 5px;
-  }
-
-  &.up {
-
-    .delta {
-      color: $success-color;
-
+    .stat-name {
       .fa-caret-down {
-        display: none;
-      }
-      .fa-caret-up {
-        display: inline-block;
+        @include transform(rotate(180deg));
       }
     }
   }
 
-  &.down {
-    .delta {
-      color: $danger-color;
+  .stat-name {
+    cursor: pointer;
 
-      .fa-caret-down {
-        display: inline-block;
-      }
-      .fa-caret-up {
-        display: none;
-      }
+    .fa-caret-down {
+      @include transition(transform 250ms linear);
     }
   }
 }
