@@ -6,6 +6,17 @@ const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 import { getData, Overview } from './overview.jsx';
 import Screen from '../lib/screen';
 
+var imgLoc = "/img/hostimages/";
+var sourceMap = {
+  "detroitnews.com": imgLoc + "detroitnews.png",
+  "freep.com": imgLoc + "freep.png",
+  "hometownlife.com": imgLoc + "hometownlife.png",
+  "lansingstatejournal.com": imgLoc + "lansingstatejournal.png",
+  "thetimesherald.com": imgLoc + "thetimesherald.png",
+  "livingstondaily.com": imgLoc + "livingstondaily.png",
+  "battlecreekenquirer.com": imgLoc + "battlecreekenquirer.png"
+};
+
 export default function renderList(data, el) {
     return React.render(
         <ArticleList data={data} />,
@@ -47,6 +58,7 @@ class ArticleList extends React.Component {
                 visits={ article.visits }
                 path={ article.path }
                 title={ article.title }
+                source={ article.host }
                 authors={ authors }
                 position={ pos } />;
 
@@ -107,7 +119,6 @@ class Article extends React.Component {
     };
 
     handleResize() {
-      console.log("RESIZE!");
       this.forceUpdate();
     };
 
@@ -133,8 +144,11 @@ class Article extends React.Component {
         <li className='article' onClick={ this.handleClick.bind(this) } style={ {top: this.getTopPosition(window, document)+'px'} }>
           <div className='readers'>{ this.props.visits }</div>
           <div className='content'>
-            <a className='title' target='_blank' href={ this.props.path }>{ this.props.title }</a>
-            <div className='info'>{ this.props.authors }</div>
+            <img className='source' src={ sourceMap[this.props.source] } />
+            <div className='titleInfo'>
+              <span className='title'>{ this.props.title }</span>
+              <div className='info'>{ this.props.authors }</div>
+            </div>
           </div>
           <Overview key={ this.props.id }
             visits={ this.props.visits }

@@ -27,23 +27,7 @@ async function getData(id) {
 class Overview extends React.Component {
     static defaultProps = {
       hasData: false,
-      open: false,
-      data: {
-        url: "",
-        visits: 0,
-        authors: "",
-        title: "",
-        subtitle: "",
-        source: "",
-        timestamp: "",
-        section: "",
-        summary: "",
-        photo: {
-          url: "",
-          height: 0,
-          width: 0
-        }
-      }
+      open: false
     };
 
     render() {
@@ -60,27 +44,22 @@ class Overview extends React.Component {
 
       return (
         <div className={ rootClass }>
-          <div className='close-summary' onClick={ this.props.close }><i className="fa fa-times-circle"></i></div>
-          <div className='article-info'>
-            <div className='article-image text-center'>
-              <img src={ this.props.data.photo.url } style={ {width: "100%", height: "auto"} } />
-            </div>
-            <div className='title text-center'><a target='_blank' href={ this.props.data.url }>{ this.props.data.title }</a></div>
-            <div className='article-stats'>
+          <div className='articleClose' onClick={ this.props.close }><i className="fa fa-times-circle"></i></div>
+          <img className='articlePhoto' src={ this.props.data.photo.url } />
+          <div className='articleInfo'>
+            <a target='_blank' href={ this.props.data.url }>{ this.props.data.title }</a>
+
+            <div className='articleStats'>
               <div className='byline text-center'>{ this.props.data.authors }</div>
-              <div className='readers text-center'>Readers: { this.props.visits }</div>
               <div className='date text-center'>{ this.props.data.timestamp }</div>
             </div>
-            <div className='summary-container'>
-              <div className='summary'>
-                  { this.props.data.summary }
-              </div>
-              <div className='overflow-shadow'></div>
-            </div>
-            <div className='button-container center'>
-              <a target='_blank' href={ this.props.data.url } className='button primary center'>See Full Article</a>
+
+            <div className='articleSummary'>
+              { this.props.data.summary }
             </div>
           </div>
+
+          <a href={ this.props.data.url } target='_blank'>See Full Article</a>
         </div>
       );
     };

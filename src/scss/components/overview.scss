@@ -1,0 +1,17 @@
+@import 'base';
+
+.overview {
+  @include span-columns(12);
+  background-color: #1f3442;
+  padding: 0 15px 15px 15px;
+  .articlePhoto {
+    @include span-columns(2 of 6);
+    height: auto;
+  }
+  .articleInfo {
+    @include span-columns(3 of 6);
+  }
+  .articleClose {
+    @include span-columns(1 of 6);
+  }
+}
