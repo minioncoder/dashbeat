@@ -6,6 +6,7 @@ const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 import { getData, Overview } from './overview.jsx';
 import Screen from '../lib/screen';
 
+var mobileBp = 768;
 var imgLoc = "/img/hostimages/";
 var sourceMap = {
   "detroitnews.com": imgLoc + "detroitnews.png",
@@ -39,6 +40,7 @@ class ArticleList extends React.Component {
         });
 
         let articles = [];
+        let articleMap = {};
 
         for (let i = 0; i < sortedCopy.length; i++) {
             let article = sortedCopy[i];
@@ -62,8 +64,9 @@ class ArticleList extends React.Component {
                 authors={ authors }
                 position={ pos } />;
 
-            if (articles.indexOf(art) == -1) {
-                articles.push(art);
+            if (!articleMap.hasOwnProperty(id)) {
+              articles.push(art);
+              articleMap[id] = 1;
             }
         }
 
@@ -110,7 +113,7 @@ class Article extends React.Component {
         }
       }
 
-      this.setState({ open: true });
+      this.setState({ open: !this.state.open });
     };
 
     closeOverview(e) {
@@ -127,21 +130,36 @@ class Article extends React.Component {
     };
 
     componentWillUnmount() {
-      window.removeEventListener('resize', this.handleResize);
+      window.removeEventListener('resize', this.handleResize.bind(this));
     };
 
-    getTopPosition(w, d) {
-      let screen = Screen(w, d);
-      let topFactor = 60;
-      if (screen.width < 768) {
-        topFactor = 40;
+    // article position in list
+    getTopPosition(screen, factor=60) {
+      if (screen.width < mobileBp) {
+        factor = 40;
       }
-      return this.props.position * topFactor;
+      return this.props.position * factor;
+    };
+
+    // overview position
+    getLeftPosition(screen, factor=52) {
+      if (!this.state.open) {
+        return 100;
+      }
+
+      if (screen.width < mobileBp) {
+        factor = 10;
+      }
+
+      return factor;
     };
 
     render() {
+      let screen = Screen(window, document);
+      let left = this.getLeftPosition(screen) + "%";
+
       return (
-        <li className='article' onClick={ this.handleClick.bind(this) } style={ {top: this.getTopPosition(window, document)+'px'} }>
+        <li className='article' onClick={ this.handleClick.bind(this) } style={ {top: this.getTopPosition(screen)+'px'} }>
           <div className='readers'>{ this.props.visits }</div>
           <div className='content'>
             <img className='source' src={ sourceMap[this.props.source] } />
@@ -150,10 +168,13 @@ class Article extends React.Component {
               <div className='info'>{ this.props.authors }</div>
             </div>
           </div>
+
           <Overview key={ this.props.id }
             visits={ this.props.visits }
+            authors={ this.props.authors }
             hasData={ this.state.hasData }
             open={ this.state.open }
+            left={ left }
             close={ this.closeOverview.bind(this) }
             data={ this.state.data } />
         </li>
