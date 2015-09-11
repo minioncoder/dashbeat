@@ -5,6 +5,8 @@ import StatListItem from './components/statListItem';
 import { QUICKSTATS, TOTALSTORIES, TOTALMINUTES, PEAKCONCURRENT, TOPSTORIES,
   TOPAUTHORS } from '../store/dashboardStore';
 
+import TopArticle from './components/topArticle';
+
 export default class Host extends React.Component {
   constructor(args) {
     super(args);
@@ -42,7 +44,7 @@ export default class Host extends React.Component {
     let overview = this.props.data.overview;
 
     return (
-      <div className='host-data quick-stats'>
+      <div className={ `host-data ${this.props.activeOption}` }>
         <div className='stat-list'>
           <StatListItem name='Total Engaged Time' data={ overview.data.total_engaged_time }/>
           <StatListItem name='Published Articles' data={ overview.data.num_articles }/>
@@ -58,7 +60,18 @@ export default class Host extends React.Component {
    * Render the top stories for each host
    */
   renderTopStories() {
+    function renderTopStory(option, index) {
+      return (
+        <TopArticle data={ option }/>
+      )
+    }
+
     let topStories = this.props.data.toppages;
+    return (
+      <div className={ `host-data ${this.props.activeOption}` }>
+        { topStories.page_list.slice(0, 5).map(renderTopStory) }
+      </div>
+    )
   }
 
   /**
@@ -120,7 +133,7 @@ export default class Host extends React.Component {
       case QUICKSTATS:
         return this.renderQuickStats();
         break;
-      case TOPSTORIES:
+      case TOTALSTORIES:
         return this.renderTopStories();
         break;
     }

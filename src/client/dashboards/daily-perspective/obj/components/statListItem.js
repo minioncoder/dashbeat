@@ -1,6 +1,7 @@
 import React from 'react';
 import numeral from 'numeral';
 
+
 export default class StatListItem extends React.Component {
   /**
    * @constructs
@@ -21,15 +22,16 @@ export default class StatListItem extends React.Component {
     this.state = {
       showPopup: false
     };
+
   }
 
-  showPopup(e) {
+  showPopup = (e) => {
     if (/delta|number/.test(e.target.className)) {
       this.setState({ showPopup: true });
     }
   }
 
-  hidePopup(e) {
+  hidePopup = (e) => {
     this.setState({ showPopup: false });
   }
 
@@ -37,8 +39,10 @@ export default class StatListItem extends React.Component {
     let popupClass = `popup ${this.deltaDirection}`;
     if (this.state.showPopup) popupClass += ' show';
 
-    let percentageText = `${(this.props.data.delta * 100).toFixed(2)}%`;
+    let percentageText = numeral(this.props.data.delta).format('+0.0%');
     let number = numeral(this.props.data.num).format('0,0');
+
+    number = this.props.unit ? `${number} ${this.props.unit}` : number;
 
     return (
       <div className='stat-list-item'>

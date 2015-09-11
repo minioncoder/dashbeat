@@ -16,6 +16,10 @@ $twitter-blue: #00aced;
 $screen-md: 992px;
 $screen-sm: 768px;
 
+$navbar-height: 60px;
+$navbar-z-index: 1000;
+$navbar-padding: 20px;
+
 body {
   margin: 0;
 }
@@ -41,9 +45,6 @@ body {
 }
 
 /** Nav bar stuff */
-$navbar-height: 60px;
-$navbar-z-index: 10000;
-$navbar-padding: 20px;
 
 .navbar-button {
   line-height: $navbar-height / 3;

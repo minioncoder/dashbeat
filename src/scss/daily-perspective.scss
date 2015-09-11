@@ -10,7 +10,9 @@ $michigan-com-danger: #C94765; // Redish
 $michigan-com-warning: #DA7D4E; // Orange
 
 $z-index-hosts: 100;
-$z-index-article-summary: $z-index-hosts * 2;
+$z-index-article-summary: $navbar-z-index * 2;
+
+$stat-item-height: 50px;
 
 body {
   font-family: Lucida Grande, Lucida Sans Unicode, Lucida Sans, Geneva, Verdana, sans-serif;
@@ -59,85 +61,208 @@ body {
   }
 }
 
-/*.host-container:nth-child(4n+1), .host-container:nth-child(4n) {*/
-.host-container:nth-child(2n) {
+/** Put all color-based things in here */
+.host-container:nth-child(2n+1) {
   .host {
     background-color: $michigan-com-green;
     color: white;
     box-shadow: 0 0 3px black;
   }
+
+  .top-article {
+    border-bottom: 1px solid white;
+  }
 }
 
+.host-container:nth-child(2n) {
+  .host {
+    background-color: white;
+    color: $michigan-com-green;
+  }
 
-/** Quick stats stuff */
-.host-data-container.quick-stats {
+  .top-article {
+    border-bottom: 1px solid $michigan-com-green;
+  }
+}
 
-  .stat-list-item {
-    width: 100%;
-    margin-bottom: 10px;
-    text-indent: 10px;
+.stat-list-item, .stat-item {
+  width: 100%;
+  text-indent: 10px;
+  text-align: center;
+  height: $stat-item-height;
+  line-height: $stat-item-height;
 
-    .stat-content {
-      margin: 10px;
-      position: relative;
-      cursor: pointer;
-    }
+  .stat-content {
+    height: $stat-item-height / 2;
+    line-height: $stat-item-height / 2;
+    position: relative;
+    cursor: pointer;
+  }
 
-    .stat-name {
-      color: $michigan-com-info;
-      font-weight: bold;
-    }
+  .stat-name {
+    height: $stat-item-height / 2;
+    line-height: $stat-item-height / 2;
+    color: $michigan-com-info;
+    font-weight: bold;
+  }
 
-    .delta {
-      cursor: pointer;
+  .stat-value {
+    height: $stat-item-height / 2;
+    line-height: $stat-item-height / 2;
+  }
 
-      &.positive {
-        /*color: $success-color;*/
+  .delta {
+    cursor: pointer;
 
-        .fa-arrow-down {
-          display: none;
-        }
+    &.positive {
+      /*color: $success-color;*/
+
+      .fa-arrow-down {
+        display: none;
       }
-
-      &.negative {
-        /*color: $danger-color;*/
-
-        .fa-arrow-up {
-          display: none;
-        }
-      }
     }
 
-    .popup {
-      text-indent: 0;
-      display: none;
+    &.negative {
+      /*color: $danger-color;*/
+
+      .fa-arrow-up {
+        display: none;
+      }
+    }
+  }
+
+  .popup {
+    text-indent: 0;
+    display: none;
+    position: absolute;
+    top: 135%;
+    background-color: $michigan-com-info;
+    color: white;
+    box-shadow: 0 0 3px black;
+    z-index: 10;
+    border-radius: 5px;
+    padding: 20px;
+
+    &:before {
       position: absolute;
-      top: 125%;
-      background-color: $michigan-com-info;
-      color: white;
-      box-shadow: 0 0 3px black;
-      z-index: 10;
-      border-radius: 5px;
-      padding: 20px;
-
-      &:before {
-        position: absolute;
-        top: -10px;
-        left: 15px;
-        width: 0;
-        border-bottom: 10px solid $michigan-com-info;
-        border-right: 10px solid transparent;
-        border-left: 10px solid transparent;
-        content: " ";
-        font-size: 0;
-        line-height: 0;
-      }
-
-      &.show {
-        display: block;
-      }
+      top: -10px;
+      left: 45%;
+      width: 0;
+      border-bottom: 10px solid $michigan-com-info;
+      border-right: 10px solid transparent;
+      border-left: 10px solid transparent;
+      content: " ";
+      font-size: 0;
+      line-height: 0;
     }
 
+    &.show {
+      display: block;
+    }
+  }
+}
+
+.top-article {
+  margin-bottom: 20px;
+
+  &:last-child {
+    border-bottom: none !important;
+  }
+
+  .article-quick-stats {
+    height: $stat-item-height * 2;
+    line-height: $stat-item-height * 2;
+  }
+
+  .article-title {
+    width: 30%;
+    margin: 0 5%;
+    display: inline-block;
+    float: left;
+
+    @media (max-width: $screen-sm) {
+      width: 90%;
+    }
+  }
+
+  .article-quick-stats {
+    width: 60%;
+    display: inline-block;
+
+    @media (max-width: $screen-sm) {
+      width: 90%;
+      margin: 10px 5%;
+    }
+  }
+
+  .social-stats, .details-button {
+    width: 50%;
+    display: inline-block;
+    height: 100%;
+    text-align: center;
+    float: left;
+  }
+
+
+  .details-button {
+    background-color: $michigan-com-info;
+    color: white;
+    box-shadow: 0 0 3px black;
+    line-height: $stat-item-height;
+    height: $stat-item-height;
+    cursor: pointer;
+    border-radius: 5px;
+    @include transition(box-shadow 250ms linear);
+    margin: 12.5% 0;
+
+    &:hover {
+      box-shadow: 0 0 3px black inset;
+    }
+  }
+
+  .article-quick-stats {
+    .left, .right {
+      width: 50%;
+      display: inline-block;
+      height: 100%;
+      float: left;
+    }
+  }
+
+  .top-article-summary {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .7);
+    z-index: $z-index-article-summary;
+  }
+}
+
+.social-stat {
+  height: $stat-item-height;
+  line-height: $stat-item-height;
+
+  .social-icon, .stat-value {
+    margin: 0% 5%;
+    display: inline-block;
+  }
+
+  .social-icon {
+    text-align: right;
+  }
+
+  .stat-value {
+    text-align: left;
+  }
+
+  .fa-twitter {
+    color: $twitter-blue;
+  }
+
+  .fa-facebook {
+    color: $facebook-blue;
   }
 }
 
