@@ -40,14 +40,9 @@ class ArticleList extends React.Component {
         });
 
         let articles = [];
-        let articleMap = {};
-
         for (let i = 0; i < sortedCopy.length; i++) {
             let article = sortedCopy[i];
             let authors = "";
-            let re_id = /\/(\d+)\/$/.exec(article.path);
-            if (!re_id.length) continue;
-            let id = re_id[1];
 
             if (article.authors && article.authors.length) {
                 authors = article.authors.join(", ");
@@ -55,8 +50,8 @@ class ArticleList extends React.Component {
 
             let pos = this.state.data.indexOf(article);
 
-            let art = <Article key={ id }
-                id={ id }
+            let art = <Article key={ article.id }
+                id={ article.id }
                 visits={ article.visits }
                 path={ article.path }
                 title={ article.title }
@@ -64,10 +59,8 @@ class ArticleList extends React.Component {
                 authors={ authors }
                 position={ pos } />;
 
-            if (!articleMap.hasOwnProperty(id)) {
-              articles.push(art);
-              articleMap[id] = 1;
-            }
+            articles.push(art);
+
         }
 
         return (

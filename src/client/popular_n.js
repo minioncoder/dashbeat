@@ -18,7 +18,23 @@ dash.room('toppages').on('data', function(data) {
       return visitsB - visitsA;
   });
 
-  articleList.setState({ data: data.articles.slice(0, 25) });
+  let articleMap = {};
+  let max_articles = 25;
+  let articles = [];
+  for (let i = 0; i < data.articles.length && i <= max_articles; i++) {
+    let article = data.articles[i];
+
+    let re_id = /\/(\d+)\/$/.exec(article.path);
+    if (!re_id.length) continue;
+    article.id = parseInt(re_id[1]);
+
+    if (!articleMap.hasOwnProperty(article.id)) {
+      articleMap[article.id] = 1;
+      articles.push(article);
+    }
+  }
+
+  articleList.setState({ data: articles });
 });
 
 dash.room('quickstats').on('data', function(data) {
