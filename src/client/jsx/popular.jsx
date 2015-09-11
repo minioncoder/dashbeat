@@ -95,7 +95,7 @@ class Article extends React.Component {
       open: false
     };
 
-    async handleClick() {
+    handleClick = async () => {
       if (!this.state.hasData) {
         try {
           let data = await getData(this.props.id);
@@ -109,21 +109,21 @@ class Article extends React.Component {
       this.setState({ open: !this.state.open });
     };
 
-    closeOverview(e) {
+    closeOverview = (e) => {
       e.stopPropagation();
       this.setState({ open: false });
     };
 
-    handleResize() {
+    handleResize = () => {
       this.forceUpdate();
     };
 
     componentDidMount() {
-      window.addEventListener('resize', this.handleResize.bind(this));
+      window.addEventListener('resize', this.handleResize);
     };
 
     componentWillUnmount() {
-      window.removeEventListener('resize', this.handleResize.bind(this));
+      window.removeEventListener('resize', this.handleResize);
     };
 
     // article position in list
@@ -152,7 +152,7 @@ class Article extends React.Component {
       let left = this.getLeftPosition(screen) + "%";
 
       return (
-        <li className='article' onClick={ this.handleClick.bind(this) } style={ {top: this.getTopPosition(screen)+'px'} }>
+        <li className='article' onClick={ this.handleClick } style={ {top: this.getTopPosition(screen)+'px'} }>
           <div className='readers'>{ this.props.visits }</div>
           <div className='content'>
             <img className='source' src={ sourceMap[this.props.source] } />
@@ -168,7 +168,7 @@ class Article extends React.Component {
             hasData={ this.state.hasData }
             open={ this.state.open }
             left={ left }
-            close={ this.closeOverview.bind(this) }
+            close={ this.closeOverview }
             data={ this.state.data } />
         </li>
       );
