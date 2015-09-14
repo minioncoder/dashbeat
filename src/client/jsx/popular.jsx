@@ -152,11 +152,11 @@ class Article extends React.Component {
       let left = this.getLeftPosition(screen) + "%";
 
       return (
-        <li className='article' onClick={ this.handleClick } style={ {top: this.getTopPosition(screen)+'px'} }>
+        <li className='article' style={ {top: this.getTopPosition(screen)+'px'} }>
           <div className='readers'>{ this.props.visits }</div>
           <div className='content'>
             <img className='source' src={ sourceMap[this.props.source] } />
-            <div className='titleInfo'>
+            <div className='titleInfo' onClick={ this.handleClick }>
               <span className='title'>{ this.props.title }</span>
               <div className='info'>{ this.props.authors }</div>
             </div>
