@@ -53,7 +53,7 @@ class Overview extends React.Component {
         </div>
 
         <div className='articleSummary'>
-          <p>{ this.props.data.summary }</p>
+          <p>{ this.props.data.summary.join("  ") }</p>
           <a href={ this.props.data.url } target='_blank'>Read more ...</a>
         </div>
       </div>
