@@ -40,6 +40,11 @@ class Overview extends React.Component {
       );
     }
 
+    let summary = this.props.data.summary;;
+    if (this.props.data.summary && this.props.data.summary.length > 0 && typeof this.props.data.summary != "string") {
+      summary = this.props.data.summary.join("  ");
+    }
+
     return (
       <div className={ rootClass } style={ {left: this.props.left} }>
         <div className='articleClose' onClick={ this.props.close }><i className="fa fa-times-circle"></i></div>
@@ -53,7 +58,7 @@ class Overview extends React.Component {
         </div>
 
         <div className='articleSummary'>
-          <p>{ this.props.data.summary.join("  ") }</p>
+          <p>{ summary }</p>
           <a href={ this.props.data.url } target='_blank'>Read more ...</a>
         </div>
       </div>
