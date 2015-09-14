@@ -90,7 +90,7 @@ gulp.task('default', ['sass', 'babel', 'browserify']);
 gulp.task('addUser', function(cb) {
   var config = require('./config');
   var db = require('./dist/db');
-  db.connect();
+  db.connect(config.db);
   gutil.log('Adding default user for development ...');
   var user = new db.User({
     'email': 'ebower@michigan.com',
