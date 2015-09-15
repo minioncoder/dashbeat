@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-import addons from 'react/addons';
-const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+//import addons from 'react/addons';
+//const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 import { getData, Overview } from './overview.jsx';
 import Screen from '../lib/screen';
 
@@ -67,9 +67,7 @@ class ArticleList extends React.Component {
           <div className="articleContainer">
             <button type="button" id="articleFreeze" onClick={ this.freeze.bind(this) }>Freeze</button>
             <ol className="articleList">
-                <ReactCSSTransitionGroup transitionName="animateArticle">
-                    {articles}
-                </ReactCSSTransitionGroup>
+                {articles}
             </ol>
           </div>
         );
