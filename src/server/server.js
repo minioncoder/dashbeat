@@ -1,22 +1,9 @@
 'use strict';
 
-import mongoose from 'mongoose';
 import debug from 'debug';
 var logger = debug('app:status');
 
 import app from './app';
-import { connect, disconnect } from './db';
-import { db } from '../config';
-import heartbeat from './heartbeat/index';
-
-mongoose.connection.on('error', logger);
-
-connect(process.env.DASHBEAT_DB || db).then(function() {
-  let rhythm = heartbeat.createRhythm(app);
-  heartbeat.startPacemaker(rhythm);
-}).catch(function(err) {
-  throw new Error(err);
-});
 
 var port = normalizePort(process.env.NODE_PORT || '3000');
 app.set('port', port);
@@ -29,11 +16,6 @@ var server = app.listen(port, '0.0.0.0', function(err) {
   logger(`Started on ${host.address}:${host.port}`);
 });
 export default server;
-
-server.on('close', function() {
-  logger("Closed nodejs application ...");
-  disconnect();
-});
 
 function normalizePort(val) {
   var port = parseInt(val, 10);

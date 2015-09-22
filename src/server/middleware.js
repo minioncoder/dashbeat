@@ -8,8 +8,6 @@ import bodyParser from 'body-parser';
 import errorhandler from 'errorhandler';
 import cookieParser from 'cookie-parser';
 
-import mail from './mail';
-
 var BASE_DIR = path.dirname(__dirname);
 
 export default function configureMiddleware(app) {
@@ -26,20 +24,4 @@ export default function configureMiddleware(app) {
   app.use(cookieParser());
   app.use(express.static(path.join(BASE_DIR, 'public')));
   app.use(express.static(path.join(BASE_DIR, 'node_modules')));
-
-  app.use(function(err, req, res, next) {
-    mail.mailOptions.text = `
-    Status: ${err.status}
-    -----
-    Request: ${req.originalUrl}
-    -----
-    Error: ${err.message}
-    -----
-    Stacktrace: ${err.stack}`;
-
-    mail.transporter.sendMail(mail.mailOptions, function(error, info) {
-      logger.error(error);
-      if (mail.type == 'stub') logger.info(info.response.toString());
-    });
-  });
 }

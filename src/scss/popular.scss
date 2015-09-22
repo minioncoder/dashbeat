@@ -1,159 +1,114 @@
 @import 'base';
-@import './components/summary-container';
-.example-enter {
-  opacity: 0.01;
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+@import './components/overview';
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1em;
+  color: #e3eaed;
+  background-color: #2f4859;
+  overflow-x: hidden;
 }
 
-.example-enter.example-enter-active {
-  opacity: 1;
-  transition: opacity .5s ease-in;
+a, a:hover, a:visited {
+  text-decoration: none;
+  color: #e3eaed;
 }
 
-.example-leave {
-  opacity: 1;
+.small {
+  font-size: 0.7em;
 }
 
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  transition: opacity .5s ease-in;
+.articles {
+  @include outer-container;
 }
+
+.articleContainer {
+  @include span-columns(12);
+}
+
+#articleFreeze {
+  @include span-columns(2);
+  @include shift(1);
+}
+
+#totalReaders {
+  @include span-columns(1);
+  @include shift(1);
+}
+
 ol {
+  @include span-columns(12);
   list-style-type: none;
-  margin: 0;
+  margin: 10px 0 0 0;
   padding: 0;
   position: relative;
 }
 
 li {
+  @include span-columns(12);
   margin: 0;
-  transition: all 3s ease;
+  transition: all 1s ease;
   position: absolute;
   box-sizing: border-box;
-  //top: 100%;
-}
-
-body {
-  // color: $primary-color;
-}
-
-a, a:visited, a:active, a:hover {
-  color: $primary-color;
-}
-
-.content-container {
-  @include row();
-  padding: 0% 2%;
-
-  .summary {
-    @media (max-width: $screen-md) {
-      @include row();
-    }
-
-    @media (min-width: $screen-md) {
-      @include span-columns(2);
-    }
-    .total-readers {
-      @include row();
-
-      div {
-        @include span-columns(6);
-      }
+  border-bottom: 1px solid #233743;
+  box-shadow: 0 1px 0 rgba(255,255,255,.05);
+  padding: 10px;
+  cursor: pointer;
+  .readers {
+    font-size: 1em;
+    color: #96B8CB;
+    @include span-columns(1);
+    @include media($desktop) {
+      font-size: 1.5em;
+      @include shift(1);
     }
   }
-}
-
-$article-height: 50px;
-$article-border: 1px;
-#articles {
-  position: relative;
-  @media (max-width: $screen-md) {
-    @include row();
-  }
-
-  @media (min-width: $screen-md) {
-    @include span-columns(10);
-  }
-  // margin: 0 10%;
-
-  .articleList {
-    height: 1000px;
-    //position: absolute;
-    top: 100%;
-    width: 100%;
-    margin-bottom: 10px;
-
-    .article {
-      //position: relative;
-      width: 100%;
-      height: $article-height + $article-border;
-      border: 1px solid #eee;
-      cursor: pointer;
-
-      &:hover {
-
+  .content {
+    @include span-columns(9);
+    .source {
+      @include span-columns(1 of 9);
+      border-radius: 5px;
+      opacity: 0.7;
+      max-width: 30px;
+      margin-top: 5px;
+      height: auto;
+      @include media($mobile) {
+        max-width: 15px;
       }
-
-      .readers {
-        text-align: center;
-        padding: 5px;
-        background: $danger-color;
-        color: #eee;
-        height: 100%;
-        padding: 10px;
-        font-size: 20px;
-        @include span-columns(2);
-      }
-
-      .article-title {
-        @include span-columns(5);
-
-        .title {
-          @include row();
-
-          max-height: $article-height;
-          text-overflow: ellipsis;
+    }
+    .titleInfo {
+      @include span-columns(8 of 9);
+      .title {
+        @include media($mobile) {
+          font-size: 0.8em;
           white-space: nowrap;
-          overflow: hidden;
         }
-
-        .authors {
-          @include row();
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-
-          &:before {
-            content: 'By ';
-          }
+      }
+      .info {
+        @extend .small;
+        @include media($notdesktop) {
+          display: none;
         }
       }
     }
   }
 }
 
-.button-container {
-  width: 100%;
-  text-align: center;
-
-  &.center {
-
-  }
+.animateArticle-enter {
+  opacity: 0.01;
 }
 
-.button {
-  text-align: center;
-  padding: 15px;
-  text-decoration: none;
+.animateArticle-enter.animateArticle-enter-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
 
-  &.primary {
-    background: $primary-color;
-    color: white;
+.animateArticle-leave {
+  opacity: 1;
+}
 
-    &:hover {
-      background: darken($primary-color, 10%);
-    }
-  }
-  &.info {
-    background: $info-color
-  }
+.animateArticle-leave.animateArticle-leave-active {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
 }

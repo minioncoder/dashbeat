@@ -1,76 +1,39 @@
 'use strict';
 
-import _each from 'lodash/collection/forEach';
-import crypto from 'crypto';
+import io from 'socket.io-client';
 
-import Framework from './framework/index';
-import DashSocket from './lib/socket';
-import Article from './jsx/popular/article.jsx';
-import AnimateNumber from './jsx/animate-number.jsx';
+import renderList from './jsx/popular.jsx';
 
-const MAX_ARTICLES = 50;
-var currentArticles = {};
-var totalReaders = AnimateNumber(0, 'total-readers');
-var articlesContainer = document.getElementsByClassName('articles')[0];
+var socket = io('https://api.michigan.com', {transports: ['websocket', 'xhr-polling']});
+var articleList = renderList([], document.getElementById('articles'));
 
-// emit toppages event which will be directed to toppages route
-// and join toppages room
-var dash = new DashSocket(['toppages', 'quickstats']);
-dash.room('toppages').on('data', function(data) {
-  data = data.articles;
-  let removeArticles = {};
-  for (let key in currentArticles) {
-    removeArticles[key] = true;
-  }
+socket.emit('get_popular');
+socket.on('got_popular', function(data) {
+  var snapshot = data.snapshot.articles;
+  console.log(snapshot[0]);
 
-  data.sort(function(a, b) {
-    return parseInt(b.visits) - parseInt(a.visits);
-  });
+  // sort by visits desc then sort by title asc
+  snapshot.sort(function(a, b) {
+    var visitsA = parseInt(a.visits);
+    var visitsB = parseInt(b.visits);
 
-  let dlength = MAX_ARTICLES;
-  if (data.length < MAX_ARTICLES) dlength = data.length;
-
-  for (let i = 0; i < dlength; i++) {
-    let articleData = data[i];
-    articleData.rank = i;
-    let id = generateId(articleData.path);
-
-    if (id in currentArticles) {
-      currentArticles[id].setProps({
-        article: articleData
-      });
-      delete removeArticles[id];
-      continue;
+    if (visitsA == visitsB) {
+      return a.headline.localeCompare(b.headline);
     }
+    return visitsB - visitsA;
+  });
 
-    let div = document.createElement('div');
-    div.id = id;
-    div.className += 'article-container container-fluid';
-    articlesContainer.appendChild(div);
+  let max_articles = 25;
+  let articleMap = {};
+  let articles = [];
+  for (let i = 0; i < snapshot.length && i <= max_articles; i++) {
+    let article = snapshot[i];
 
-    currentArticles[id] = new Article(articleData, id);
+    if (!articleMap.hasOwnProperty(article.article_id)) {
+      articleMap[article.article_id] = 1;
+      articles.push(article);
+    }
   }
 
-  _each(removeArticles, function(val, id) {
-    document.getElementById(id).remove();
-    delete currentArticles[id];
-  });
+  articleList.setState({ data: articles });
 });
-
-dash.room('quickstats').on('data', function(data) {
-  let value = 0;
-  _each(data, function(stats, host) {
-    value += stats.visits;
-  });
-
-  if (isNaN(value)) return;
-
-  totalReaders.setProps({ value: value });
-});
-
-function generateId(url) {
-  // Given a URL of an article, generate a unique key for it
-  let sha1 = crypto.createHash('sha1');
-  sha1.update(url);
-  return sha1.digest('hex');
-}
