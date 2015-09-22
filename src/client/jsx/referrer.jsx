@@ -1,8 +1,6 @@
-
-import _each from 'lodash/collection/forEach';
+'use strict';
 
 import React from 'react';
-
 
 var ReferrerReact = React.createClass({
   getDefaultProps() {
@@ -71,7 +69,9 @@ class Referrer {
    */
   getTotal() {
     let total = 0;
-    _each(this.hosts, function(val) { total += val; });
+    for (let i = 0; i < this.hosts.length; i++) {
+      total += this.hosts[i];
+    }
 
     return total;
   }
