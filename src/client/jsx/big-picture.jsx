@@ -36,7 +36,7 @@ export default class Article extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.nextImageUrl != prevState.nextImageUrl) this.loadImage();
+    if (this.state.nextImageUrl && this.state.nextImageUrl != prevState.nextImageUrl) this.loadImage();
     else if (this.state.imageSlideInNeeded) this.slideIn();
   }
 
@@ -76,15 +76,15 @@ export default class Article extends React.Component {
     }, (elements) => {
       this.setState({
         imageSlideInNeeded: false,
+        nextImageUrl: '',
       })
     });
   }
 
   loadImage() {
+    console.log('loading image');
     let i = new Image();
-    i.onload = () => {
-      this.slideOut();
-    }
+    i.onload = this.slideOut.bind(this);
     i.src = this.state.nextImageUrl;
   }
 
@@ -97,8 +97,8 @@ export default class Article extends React.Component {
     return (
       <div className={ className }>
         <a href={ this.state.url } target='_blank'>
-          <div className='article-content' onClick={ this.handleClick } ref='article-content'>
-            <div className='image-background' style={ backgroundImageStyle }></div>
+          <div className='article-content' ref='article-content'>
+            <div className='image-background' style={ backgroundImageStyle } key={ this.state.article_id }></div>
             <div className='article-info'>
               <div className='headline'>
                 { this.state.headline }

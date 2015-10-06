@@ -20,7 +20,7 @@ class ArticleHandler extends React.Component {
     this.state = {
       articles: [],
       activeArticles: [],
-      nextDisplay: 0,
+      lastChanged: 0
     }
   }
 
@@ -36,7 +36,7 @@ class ArticleHandler extends React.Component {
           articles: res.articles
         });
 
-        setTimeout(this.rotateImage, 5000);
+        setTimeout(this.rotateImage.bind(this), 5000);
       });
 
     setTimeout(this.fetchArticles, 1000 * 60 * 10);
@@ -45,11 +45,22 @@ class ArticleHandler extends React.Component {
   rotateImage = () => {
     let activeArticles = this.state.activeArticles;
     let randomIndex = Math.floor(Math.random() * activeArticles.length);
-    activeArticles[randomIndex] = this.getRandomArticleIndex();
+    while(randomIndex === this.state.lastChanged) randomIndex = Math.floor(Math.random() * activeArticles.length);
 
-    this.setState({ activeArticles });
 
-    setTimeout(this.rotateImage, 5000);
+    let randomArticleIndex = this.getRandomArticleIndex()
+    activeArticles[randomIndex] = randomArticleIndex;
+
+    let article = this.state.articles[randomArticleIndex];
+    console.log(`Replacing article at index ${randomIndex} with ${article.headline}`)
+
+
+    this.setState({
+      activeArticles,
+      lastChanged: randomIndex
+    });
+
+    setTimeout(this.rotateImage.bind(this), 5000);
   }
 
   getRandomArticleIndex = () => {
@@ -71,7 +82,11 @@ class ArticleHandler extends React.Component {
     function renderArticle(articleIndex, index) {
       let article = this.state.articles[articleIndex];
       return (
-        <Article imageUrl={ article.photo.full.url } headline={ article.headline } url={ article.url } key={ `article-${index}` }/>
+        <Article imageUrl={ article.photo.full.url }
+          headline={ article.headline }
+          url={ article.url }
+          article_id={ article.article_id }
+          key={ `article-${index}` }/>
       )
     }
     while (this.state.activeArticles.length < 4) this.state.activeArticles.push(this.getRandomArticleIndex())
@@ -81,10 +96,9 @@ class ArticleHandler extends React.Component {
         { this.state.activeArticles.map(renderArticle.bind(this)) }
       </div>
     )
-
   }
 
-  render() {
+  render = () => {
     if (!this.state.articles.length) {
       return (
         <div className='no-articles'>
