@@ -29,7 +29,7 @@ class ArticleHandler extends React.Component {
   }
 
 
-  fetchArticles() {
+  fetchArticles = () => {
     xr.get('https://api.michigan.com/v1/news', { limit: 100 })
       .then(res => {
         this.setState({
@@ -38,6 +38,8 @@ class ArticleHandler extends React.Component {
 
         setTimeout(this.rotateImage, 5000);
       });
+
+    setTimeout(this.fetchArticles, 1000 * 60 * 10);
   }
 
   rotateImage = () => {
@@ -69,7 +71,7 @@ class ArticleHandler extends React.Component {
     function renderArticle(articleIndex, index) {
       let article = this.state.articles[articleIndex];
       return (
-        <Article imageUrl={ article.photo.full.url } headline={ article.headline } />
+        <Article imageUrl={ article.photo.full.url } headline={ article.headline } url={ article.url } key={ `article-${index}` }/>
       )
     }
     while (this.state.activeArticles.length < 4) this.state.activeArticles.push(this.getRandomArticleIndex())

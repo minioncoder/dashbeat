@@ -16,6 +16,8 @@ export default class Article extends React.Component {
 
     this.state = {
       imageUrl: '',
+      headline: this.props.headline,
+      url: this.props.url,
       nextImageUrl: this.props.imageUrl,
       imageSlideInNeeded: true,
     }
@@ -30,13 +32,12 @@ export default class Article extends React.Component {
       this.setState({
         nextImageUrl: this.props.imageUrl,
       });
-
-      this.loadImage();
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.imageSlideInNeeded) this.slideIn();
+    if (this.state.nextImageUrl != prevState.nextImageUrl) this.loadImage();
+    else if (this.state.imageSlideInNeeded) this.slideIn();
   }
 
   getArticleContainer() {
@@ -62,6 +63,8 @@ export default class Article extends React.Component {
       // Set up the new article for rendering
       this.setState({
         imageUrl: this.state.nextImageUrl,
+        headline: this.props.headline,
+        url: this.props.url,
         imageSlideInNeeded: true
       });
     });
@@ -93,14 +96,16 @@ export default class Article extends React.Component {
 
     return (
       <div className={ className }>
-        <div className='article-content' onClick={ this.handleClick } ref='article-content'>
-          <div className='image-background' style={ backgroundImageStyle }></div>
-          <div className='article-info'>
-            <div className='headline'>
-              { this.props.headline }
+        <a href={ this.state.url } target='_blank'>
+          <div className='article-content' onClick={ this.handleClick } ref='article-content'>
+            <div className='image-background' style={ backgroundImageStyle }></div>
+            <div className='article-info'>
+              <div className='headline'>
+                { this.state.headline }
+              </div>
             </div>
           </div>
-        </div>
+        </a>
         <div className='article-loading'>
           <i className='fa fa-spinner fa-spin'></i>
         </div>
