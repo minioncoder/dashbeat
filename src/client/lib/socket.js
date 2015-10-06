@@ -19,10 +19,10 @@ export default class DashSocket {
   * @example
   *   var dash = new DashSocket('toppages');
   */
-  constructor(events, { ondisconnect } = {}) {
+  constructor(events, { ondisconnect } = {}, url='') {
     Object.assign(this, { events });
     this.rooms = {};
-    this.socket = io.connect();
+    this.socket = io.connect(url);
     this.emit(events);
     this.dc(ondisconnect);
   }

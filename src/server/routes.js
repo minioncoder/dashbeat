@@ -10,4 +10,8 @@ router.get('/', function(req, res, next) {
   res.render('popular');
 });
 
+router.get('/big-picture/', function(req, res, next) {
+  res.render('big-picture');
+});
+
 module.exports = router;

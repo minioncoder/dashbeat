@@ -1,134 +1,99 @@
 'use strict';
 
-import io from 'socket.io-client';
+import keys from 'lodash/object/keys';
 import Chance from 'chance';
-import request from 'request';
+import io from 'socket.io-client';
+import React from 'react';
+import xr from 'xr';
 
 import Framework from './framework/index';
 import { addSlash } from './lib/parse';
 
 import Article from './jsx/big-picture.jsx';
 
+class ArticleHandler extends React.Component {
+  constructor(args) {
+    super(args);
+
+    this.numDisplayed = 4;
+
+    this.state = {
+      articles: [],
+      activeArticles: [],
+      nextDisplay: 0,
+    }
+  }
+
+  componentDidMount() {
+    this.fetchArticles();
+  }
+
+  fetchArticles() {
+    xr.get('https://api.michigan.com/v1/news', { limit: 100 })
+      .then(res => {
+        this.setState({
+          articles: res.articles
+        });
+      });
+  }
+
+  getRandomArticleIndex = () => {
+    let randomIndex = 0;
+    for (let count = 0; count < this.state.articles.length; count++) {
+      let rand = Math.floor(Math.random() * this.state.articles.length);
+      if (this.state.activeArticles.indexOf(rand) < 0) {
+        let article = this.state.articles[rand];
+        if ('photo' in article && 'full' in article.photo && article.photo.full.url) {
+          randomIndex = rand;
+          break;
+        }
+      }
+    }
+    return randomIndex;
+  }
+
+  renderArticles = () => {
+    function renderArticle(articleIndex, index) {
+      let article = this.state.articles[articleIndex];
+      return (
+        <Article imageUrl={ article.photo.full.url } headline={ article.headline } />
+      )
+    }
+    while (this.state.activeArticles.length < 4) this.state.activeArticles.push(this.getRandomArticleIndex())
+
+    return (
+      <div className='articles'>
+        { this.state.activeArticles.map(renderArticle.bind(this)) }
+      </div>
+    )
+
+  }
+
+  render() {
+    if (!this.state.articles.length) {
+      return (
+        <div className='no-articles'>
+          Articles not loaded yet.
+        </div>
+      )
+    }
+
+    return (
+      <div className='article-handler'>
+        { this.renderArticles() }
+      </div>
+    )
+  }
+}
+
+
+var socket = io('https://api.michigan.com', { transports: ['websocket', 'xhr-polling'] })
 var articleHandler = new ArticleHandler();
 var articleContainer = document.getElementsByClassName('articles')[0];
 
-window.onresize = resize;
-resize();
+React.render(
+  <ArticleHandler/>,
+  document.getElementById('articles')
+)
 
-var socket = io('https://api.michigan.com', {transports: ['websocket', 'xhr-polling']});
-socket.emit('get_popular');
-socket.on('got_popular', function(data) {
-  let articles = data.articles;
-  articles = articles.sort(function(a, b) {
-    return parseInt(b.visits) - parseInt(a.visits);
-  });
 
-  articles = articles.slice(0, 50); // Keep the top 20 articles
-
-  articleHandler.saveArticles(articles);
-});
-
-/**
- * ArticleHandler - Controls the drawing of articles to the page. At any time
- * there are 4 articles with their images drawn to the page. This class handles
- * the shuffling of those articles
- *
- * @class
- */
-class ArticleHandler {
-  /**
-   * @constructs
-   */
-  constructor() {
-    this.articles = [];
-    this.displayedArticles = {};
-    this.numArticlesToDraw = 4;
-    this.articleImages = {};
-
-    this.rotateArticles();
-  };
-
-  /**
-   * Saves a list of articles
-   * @memberof ArticleHandler#
-   * @param {Array} [articles] Sorted lists of article objects. Map article URL to
-   *    article object in this.articles
-   */
-  saveArticles(articles) {
-    this.articles = articles;
-  };
-
-  /**
-   * Every 5 seconds, rotate one of the articles
-   * @memberof ArticleHandler#
-   */
-  rotateArticles() {
-    if (this.articles.length) {
-      var numCurrentDisplayed = Object.keys(this.displayedArticles).length;
-      if (!numCurrentDisplayed) {
-        this.drawInitialArticles();
-      }
-      else {
-        // TODO figure out which article to draw next
-        let chance = new Chance();
-        let randomContainer = chance.integer({
-          min: 0,
-          max: numCurrentDisplayed - 1
-        });
-        this.drawArticle('article-' + randomContainer);
-      }
-    }
-
-    setTimeout(this.rotateArticles.bind(this), 5000);
-  };
-
-  /**
-   * Handles the drawing of the first four articles
-   * @memeberof ArticleHandler#
-   */
-  drawInitialArticles() {
-    for (let i = 0; i < this.numArticlesToDraw; i++) {
-      let containerId = 'article-' + i;
-      this.drawArticle(containerId);
-    }
-  };
-
-  /**
-   * Draws a random article to the article container with id=[containerId]
-   * @memberof ArticleHandler#
-   * @param {String} [containerId] DOM ID of the article container
-   */
-  drawArticle(containerId) {
-    let url = containerId in this.displayedArticles ? this.displayedArticles[containerId].path : '';
-
-    let count = 0;
-    let article = this.getRandomArticle();
-    // TODO make sure we didnt choose a currently-displayed article
-
-    this.fetchArticleJson(article, containerId);
-  };
-
-  getRandomArticle() {
-    if (!this.articles.length) return {};
-    let chance = new Chance();
-
-    let randomInt = chance.integer({
-      min: 0,
-      max: this.articles.length - 1
-    });
-
-    return this.articles[randomInt];
-  };
-};
-
-function getRemainderOfHeight(container) {
-  let windowHeight = window.innerHeight;
-  let containerTop = container.offsetTop;
-  if (windowHeight <= containerTop) return;
-
-  return windowHeight - containerTop - 5;
-}
-
-function resize() {
-  articleContainer.style.height = getRemainderOfHeight(articleContainer) + 'px';
-}
