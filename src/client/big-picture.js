@@ -28,13 +28,26 @@ class ArticleHandler extends React.Component {
     this.fetchArticles();
   }
 
+
   fetchArticles() {
     xr.get('https://api.michigan.com/v1/news', { limit: 100 })
       .then(res => {
         this.setState({
           articles: res.articles
         });
+
+        setTimeout(this.rotateImage, 5000);
       });
+  }
+
+  rotateImage = () => {
+    let activeArticles = this.state.activeArticles;
+    let randomIndex = Math.floor(Math.random() * activeArticles.length);
+    activeArticles[randomIndex] = this.getRandomArticleIndex();
+
+    this.setState({ activeArticles });
+
+    setTimeout(this.rotateImage, 5000);
   }
 
   getRandomArticleIndex = () => {
