@@ -1,4 +1,9 @@
-import React from 'react'; import io from 'socket.io-client';
+import React from 'react';
+import io from 'socket.io-client';
+import Velocity from 'velocity-animate';
+
+import $ from './framework/$';
+
 
 export default class MobileDashboard extends React.Component {
   constructor(args) {
@@ -12,9 +17,29 @@ export default class MobileDashboard extends React.Component {
     }
   }
 
+  updatePercentage(e) {
+    let name = e.target.name;
+    let value = e.target.value;
+    if (!(name in this.state.percentage)) return;
+
+    let state = { percentage: {} };
+    state.percentage[name] = value;
+    this.setState(state);
+  }
+
+  renderTestInput() {
+    return (
+      <div className='test-input'>
+        <input type='number' name='mobile' value={ this.state.percentage.mobile } onChange={ this.updatePercentage.bind(this) }/>
+        <input type='number' name='tablet' value={ this.state.percentage.tablet} onChange={ this.updatePercentage.bind(this) }/>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className='mobile-dashboard'>
+        { this.renderTestInput() }
         <MobilePercentage type='mobile' percentage={ this.state.percentage.mobile }/>
         <MobilePercentage type='tablet' percentage={ this.state.percentage.tablet }/>
       </div>
@@ -27,9 +52,80 @@ export default class MobilePercentage extends React.Component {
     super(args);
 
     this.rowWidth = 10;
+
+    this.state = {
+      percentage: 0,
+      nextPercentage: this.props.percentage,
+
+      // rendering states
+      percentageChange: this.props.percentage ? true : false,
+      animating: false,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let state = {
+      nextPercentage: nextProps.percentage
+    };
+
+    if (this.state.percentage != nextProps.percentage) {
+      state.percentageChange = true;
+    }
+
+    this.setState(state);
+  }
+
+  componentDidUpdate() {
+    //this.animateIcons();
+  }
+
+  animateIcons() {
+    let newIcons = $(`.${this.props.type} .fa.new`);
+    let removeIcons = $(`.${this.props.type } .fa.remove`);
+
+    if (this.state.animating) return;
+    this.setState({ animating: true });
+
+    if (newIcons.length) {
+      Velocity(newIcons, {
+        opacity: 1
+      }, (elements) => {
+        this.setState({
+          percentage: this.state.nextPercentage,
+          animating: false
+        })
+      })
+    } else if (removeIcons.length) {
+      Velocity(removeIcons, {
+        opacity: 0
+      }, (elements) => {
+        this.setState({
+          percentage: this.state.nextPercentage,
+          animating: false
+        })
+      })
+    }
   }
 
   renderIcons() {
+    // Get some values for the rendering
+    let numToDraw = Math.max(this.state.percentage, this.state.nextPercetage);
+    let numToAdd = this.state.nextPercentage > this.state.percentage ? this.state.nextPercentage - this.state.percentage : 0;
+    let numToRemove = this.state.percentage > this.state.nextPercentage ? this.state.percentage - this.state.nextPercentage : 0;
+    function renderIcon(className='') {
+
+      if (numToAdd) {
+        numToAdd -= 1;
+        className += ' new';
+      } else if (numToRemove) {
+        numToRemove -= 1;
+        className += ' remove';
+      }
+
+      let val = (<i className={ `icon fa ${className}` }></i>)
+      return val
+    }
+
     let icons = [];
     let iconClass;
     let increment;
@@ -47,13 +143,13 @@ export default class MobilePercentage extends React.Component {
       let numPadding = this.rowWidth - remainder;
 
       // Add the top row of icons, which will contain some filler icons
-      for (let i = 0; i < remainder; i++) { icons.push(<i className={ `icon fa ${iconClass}` }></i>) }
-      for (let i = 0; i < numPadding; i++) { icons.push(<i className='icon'></i>) }
+      for (let i = 0; i < remainder; i++) { icons.push(renderIcon(iconClass)); }
+      for (let i = 0; i < numPadding; i++) { icons.push(<i className='icon'></i>); }
     }
 
     let percentage = this.props.percentage - remainder;
     for (let i = 0; i < percentage; i++) {
-      icons.push(<i className={ `icon fa ${iconClass}` }></i>)
+      icons.push(renderIcon(iconClass));
     }
 
     return (
@@ -67,7 +163,7 @@ export default class MobilePercentage extends React.Component {
 
   render() {
     return (
-      <div className='mobile-percentage'>
+      <div className={ `mobile-percentage ${this.props.type}` } >
         <div className='type'>{ this.props.type }</div>
         <div className='percentage'>{ this.props.percentage }</div>
 
