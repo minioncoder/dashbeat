@@ -1,12 +1,22 @@
-import React from 'react';
+import React from 'react'; import io from 'socket.io-client';
 
 export default class MobileDashboard extends React.Component {
+  constructor(args) {
+    super(args);
+
+    this.state = {
+      percentage: {
+        mobile: 0,
+        tablet: 0
+      }
+    }
+  }
 
   render() {
     return (
       <div className='mobile-dashboard'>
-        <MobilePercentage type='mobile' percentage={ 54 }/>
-        <MobilePercentage type='tablet' percentage={ 37 }/>
+        <MobilePercentage type='mobile' percentage={ this.state.percentage.mobile }/>
+        <MobilePercentage type='tablet' percentage={ this.state.percentage.tablet }/>
       </div>
     )
   }
@@ -67,7 +77,32 @@ export default class MobilePercentage extends React.Component {
   }
 }
 
-React.render(
+let dashboard = React.render(
   <MobileDashboard/>,
   document.getElementById('content')
-)
+);
+
+// Set up the socket
+let socket = io('https://api.michigan.com', {transports: ['websocket', 'xhr-polling']});
+socket.emit('get_quickstats');
+socket.on('got_quickstats', function(data) {
+  let snapshot = data.snapshot;
+  let total = 0, mobileTotal = 0, tabletTotal = 0;
+
+  for (var stats of snapshot.stats) {
+    let m = stats.platform.m;
+    let d = stats.platform.d;
+    let t = stats.platform.t || 0;
+
+    total += m + d + t;
+    mobileTotal += m;
+    tabletTotal += t;
+  }
+
+  let mobile = parseInt((mobileTotal / total) * 100);
+  let tablet = parseInt((tabletTotal / total) * 100);
+
+  dashboard.setState({
+    percentage: { mobile, tablet }
+  });
+});
