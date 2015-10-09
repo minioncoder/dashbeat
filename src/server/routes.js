@@ -6,12 +6,16 @@ var logger = debug('app:routes');
 
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
   res.render('popular');
 });
 
-router.get('/big-picture/', function(req, res, next) {
+router.get('/big-picture/', (req, res, next) => {
   res.render('big-picture');
 });
+
+router.get('/mobile/', (req, res, next) => {
+  res.render('mobile');
+})
 
 module.exports = router;

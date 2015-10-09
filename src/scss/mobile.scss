@@ -1,0 +1,85 @@
+@import 'base';
+
+// font size ratio for tablet/phone icon
+// different widths for tablet/phone icons. we want them to be the same size,
+// so we make the font-size of the tablet icon adjusted to the $ratio
+$ratio: 10.2813 / 6.84375;  // widths of two icons by default, tablet / mobile
+
+$height-icon: 50px;
+$font-size-phone: 50px;
+$font-size-tablet: $font-size-phone / $ratio;
+
+body {
+  background-color: $primary-color;
+  color: white;
+}
+
+.mobile-percentage {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  padding: 20px 10px;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  float: left;
+
+  @media (min-width: $screen-sm) {
+    width: 50%;
+  }
+
+  .type {
+    text-transform: capitalize;
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+    font-size: 40px;
+  }
+
+  .percentage {
+    font-size: 50px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    color: $warning-color;
+
+    &:after {
+      content: "%";
+    }
+  }
+}
+
+.icons-container {
+  width: 50%;
+  margin: 0 auto;
+  height: $height-icon * 10;
+  position: relative;
+}
+
+.icons {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  .icon {
+    width: 10%;
+    display: inline-block;
+  }
+}
+
+.fa {
+  line-height: $font-size-phone;
+  vertical-align: middle;
+
+  &.fa-mobile {
+    font-size: $font-size-phone;
+  }
+
+  &.fa-tablet {
+    font-size: $font-size-tablet;
+  }
+}
+
+
+
+
