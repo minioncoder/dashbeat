@@ -10,38 +10,17 @@ export default class MobileDashboard extends React.Component {
     super(args);
 
     this.state = {
-      percentage: {
-        mobile: 0,
-        tablet: 0
-      }
+      mobile: 0,
+      tablet: 0
     }
-  }
-
-  updatePercentage(e) {
-    let name = e.target.name;
-    let value = e.target.value;
-    if (!(name in this.state.percentage)) return;
-
-    let state = { percentage: {} };
-    state.percentage[name] = value;
-    this.setState(state);
-  }
-
-  renderTestInput() {
-    return (
-      <div className='test-input'>
-        <input type='number' name='mobile' value={ this.state.percentage.mobile } onChange={ this.updatePercentage.bind(this) }/>
-        <input type='number' name='tablet' value={ this.state.percentage.tablet} onChange={ this.updatePercentage.bind(this) }/>
-      </div>
-    )
   }
 
   render() {
     return (
       <div className='mobile-dashboard'>
-        { this.renderTestInput() }
-        <MobilePercentage type='mobile' percentage={ this.state.percentage.mobile }/>
-        <MobilePercentage type='tablet' percentage={ this.state.percentage.tablet }/>
+        <h2>What portion of our users are on mobile devices?</h2>
+        <MobilePercentage type='mobile' percentage={ this.state.mobile }/>
+        <MobilePercentage type='tablet' percentage={ this.state.tablet }/>
       </div>
     )
   }
@@ -58,7 +37,6 @@ export default class MobilePercentage extends React.Component {
       nextPercentage: this.props.percentage,
 
       // rendering states
-      percentageChange: this.props.percentage ? true : false,
       animating: false,
     }
   }
@@ -68,25 +46,24 @@ export default class MobilePercentage extends React.Component {
       nextPercentage: nextProps.percentage
     };
 
-    if (this.state.percentage != nextProps.percentage) {
-      state.percentageChange = true;
-    }
-
     this.setState(state);
   }
 
   componentDidUpdate() {
-    //this.animateIcons();
+    if (this.state.percentage != this.state.nextPercentage && !this.state.animating) {
+      this.animateIcons();
+    }
   }
 
   animateIcons() {
-    let newIcons = $(`.${this.props.type} .fa.new`);
-    let removeIcons = $(`.${this.props.type } .fa.remove`);
+    let node = React.findDOMNode(this);
+    let newIcons = $(node).find(`.${this.props.type} .fa.new`);
+    let removeIcons = $(node).find(`.${this.props.type } .fa.remove`);
 
     if (this.state.animating) return;
-    this.setState({ animating: true });
 
     if (newIcons.length) {
+      this.setState({ animating: true });
       Velocity(newIcons, {
         opacity: 1
       }, (elements) => {
@@ -96,6 +73,7 @@ export default class MobilePercentage extends React.Component {
         })
       })
     } else if (removeIcons.length) {
+      this.setState({ animating: true });
       Velocity(removeIcons, {
         opacity: 0
       }, (elements) => {
@@ -109,19 +87,17 @@ export default class MobilePercentage extends React.Component {
 
   renderIcons() {
     // Get some values for the rendering
-    let numToDraw = Math.max(this.state.percentage, this.state.nextPercetage);
     let numToAdd = this.state.nextPercentage > this.state.percentage ? this.state.nextPercentage - this.state.percentage : 0;
     let numToRemove = this.state.percentage > this.state.nextPercentage ? this.state.percentage - this.state.nextPercentage : 0;
+    let iconDelta = numToAdd || numToRemove;
+    let deltaClass = '';
+    if (numToAdd) {
+      deltaClass = 'new';
+    } else if (numToRemove) {
+      deltaClass = 'remove';
+    }
+
     function renderIcon(className='') {
-
-      if (numToAdd) {
-        numToAdd -= 1;
-        className += ' new';
-      } else if (numToRemove) {
-        numToRemove -= 1;
-        className += ' remove';
-      }
-
       let val = (<i className={ `icon fa ${className}` }></i>)
       return val
     }
@@ -137,25 +113,56 @@ export default class MobilePercentage extends React.Component {
       return (<div>{ `Type ${this.props.type} is not supported` }</div>)
     }
 
-    // Figure out the placeholders so the gaps are on the top row instead of the bottom
-    let remainder = this.props.percentage % this.rowWidth;
-    if (remainder) {
-      let numPadding = this.rowWidth - remainder;
+    // Render row by row, to make it easier to transition icons in and out
+    let numRemaining = Math.max(this.state.nextPercentage, this.state.percentage);
+    let numRows = parseInt(numRemaining / this.rowWidth);
+    numRows += numRemaining % this.rowWidth ? 1 : 0;
+    for (let i = 0; i < numRows; i++) {
+      let cls = iconClass;
+      let numIcons = numRemaining % this.rowWidth ? numRemaining % this.rowWidth : this.rowWidth;
+      let numPadding = i === 0 && numIcons === this.rowWidth ? 0 : this.rowWidth - numIcons;
+
+      // Figure out index at whcih to start adding classes (index into a 10-item row)
+      let index = -1;
+      if (iconDelta >= numIcons) {
+        index = 0;
+        iconDelta -= numIcons;
+      } else if (iconDelta > 0) {
+        index = numIcons - iconDelta;
+        iconDelta = 0;
+      }
 
       // Add the top row of icons, which will contain some filler icons
-      for (let i = 0; i < remainder; i++) { icons.push(renderIcon(iconClass)); }
-      for (let i = 0; i < numPadding; i++) { icons.push(<i className='icon'></i>); }
-    }
+      for (let j = 0; j < numIcons; j++) {
+        let cls = iconClass;
+        if (index >= 0 && j >= index) {
+          cls = `${iconClass} ${deltaClass}`;
+        }
+        icons.push({
+          className: cls,
+          type: `${iconClass}`,
+          index: (numRows - i - 1) * 10 + j
+        });
+      }
+      for (let j = 0; j < numPadding; j++) {
+        icons.push({
+          className: '',
+          type: `${iconClass}-padding`,
+          index: (numRows - i) * 10 + numIcons + j
+        });
+      }
 
-    let percentage = this.props.percentage - remainder;
-    for (let i = 0; i < percentage; i++) {
-      icons.push(renderIcon(iconClass));
+      numRemaining -= numIcons;
     }
 
     return (
       <div className='icons-container'>
         <div className='icons'>
-          { icons }
+          {
+            icons.map((option, i) => {
+              return (<i className={ `icon fa ${option.className}` } key={ `${option.type}-${option.index}` }></i>)
+            })
+          }
         </div>
       </div>
     )
@@ -198,7 +205,5 @@ socket.on('got_quickstats', function(data) {
   let mobile = parseInt((mobileTotal / total) * 100);
   let tablet = parseInt((tabletTotal / total) * 100);
 
-  dashboard.setState({
-    percentage: { mobile, tablet }
-  });
+  dashboard.setState({ mobile, tablet });
 });
