@@ -1,34 +1,45 @@
 import React from 'react';
 import io from 'socket.io-client';
 
+import City from './jsx/city';
+
 export default class CitiesDashboard extends React.Component {
   constructor(args) {
     super(args);
 
-    this.maxFontSize = 150;
+    this.maxFontSize = 175;
 
     this.state = {
       cities: this.props.cities || [],
-      total: this.props.total || 1
+      total: 0,
+      max: 0
     }
   }
 
-  renderCity = (city, index) => {
-    let percentage = (city.value / this.state.total);
-    let largestPercentage = (this.state.cities[0].value / this.state.total);
-    let fontSize = (percentage / largestPercentage ) * this.maxFontSize;
-    let lineHeight = `${fontSize * 1.25}px`;
-    let style = { fontSize, lineHeight };
-    let valueStyle = {
-      fontSize: `${fontSize * .5}px`,
+  componentWillReceiveProps(nextProps) {
+    let total = 0;
+    let max = 0;
+    for (let city of nextProps.cities) {
+      total += city.total;
+      if (city.total > max) max = city.total;
     }
 
-    return (
-      <div className='city' key={ `city-${index}` } style={ style }>
-        { city.name }
-        <span className='value' style={ valueStyle }>{ `(${city.value})` }</span>
-      </div>
-    )
+    this.setState({
+      cities: nextProps.cities,
+      total,
+      max
+    })
+  }
+
+  renderCity = (city, index) => {
+    let cityKey = city.name.replace(/ /g, '-');
+    let height = (city.total / this.state.max) * 95;
+    return <City rank={ index + 1 }
+              name={ city.name }
+              total={ city.total }
+              hostData={ city.hostData }
+              height={ height }
+              key={ cityKey }/>
   }
 
   render() {
@@ -40,7 +51,7 @@ export default class CitiesDashboard extends React.Component {
   }
 }
 
-let dashboard = React.render(
+React.render(
   <CitiesDashboard/>,
   document.getElementById('cities')
 );
@@ -55,10 +66,12 @@ socket.on('got_topgeo', function(data) {
     for (var city in host.cities) {
       let val = host.cities[city];
       if (city in cities) {
-        cities[city] += val;
+        cities[city].total += val;
       } else {
-        cities[city] = val;
+        cities[city] = { total: val, hostData: {}};
       }
+
+      cities[city]['hostData'][host.source] = val;
     }
   }
 
@@ -66,14 +79,15 @@ socket.on('got_topgeo', function(data) {
   for (var city in cities) {
     topCities.push({
       name: city,
-      value: cities[city]
+      total: cities[city].total,
+      hostData: cities[city].hostData
     });
   }
-  topCities = topCities.sort(function(a, b) { return b.value - a.value }).slice(0, 100);
-  let total = 0;
-  for (var city of topCities) {
-    total += city.value;
-  }
 
-  dashboard.setState({ cities: topCities, total });
+  topCities = topCities.sort(function(a, b) { return b.total - a.total }).slice(0, 100);
+
+  React.render(
+    <CitiesDashboard cities={ topCities }/>,
+    document.getElementById('cities')
+  );
 });

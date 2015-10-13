@@ -1,8 +1,87 @@
 @import './base';
 
-.city {
-  display: inline-block;
-  padding: 20px;
-  text-align: center;
+body {
+  background-color: $info-color;
+}
 
+.city-list {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.city {
+  font-family: 'Big Caslon', 'Book Antiqua', 'Palatino Linotype', Georgia, serif;
+  display: flex;
+  flex-direction: column-reverse;
+  height: 60%;
+  width: 5%;
+
+  .name, .total, .bar-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .name {
+    height: 20%;
+  }
+
+  .total {
+    height: 10%;
+  }
+
+  .bar-container {
+    height: 70%;
+  }
+
+  .bar {
+    text-align: center;
+    display: flex;
+    flex-direction: column-reverse;
+    /*justify-content: flex-end;*/ // TODO get it working with this
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+
+    .bar-portion {
+      overflow: hidden;
+      border: 1px solid white;
+      width: 100%;
+
+      &.freep {
+        background-color: $freep-color;
+      }
+
+      &.detroitnews {
+        background-color: $detnews-color;
+      }
+
+      &.lansingstatejournal {
+        background-color: $lsj-color;
+      }
+
+      &.hometownlife {
+        background-color: $hometownlife-color;
+      }
+
+      &.battlecreekenquirer {
+        background-color: $battlecreek-color;
+      }
+
+      &.thetimesherald {
+        background-color: $timesherald-color;
+      }
+
+      &.livingstondaily {
+        background-color: $livingston-color;
+      }
+    }
+
+    img {
+      height: 100%;
+      position: relative;
+    }
+  }
 }
