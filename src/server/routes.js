@@ -16,6 +16,10 @@ router.get('/big-picture/', (req, res, next) => {
 
 router.get('/mobile/', (req, res, next) => {
   res.render('mobile');
+});
+
+router.get('/cities/', (req, res, next) => {
+  res.render('cities');
 })
 
 module.exports = router;

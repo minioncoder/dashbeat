@@ -11,6 +11,10 @@ body {
   min-height: 100%;
 }
 
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
 // http://paletton.com/#uid=33w0u0kg6hq9qrfdBmdl8eBp+az
 $primary-color: #2F4859; // blue
 $info-color: #8B5845; // brownish
