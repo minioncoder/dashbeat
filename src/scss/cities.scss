@@ -3,10 +3,10 @@
 $city-freep: #2095F2; // dark blue
 $city-detnews: #F34235; // red
 $city-lsj: #FEEA3A; // green
-$city-hometownlife: #FE9800; // yellow
-$city-battlecreek: #FE9700; // orange
+$city-hometownlife: #B3E9F8; // sky blue
+$city-battlecreek: #9800FE; // praple
 $city-timesherald: #8AC249; // light blue
-$city-livingston: #3E50B4; // purple
+$city-livingston: #CD54B0; // neon for eric
 
 body {
   background-color: $info-color;
@@ -94,6 +94,7 @@ body {
 h1 {
   font-size: 70px;
   font-weight: 700;
+  line-height: .1;
 }
 
 h3 {
@@ -136,12 +137,11 @@ h1, h3 {
     justify-content: center;
     display: flex;
     flex-direction: column;
-    font-size: 18px;
+    font-size: 22px;
     text-align: center;
   }
 
   .name {
-    font-size: 15px;
     width: 20%;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -150,7 +150,11 @@ h1, h3 {
   }
 
   .total {
-    width: 10%;
+    min-width: 6%;
+    background-color: #c0c0c0;
+    border-radius: 10px;
+    margin: 0 15px 0 15px;
+    font-size: 18px;
   }
 
   .bar-container {
