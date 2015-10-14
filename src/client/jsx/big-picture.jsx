@@ -1,6 +1,5 @@
 import React from 'react';
 import request from 'request';
-import imagesLoaded from 'imagesloaded';
 import Velocity from 'velocity-animate';
 
 import $ from '../framework/$.js';
