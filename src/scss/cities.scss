@@ -61,6 +61,7 @@ body {
     height: 100%;
 
     .bar-portion {
+      position: relative;
       overflow: hidden;
       height: 100%;
       transition: width 150ms linear;
@@ -68,6 +69,12 @@ body {
       -moz-transition: width 150ms linear;
       -webkit-transition: width 150ms linear;
 
+      img {
+        height: 50%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
 
       &.freep {
         background-color: $freep-color;
