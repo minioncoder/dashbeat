@@ -1,5 +1,13 @@
 @import './base';
 
+$city-freep: #2095F2; // dark blue
+$city-detnews: #F34235; // red
+$city-lsj: #FEEA3A; // green
+$city-hometownlife: #FE9800; // yellow
+$city-battlecreek: #FE9800; // orange
+$city-timesherald: #8AC249; // light blue
+$city-livingston: #3E50B4; // purple
+
 body {
   background-color: $info-color;
   color: #fff;
@@ -18,6 +26,7 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: flex-end;
 
   .source {
     font-size: 15px;
@@ -40,43 +49,43 @@ body {
 
     &#freep {
       .swatch {
-        background-color: $freep-color;
+        background-color: $city-freep;
       }
     }
 
     &#detnews {
       .swatch {
-        background-color: $detnews-color;
+        background-color: $city-detnews;
       }
     }
 
     &#lsj {
       .swatch {
-        background-color: $lsj-color;
+        background-color: $city-lsj;
       }
     }
 
     &#pth {
       .swatch {
-        background-color: $timesherald-color;
+        background-color: $city-timesherald;
       }
     }
 
     &#bce {
       .swatch {
-        background-color: $battlecreek-color;
+        background-color: $city-battlecreek;
       }
     }
 
     &#liv {
       .swatch {
-        background-color: $livingston-color;
+        background-color: $city-livingston;
       }
     }
 
     &#oe {
       .swatch  {
-        background-color: $hometownlife-color;
+        background-color: $city-hometownlife;
       }
     }
   }
@@ -170,31 +179,31 @@ h1, h3 {
       }
 
       &.freep {
-        background-color: $freep-color;
+        background-color: $city-freep;
       }
 
       &.detroitnews {
-        background-color: $detnews-color;
+        background-color: $city-detnews;
       }
 
       &.lansingstatejournal {
-        background-color: $lsj-color;
+        background-color: $city-lsj;
       }
 
       &.hometownlife {
-        background-color: $hometownlife-color;
+        background-color: $city-hometownlife;
       }
 
       &.battlecreekenquirer {
-        background-color: $battlecreek-color;
+        background-color: $city-battlecreek;
       }
 
       &.thetimesherald {
-        background-color: $timesherald-color;
+        background-color: $city-timesherald;
       }
 
       &.livingstondaily {
-        background-color: $livingston-color;
+        background-color: $city-livingston;
       }
     }
 
