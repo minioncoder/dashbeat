@@ -35,19 +35,19 @@ export default class CitiesDashboard extends React.Component {
 
   renderCity = (city, index) => {
     let cityKey = city.name.replace(/ /g, '-');
-    let height = (city.total / this.max) * 95;
+    let width = (city.total / this.max) * 95;
     return <City rank={ index + 1 }
               name={ city.name }
               total={ city.total }
               hostData={ city.hostData }
-              height={ height }
+              width={ width }
               key={ cityKey }/>
   }
 
   render() {
     return (
       <div className='city-list'>
-        { this.state.cities.map(this.renderCity) }
+        { this.state.cities.slice(0, 40).map(this.renderCity) }
       </div>
     )
   }

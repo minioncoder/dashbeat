@@ -27,7 +27,7 @@ export default class City extends React.Component {
 
     function renderBar(option, index) {
       let style = {
-        height: `${( option.val / totalVal ) * 100}%`
+        width: `${( option.val / totalVal ) * 100}%`
       }
 
       return (
@@ -37,7 +37,7 @@ export default class City extends React.Component {
     }
 
     let style = {
-      height: `${this.props.height}%`
+      width: `${this.props.width}%`
     }
 
     return (
