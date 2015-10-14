@@ -18,7 +18,14 @@ body {
   flex-direction: row;
   height: 60%;
   width: 50%;
-  height: 40px;
+  height: 5%;
+  position: absolute;
+  transform: all 250ms linear;
+  -o-transform: all 250ms linear;
+  -moz-transform: all 250ms linear;
+  -webkit-transform: all 250ms linear;
+  top: 100%;
+  left: 100%;
 
   .name, .total, .bar-container {
     position: relative;

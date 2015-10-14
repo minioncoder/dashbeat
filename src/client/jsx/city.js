@@ -1,15 +1,33 @@
 import React from 'react';
+import Velocity from 'velocity-animate';
 
 export default class City extends React.Component {
   constructor(args) {
     super(args);
 
     this.state = {
-      rank: this.props.rank || -1,
+      index: this.props.index || -1,
       name: this.props.name || '',
       total: this.props.total || 0,
       hostData: this.props.hostData || {}
     }
+  }
+
+  componentDidMount() {
+    this.animateMovement();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.index != this.props.index) this.animateMovement(nextProps.index);
+  }
+
+  animateMovement(index=this.props.index) {
+    let style = {
+      top: `${(index % 20) * 5}%`,
+      left: `${index >= 20 ? 50 : 0}%`
+    }
+
+    Velocity(React.findDOMNode(this), style)
   }
 
   renderBar = () => {

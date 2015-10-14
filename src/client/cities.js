@@ -36,7 +36,7 @@ export default class CitiesDashboard extends React.Component {
   renderCity = (city, index) => {
     let cityKey = city.name.replace(/ /g, '-');
     let width = (city.total / this.max) * 95;
-    return <City rank={ index + 1 }
+    return <City index={ index }
               name={ city.name }
               total={ city.total }
               hostData={ city.hostData }
