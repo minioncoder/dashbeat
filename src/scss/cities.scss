@@ -4,7 +4,7 @@ $city-freep: #2095F2; // dark blue
 $city-detnews: #F34235; // red
 $city-lsj: #FEEA3A; // green
 $city-hometownlife: #FE9800; // yellow
-$city-battlecreek: #FE9800; // orange
+$city-battlecreek: #FE9700; // orange
 $city-timesherald: #8AC249; // light blue
 $city-livingston: #3E50B4; // purple
 
@@ -118,9 +118,11 @@ h1, h3 {
   font-family: 'Arimo', sans-serif;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   height: 60%;
   width: 50%;
-  height: 5%;
+  height: 4%;
+  margin-top: 1%;
   position: absolute;
   transform: all 250ms linear;
   -o-transform: all 250ms linear;
@@ -131,7 +133,9 @@ h1, h3 {
 
   .name, .total, .bar-container {
     position: relative;
-    height: 100%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
     font-size: 18px;
     text-align: center;
   }
@@ -139,7 +143,6 @@ h1, h3 {
   .name {
     font-size: 15px;
     width: 20%;
-    line-height: 40px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -148,11 +151,11 @@ h1, h3 {
 
   .total {
     width: 10%;
-    line-height: 40px;
   }
 
   .bar-container {
     width: 70%;
+    height: 100%;
   }
 
   .bar {
@@ -160,7 +163,7 @@ h1, h3 {
     display: flex;
     flex-direction: row;
     /*justify-content: flex-end;*/ // TODO get it working with this
-    height: 80%;
+    height: 100%;
 
     .bar-portion {
       position: relative;
