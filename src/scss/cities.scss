@@ -10,12 +10,81 @@ body {
   position: fixed;
   bottom: 0;
   right: 0;
+  width: 30%;
+  padding: 20px;
+}
+
+#legend {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .source {
+    font-size: 15px;
+    line-height: 15px;
+    margin: 2px;
+    width: 45%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    .swatch {
+      height: 15px;
+      width: 10px;
+    }
+
+    p {
+      font-size: 15px;
+      margin: 0 2px;
+    }
+
+    &#freep {
+      .swatch {
+        background-color: $freep-color;
+      }
+    }
+
+    &#detnews {
+      .swatch {
+        background-color: $detnews-color;
+      }
+    }
+
+    &#lsj {
+      .swatch {
+        background-color: $lsj-color;
+      }
+    }
+
+    &#pth {
+      .swatch {
+        background-color: $hometownlife-color;
+      }
+    }
+
+    &#bce {
+      .swatch {
+        background-color: $battlecreek-color;
+      }
+    }
+
+    &#liv {
+      .swatch {
+        background-color: $livingston-color;
+      }
+    }
+
+    &#oe {
+      .swatch  {
+        background-color: $timesherald-color;
+      }
+    }
+  }
 }
 
 h1 {
   font-size: 70px;
   font-weight: 700;
-  line-height: .1;
 }
 
 h3 {
