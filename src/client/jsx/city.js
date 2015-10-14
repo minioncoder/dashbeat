@@ -50,7 +50,6 @@ export default class City extends React.Component {
 
       return (
         <div className={ `bar-portion ${option.host}` } style={ style } key={ `${this.state.name}-${option.host}` }>
-          <img src={ `/img/hostimages/${option.host}.png` }/>
         </div>
       )
     }
