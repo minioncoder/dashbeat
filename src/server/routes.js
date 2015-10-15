@@ -28,7 +28,9 @@ router.get('/status/', function(req, res, next) {
 });
 
 router.get('/info/', Catch(async function(req, res, next) {
-  let client = new SupervisorApi('status.michigan.com', '80', 'ebower', '1337sk33t');
+  let user = process.env.SUPERVISOR_USER;
+  let pass = process.env.SUPERVISOR_PASS;
+  let client = new SupervisorApi('status.michigan.com', '80', user, pass);
   let procs = await client.info();
   res.json({ procs });
 }));

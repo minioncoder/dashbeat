@@ -9,12 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function refresh() {
-  let procs = await Ajax("/info/");
-  console.log(procs);
-
+  let data = await Ajax("/info/");
   ReactDOM.render(
-    <ProcList procs={procs}/>,
-    document.getElementById("proContainer");
+    <ProcList procs={data.procs}/>,
+    document.getElementById("proContainer")
   );
 
   setTimeout(function() {
@@ -34,11 +32,11 @@ class ProcList extends React.Component {
           status={proc.statename}
           description={proc.description} />
       );
-
-      return (
-        <div className="procList">{procs}</div>
-      );
     }
+
+    return (
+      <div className="procList">{procs}</div>
+    );
   };
 };
 
