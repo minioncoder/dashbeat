@@ -23,7 +23,7 @@ var source = require('vinyl-source-stream');
 
 var jsSrc = './src/client/';
 var jsDist = './public/js/';
-var jsBundle = ['popular.js', 'big-picture.js', 'mobile.js', 'cities.js'];
+var jsBundle = ['popular.js', 'big-picture.js', 'mobile.js', 'cities.js', 'supervisor.js'];
 
 gulp.task('sass', function() {
   return bundleSass();
