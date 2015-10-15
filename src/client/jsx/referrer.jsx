@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 var ReferrerReact = React.createClass({
   getDefaultProps() {
@@ -80,7 +81,7 @@ class Referrer {
     this.hide = false;
 
     if (!this.react) {
-      this.react = React.render(
+      this.react = ReactDOM.render(
         <ReferrerReact name={ this.name } parent= { this }/>,
         document.getElementById(this.name)
       )

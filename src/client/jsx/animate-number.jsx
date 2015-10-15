@@ -1,10 +1,10 @@
 'use strict';
 
-import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactNumberEasing from 'react-number-easing';
 
 module.exports = function(value, id) {
-  return React.render(
+  return ReactDOM.render(
     <ReactNumberEasing value={ value }/>,
     document.getElementById(id)
   )

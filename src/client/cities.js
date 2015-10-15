@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
 
 import City from './jsx/city';
@@ -53,7 +54,7 @@ export default class CitiesDashboard extends React.Component {
   }
 }
 
-React.render(
+ReactDOM.render(
   <CitiesDashboard/>,
   document.getElementById('cities')
 );
@@ -88,7 +89,7 @@ socket.on('got_topgeo', function(data) {
 
   topCities = topCities.sort(function(a, b) { return b.total - a.total }).slice(0, 100);
 
-  React.render(
+  ReactDOM.render(
     <CitiesDashboard cities={ topCities }/>,
     document.getElementById('cities')
   );

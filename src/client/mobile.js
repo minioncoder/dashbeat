@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
 import Velocity from 'velocity-animate';
 
@@ -180,7 +181,7 @@ export default class MobilePercentage extends React.Component {
   }
 }
 
-let dashboard = React.render(
+let dashboard = ReactDOM.render(
   <MobileDashboard/>,
   document.getElementById('content')
 );

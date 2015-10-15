@@ -4,6 +4,7 @@ import keys from 'lodash/object/keys';
 import Chance from 'chance';
 import io from 'socket.io-client';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import xr from 'xr';
 
 import Framework from './framework/index';
@@ -120,7 +121,7 @@ var socket = io('https://api.michigan.com', { transports: ['websocket', 'xhr-pol
 var articleHandler = new ArticleHandler();
 var articleContainer = document.getElementsByClassName('articles')[0];
 
-React.render(
+ReactDOM.render(
   <ArticleHandler/>,
   document.getElementById('articles')
 )

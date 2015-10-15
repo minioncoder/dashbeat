@@ -2,6 +2,7 @@ import _each from 'lodash/collection/forEach';
 import _keys from 'lodash/object/keys';
 import request from 'request';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import moment from 'moment';
 
 import $ from 'framework/$';
@@ -176,7 +177,7 @@ class Dashboard extends React.Component {
 }
 
 module.exports = function() {
-  return React.render(
+  return ReactDOM.render(
     <Dashboard/>,
     document.getElementById('dashboard')
   )

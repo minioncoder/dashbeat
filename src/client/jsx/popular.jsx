@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 //import addons from 'react/addons';
 //const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 import { getData, Overview } from './overview.jsx';
@@ -19,7 +20,7 @@ var sourceMap = {
 };
 
 export default function renderList(data, el) {
-  return React.render(
+  return ReactDOM.render(
     <ArticleList data={data} />,
     el
   );

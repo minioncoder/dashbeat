@@ -5,6 +5,7 @@
 import _each from 'lodash/collection/forEach';
 import _keys from 'lodash/object/keys';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { parseReferrer, generateString } from 'publicLib/parse';
 import PieChart from 'charts/piechart';
 import { DeltaValue, DaySeries, SocialShares } from './common';
@@ -22,7 +23,7 @@ export default class Articles extends React.Component {
 
   articleClick() {
 
-    this.props.summary = React.render(
+    this.props.summary = ReactDOM.render(
       // According to React documentation, there's no .setProps when you're extending
       // React.Componnent. JS warning says to call .render again from the top
       // level
