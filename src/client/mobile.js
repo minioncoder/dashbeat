@@ -57,7 +57,7 @@ export default class MobilePercentage extends React.Component {
   }
 
   animateIcons() {
-    let node = React.findDOMNode(this);
+    let node = ReactDOM.findDOMNode(this);
     let newIcons = $(node).find(`.${this.props.type} .fa.new`);
     let removeIcons = $(node).find(`.${this.props.type } .fa.remove`);
 

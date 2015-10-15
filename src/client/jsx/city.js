@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Velocity from 'velocity-animate';
 
 export default class City extends React.Component {
@@ -27,7 +28,7 @@ export default class City extends React.Component {
       left: `${index >= 20 ? 50 : 0}%`
     }
 
-    Velocity(React.findDOMNode(this), style)
+    Velocity(ReactDOM.findDOMNode(this), style)
   }
 
   renderBar = () => {
