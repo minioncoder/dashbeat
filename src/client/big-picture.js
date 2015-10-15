@@ -70,7 +70,7 @@ class ArticleHandler extends React.Component {
       let rand = Math.floor(Math.random() * this.state.articles.length);
       if (this.state.activeArticles.indexOf(rand) < 0) {
         let article = this.state.articles[rand];
-        if ('photo' in article && 'full' in article.photo && article.photo.full.url) {
+        if (article.photo && 'full' in article.photo && article.photo.full.url) {
           randomIndex = rand;
           break;
         }

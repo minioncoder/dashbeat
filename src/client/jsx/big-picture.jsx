@@ -40,7 +40,7 @@ export default class Article extends React.Component {
   }
 
   getArticleContainer() {
-    return React.findDOMNode(this.refs['article-content']);
+    return this.refs['article-content'];
   }
 
   slideOut(){
