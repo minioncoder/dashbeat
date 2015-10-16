@@ -1,0 +1,65 @@
+$running: limegreen;
+$fatal: tomato;
+$restarting: yellow;
+$shutdown: orange;
+
+body {
+  background-color: rgba(0, 0, 0, 0.87);
+  color: #fff;
+  font-family: 'Arimo', sans-serif;
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow-y: hidden;
+}
+
+.status {
+  border-radius: 5px;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}
+
+.running {
+  background-color: $running;
+}
+.stopped, .fatal {
+  background-color: $fatal;
+}
+.restarting {
+  background-color: $restarting;
+}
+.shutdown {
+  background-color: $shutdown;
+}
+
+.b-running {
+  border: 1px solid $running;
+}
+.b-stopped, .b-fatal {
+  border: 1px solid $fatal;
+}
+.b-restarting {
+  border: 1px solid $restarting;
+}
+.b-shutdown {
+  border: 1px solid $shutdown;
+}
+
+.proc {
+  padding: 20px;
+  margin: 10px;
+  flex-direction: column;
+  max-height: 100px;
+}
+
+.procList {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+#proContainer, .procList {
+  height: 85%;
+}
