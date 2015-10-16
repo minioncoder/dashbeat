@@ -5,18 +5,23 @@ import ReactDOM from 'react-dom';
 import Ajax from './lib/ajax';
 
 document.addEventListener('DOMContentLoaded', function() {
-  refresh().catch(function(err) { console.log(err); });
+  refresh();
 });
 
 async function refresh() {
-  let data = await Ajax("/info/");
+  try {
+    let data = await Ajax("/info/");
+  } catch (err) {
+    console.log(err);
+  }
+
   ReactDOM.render(
     <ProcList procs={data.procs}/>,
     document.getElementById("proContainer")
   );
 
   setTimeout(function() {
-    refresh().catch(function(err) { console.log(err); });
+    refresh();
   }, 10000);
 };
 
