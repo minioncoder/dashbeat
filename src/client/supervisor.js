@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Ajax from './lib/ajax';
+import moment from 'moment';
 
 document.addEventListener('DOMContentLoaded', function() {
   refresh();
@@ -32,11 +33,15 @@ class ProcList extends React.Component {
     let procs = [];
     for (let i = 0; i < this.props.procs.length; i++) {
       let proc = this.props.procs[i];
+      let uptime = moment.unix(proc.start);
+      uptime = uptime.fromNow();
       procs.push(
         <Proc key={proc.name}
           name={proc.name}
-          status={proc.statename}
-          description={proc.description} />
+          status={proc.statename.toLowerCase()}
+          pid={proc.pid}
+          uptime={uptime}
+          startTime={proc.start} />
       );
     }
 
@@ -49,10 +54,12 @@ class ProcList extends React.Component {
 class Proc extends React.Component {
   constructor(props) { super(props); };
   render() {
+    //{this.props.status}
+    let procClass = "proc b-" + this.props.status;
+    let statusClass = "status " + this.props.status;
     return (
-      <div className="proc">
-        {this.props.name} - {this.props.status}
-        <p>{this.props.description}</p>
+      <div className={procClass}>
+        <div className={statusClass}></div> [{this.props.name}] since {this.props.uptime}
       </div>
     );
   };
