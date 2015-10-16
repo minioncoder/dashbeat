@@ -35,3 +35,4 @@ dist/
 out.txt
 *.swp
 env.sh
+conf/supervisor.conf
