@@ -27,6 +27,10 @@ router.get('/loyalty/', (req, res, next) => {
   res.render('loyalty');
 });
 
+router.get('/article-loyalty/', (req, res, next) => {
+  res.render('article-loyalty');
+});
+
 router.get('/status/', function(req, res, next) {
   res.render('supervisor');
 });
