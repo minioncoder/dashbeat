@@ -31,10 +31,6 @@ body {
   padding: 20px 10px;
   float: left;
 
-  @media (min-width: $screen-sm) {
-    width: 50%;
-  }
-
   .type {
     text-transform: uppercase;
     width: 100%;
@@ -57,7 +53,7 @@ body {
 }
 
 .icons-container {
-  width: 50%;
+  width: 80%;
   margin: 0 auto;
   height: $height-icon * 10;
   position: relative;
@@ -65,34 +61,39 @@ body {
 
 .icons {
   width: 100%;
-  position: absolute;
   bottom: 0;
   left: 0;
   opacity: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 100%;
+
+
+  .icon-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    height: 10%;
+  }
 
   .icon {
-    width: 10%;
-    display: inline-block;
+    transition: all 500ms linear;
+    -o-transition: all 500ms linear;
+    -moz-transition: all 500ms linear;
+    -webkit-transition: all 500ms linear;
 
-    &.new {
-      opacity: 0;
+    &.active {
+      color: #467A62;
+      opacity: 1;
+    }
+
+    &.inactive {
+      color: grey;
+      opacity: .3;
     }
   }
 }
-
-.fa {
-  line-height: $font-size-phone;
-  vertical-align: middle;
-
-  &.fa-mobile {
-    font-size: $font-size-phone;
-  }
-
-  &.fa-tablet {
-    font-size: $font-size-tablet;
-  }
-}
-
-
 
 
