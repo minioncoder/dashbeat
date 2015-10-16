@@ -15,9 +15,10 @@ export default class SupervisorApi {
     });
   };
 
-  info() {
+  info(...args) {
     return new Promise((resolve, reject) => {
-      this.client.methodCall("supervisor.getAllProcessInfo", [], function(err, procs) {
+      this.client.methodCall("supervisor.getAllProcessInfo", args, function(err, procs) {
+        logger(`args: ${args}, err: ${err}, procs: ${procs.length}`);
         if (err) reject(err);
         resolve(procs);
       });
