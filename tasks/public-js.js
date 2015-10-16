@@ -17,7 +17,7 @@ var browserifyShim = require('browserify-shim');
 
 var jsSrc = './src/client/';
 var jsDist = './public/js/';
-var jsBundle = ['popular.js', 'big-picture.js', 'mobile.js', 'cities.js', 'supervisor.js'];
+var jsBundle = ['popular.js', 'big-picture.js', 'mobile.js', 'cities.js', 'supervisor.js', 'loyalty.js'];
 var jsFiles = jsSrc + '**/*.js';
 
 /**
