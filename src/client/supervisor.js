@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function refresh() {
+  let data;
   try {
-    let data = await Ajax("/info/");
+    data = await Ajax("/info/");
   } catch (err) {
     console.log(err);
   }
