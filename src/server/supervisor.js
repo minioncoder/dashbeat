@@ -4,14 +4,15 @@ import debug from 'debug';
 var logger = debug('app:supervisor-api');
 import xmlrpc from 'xmlrpc';
 
+/**
+ * RPC interface that interacts with our supervisor process manager
+ */
 export default class SupervisorApi {
   constructor(host, port, user, pass) {
     this.client = xmlrpc.createClient({
       path: '/RPC2',
       host, port,
-      basic_auth: {
-        user, pass
-      }
+      basic_auth: { user, pass }
     });
   };
 
@@ -19,6 +20,7 @@ export default class SupervisorApi {
     return new Promise((resolve, reject) => {
       this.client.methodCall("supervisor.getAllProcessInfo", args, function(err, procs) {
         logger(`args: ${args}, err: ${err}, procs: ${procs.length}`);
+
         if (err) reject(err);
         resolve(procs);
       });
