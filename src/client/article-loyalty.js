@@ -1,21 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
+import Velocity from 'velocity-animate';
 
 export default class ArticleLoyaltyDashboard extends React.Component {
   renderArticle(key) {
     return function(article, index) {
-      let style = {
-        top: `${index * 10}%`
-      }
-
       return (
-        <div className='article' style={ style } key={ `${key}-${article.article_id}` }>
-          <div className='percent'>{ `${article[key]}%` }</div>
-          <div className='headline'>
-            <a href={ `http://${ article.url }` } target='_blank'>{ article.headline }</a>
-          </div>
-        </div>
+        <Article type={ key } article={ article } rank={ index } key={ `${key}-${article.article_id}` }/>
       )
     }
   }
@@ -26,6 +18,7 @@ export default class ArticleLoyaltyDashboard extends React.Component {
     else if (columnType === 'returning') articles = this.props.topReturning;
     else if (columnType === 'new') articles = this.props.topNew;
     else return null;
+
 
     return (
       <div className={ `column ${columnType}` }>
@@ -44,6 +37,37 @@ export default class ArticleLoyaltyDashboard extends React.Component {
         { this.renderArticleColumn('loyal', 'Loyal', '> 50% of the past 16 days') }
         { this.renderArticleColumn('returning', 'Returning', '< 50% of the past 16 days') }
         { this.renderArticleColumn('new', 'New', '0 of the past 16 days') }
+      </div>
+    )
+  }
+}
+
+class Article extends React.Component {
+  componentDidMount() {
+    this.animateArticle();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.rank != this.props.rank) this.animateArticle();
+  }
+
+  animateArticle = () => {
+    let style = {
+      top: `${ this.props.rank * 10 }%`
+    }
+
+    Velocity(ReactDOM.findDOMNode(this), style);
+  }
+
+  render() {
+    let type = this.props.type;
+    let article = this.props.article;
+    return (
+      <div className='article'>
+        <div className='percent'>{ `${article[type]}%` }</div>
+        <div className='headline'>
+          <a href={ `http://${ article.url }` } target='_blank'>{ article.headline }</a>
+        </div>
       </div>
     )
   }
