@@ -5,7 +5,6 @@ import Velocity from 'velocity-animate';
 
 import $ from './framework/$';
 
-
 export default class MobileDashboard extends React.Component {
   constructor(args) {
     super(args);

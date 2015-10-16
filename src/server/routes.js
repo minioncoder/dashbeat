@@ -20,6 +20,10 @@ router.get('/mobile/', (req, res, next) => {
 
 router.get('/cities/', (req, res, next) => {
   res.render('cities');
-})
+});
+
+router.get('/loyalty/', (req, res, next) => {
+  res.render('loyalty');
+});
 
 module.exports = router;
