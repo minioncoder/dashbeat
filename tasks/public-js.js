@@ -88,10 +88,10 @@ function bundleJs(file) {
  */
 function watchFunction() {
 
-  gutil.log('Watching ' + jsFiles);
-  gulp.watch(jsFiles, function() {
-    each(jsBundle, function(fname) {
-      var filePath = jsSrc + fname;
+  each(jsBundle, function(fname) {
+    var filePath = jsSrc + fname;
+    gutil.log('Watching ' + filePath);
+    gulp.watch(filePath, function() {
       gulp.src(filePath)
         .pipe(plumber(gutil.log))
         .pipe(tap(bundleJs))
