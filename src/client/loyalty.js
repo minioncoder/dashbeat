@@ -8,20 +8,20 @@ export default class LoyaltyDashboard extends React.Component {
   renderLegend() {
     return (
       <div className='about'>
-        <div className='title'>Loyalty</div>
-        <div className='subtitle'>Which one of our markets commands the highest percentage of loyal readers?</div>
+        <div className='title'>Yours Truly, ...</div>
+        <div className='subtitle'>Are they rubber-neckers, or regular readers? How can we convert casual traffic to loyal subscribers? What does each site do differently that affects these numbers?</div>
         <div className='legend'>
           <div className='item loyal'>
             <div className='swatch'></div>
-            <div className='label'>{ 'Loyal -  > 50% of the days over the last 16 days.' }</div>
+            <div className='label'>{ 'Loyal — Percentage of current users who have visited 8 days of the past 16' }</div>
           </div>
           <div className='item returning'>
             <div className='swatch'></div>
-            <div className='label'>{ 'Return - < 50% of the days over the last 16 days.' }</div>
+            <div className='label'>{ 'Returning — Current users who have visited 2 to 7 of the past 16 days' }</div>
           </div>
           <div className='item new'>
             <div className='swatch'></div>
-            <div className='label'>{ 'New - 0 days in the last 16 days' }</div>
+            <div className='label'>{ 'New — Percentage of users visiting for the first time in the last 16 days' }</div>
           </div>
         </div>
       </div>
