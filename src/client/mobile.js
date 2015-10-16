@@ -31,46 +31,18 @@ export default class MobilePercentage extends React.Component {
     this.totalIcons = 1000;
   }
 
-  renderIcons() {
-    // Get some values for the rendering
-    let numActiveIcons = (this.props.percentage) * 10;
-    let numInactiveIcons = this.totalIcons - numActiveIcons;
-
-    let icons = [];
-    let iconClass;
-    if (this.props.type === 'mobile') {
-      iconClass = 'fa-mobile';
-    } else if (this.props.type === 'tablet') {
-      iconClass = 'fa-tablet';
-    } else {
-      return (<div>{ `Type ${this.props.type} is not supported` }</div>)
+  renderBar() {
+    let style = {
+      width: `${this.props.percentage}%`
     }
-
-    for (let i = 0; i < numActiveIcons; i++) {
-      icons.push({
-        className: `${iconClass} active`,
-      });
-    }
-
-    for (let i = 0; i < numInactiveIcons; i++) {
-      icons.push({
-        className: `${iconClass} inactive`
-      });
-    }
-
     return (
-      <div className='icons-container'>
-        <div className='icons'>
-          {
-            icons.map((option, i) => {
-              return (
-                <div className='icon-container'>
-                  <i className={ `icon fa ${option.className}` } key={ `icon-${i}` }></i>
-                </div>
-              )
-            })
-          }
+      <div className='battery-container'>
+        <div className='padding'></div>
+        <div className='battery'>
+          <div className='bar' style={ style }>
+          </div>
         </div>
+        <div className='padding'></div>
       </div>
     )
   }
@@ -81,7 +53,7 @@ export default class MobilePercentage extends React.Component {
         <div className='type'>{ this.props.type }</div>
         <div className='percentage'>{ this.props.percentage }</div>
 
-        { this.renderIcons() }
+        { this.renderBar() }
       </div>
     )
   }

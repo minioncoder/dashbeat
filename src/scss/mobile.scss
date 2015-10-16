@@ -16,6 +16,11 @@ body {
 }
 
 .mobile-dashboard {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+
   h2 {
     text-align: center;
     color: $warning-color;
@@ -24,12 +29,11 @@ body {
 }
 
 .mobile-percentage {
-  height: 100%;
-  width: 100%;
   position: relative;
-  display: inline-block;
   padding: 20px 10px;
-  float: left;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 9;
 
   .type {
     text-transform: uppercase;
@@ -49,6 +53,66 @@ body {
     &:after {
       content: "%";
     }
+  }
+}
+
+.battery-container {
+  flex-grow: 5;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  padding: 0% 10%;
+
+  @media (min-width: $screen-md) {
+    padding: 0% 20%;
+  }
+
+  // I dont like this
+  .padding {
+    flex-grow: 1;
+  }
+}
+
+
+.battery {
+  width: 95%;
+  flex-grow: 3;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid white;
+  border-radius: 20px;
+  position: relative;
+
+
+  @media (max-width: $screen-sm) {
+    flex-grow: 1;
+  }
+
+  &:after {
+    content: '';
+    height: 40%;
+    position: absolute;
+    left: 100%;
+    background-color: white;
+    width: 5%;
+    top: 30%;
+    border-radius: 0px 10px 10px 0px;
+  }
+
+  .bar {
+    flex-grow: 1;
+    position: relative;
+    display: block;
+    height: 100%;
+    background-color: #467A62;
+    width: 0%;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+    transition: width 250ms linear;
+    -o-transition: width 250ms linear;
+    -moz-transition: width 250ms linear;
+    -webkit-transition: width 250ms linear;
   }
 }
 
