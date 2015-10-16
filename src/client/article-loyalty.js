@@ -34,9 +34,9 @@ export default class ArticleLoyaltyDashboard extends React.Component {
   render() {
     return (
       <div className='dashboard'>
-        { this.renderArticleColumn('loyal', 'Loyal', '> 50% of the past 16 days') }
-        { this.renderArticleColumn('returning', 'Returning', '< 50% of the past 16 days') }
-        { this.renderArticleColumn('new', 'New', '0 of the past 16 days') }
+        { this.renderArticleColumn('loyal', 'Loyal', '8+ visits in the past 16 days') }
+        { this.renderArticleColumn('returning', 'Returning', '2-7 visits in the past 16 days') }
+        { this.renderArticleColumn('new', 'New', 'first visit in the past 16 days') }
       </div>
     )
   }

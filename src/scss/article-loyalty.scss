@@ -6,6 +6,8 @@ $secondary-color: #AB5F39;
 body {
   background-color: $primary-color;
   font-family: 'Arimo';
+  font-size: 22px;
+  color: #fff;
 }
 
 .dashboard {
@@ -15,22 +17,30 @@ body {
   width: 100vw;
 }
 
+.splainer {
+  font-size: 70px;
+  font-weight: 700;
+  text-align: center;
+  line-height: .01;
+}
+
 .column {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin: 2%;
 
   .title {
     text-align: center;
-    color: white;
     font-size: 30px;
     line-height: 40px;
   }
 
   .blurb {
-    font-size: 20px;
+    font-size: 16px;
     text-align: center;
     color: $secondary-color;
+    margin-bottom: 10px;
   }
 
   .article-container {
