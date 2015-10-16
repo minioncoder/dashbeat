@@ -3,6 +3,7 @@
 import express from 'express';
 import debug from 'debug';
 var logger = debug('app:routes');
+import SupervisorApi from './supervisor';
 
 var router = express.Router();
 
@@ -25,5 +26,27 @@ router.get('/cities/', (req, res, next) => {
 router.get('/loyalty/', (req, res, next) => {
   res.render('loyalty');
 });
+
+router.get('/status/', function(req, res, next) {
+  res.render('supervisor');
+});
+
+router.get('/info/', Catch(async function(req, res, next) {
+  let user = process.env.SUPERVISOR_USER;
+  let pass = process.env.SUPERVISOR_PASS;
+  let client = new SupervisorApi('status.michigan.com', '80', user, pass);
+  let procs = await client.info();
+  res.json({ procs });
+}));
+
+/**
+ * Use this to wrap a route that uses async/await.
+ * It helps catch any rejected promises.
+ */
+function Catch(fn) {
+  return function(req, res, next) {
+    fn(req, res, next).catch(next)
+  };
+}
 
 module.exports = router;
