@@ -45,7 +45,7 @@ export default class HostLoyalty extends React.Component {
           <div className='bar-container'>
             <div className='bar' style={ returningStyle }></div>
           </div>
-          <div className='label'>Return</div>
+          <div className='label'>Returning</div>
           <div className='percent'>{ `${this.props.returning}%` }</div>
         </div>
         <div className='stat new'>
@@ -62,11 +62,10 @@ export default class HostLoyalty extends React.Component {
   render() {
     return (
       <div className='host-loyalty'>
-        <div className='source'>{ sourceMap[this.props.source] || '' }</div>
         <div className='rank'>{ this.props.rank }</div>
+        <div className='source'>{ sourceMap[this.props.source] || '' }</div>
         { this.renderStats() }
       </div>
     )
   }
 }
-

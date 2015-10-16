@@ -1,8 +1,8 @@
 @import './base';
 
-$loyal-color: #2095F2;
-$return-color: #F34235;
-$new-color: #FEEA3A;
+$loyal-color: #60BD68;
+$return-color: #F17CB0;
+$new-color: #DECF3F;
 
 body {
   font-family: 'Arimo';
@@ -28,6 +28,11 @@ body {
 
   .rank {
     text-align: center;
+    background-color: #c0c0c0;
+    border-radius: 10px;
+    margin: 0 auto 10px auto;
+    padding: 1px;
+    width: 25px;
   }
 
 }
@@ -75,7 +80,6 @@ body {
         bottom: 0;
         left: 10%;
         width: 80%;
-
         transition: height 100ms linear;
         -o-transition: height 100ms linear;
         -moz-transition: height 100ms linear;
@@ -93,18 +97,22 @@ body {
 
   .title {
     text-align: center;
-    font-size: 35px;
+    font-size: 70px;
     line-height: 50px;
-    font-weight: bold;
+    font-weight: 700;
+    margin: 35px 0 35px 0;
   }
 
   .subtitle {
-    margin: 20px 0;
+    margin: 20px 0 30px 0;
+    padding: 0 120px 0 120px;
+    font-size: 18px;
   }
 
   .legend {
     width: 80%;
     margin: 0 auto;
+    padding-left: 90px;
 
     .item {
       font-size: 15px;

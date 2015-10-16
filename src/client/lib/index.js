@@ -3,13 +3,13 @@ import parse from './parse';
 
 // Maps source names sans '.com' to words
 let sourceMap = {
-  freep: 'Free Press',
-  detroitnews: 'Detroit News',
-  battlecreekenquirer: 'Battle Creek',
+  freep: 'Detroit Free Press',
+  detroitnews: 'The Detroit News',
+  battlecreekenquirer: 'Battle Creek Enquirer',
   hometownlife: 'Hometown Life',
-  lansingstatejournal: 'LSJ',
-  livingstondaily: 'Livingston',
-  thetimesherald: 'Times Herald'
+  lansingstatejournal: 'Lansing State Journal',
+  livingstondaily: 'Livingston Daily',
+  thetimesherald: 'Port Huron Times Herald'
 }
 
 module.exports = {
