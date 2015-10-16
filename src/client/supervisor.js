@@ -30,9 +30,17 @@ async function refresh() {
 class ProcList extends React.Component {
   constructor(props) { super(props); };
   render() {
+    let sortedProcs = this.props.procs.slice().sort(function(a, b) {
+      let aTimer = getTimer(a, true);
+      let bTimer = getTimer(b, true);
+
+      return bTimer - aTimer;
+    });
+
     let procs = [];
     for (let i = 0; i < this.props.procs.length; i++) {
       let proc = this.props.procs[i];
+
       let uptime = moment.unix(proc.start);
       let downtime = moment.unix(proc.stop);
       uptime = uptime.fromNow();
@@ -46,7 +54,8 @@ class ProcList extends React.Component {
           uptime={uptime}
           downtime={downtime}
           startTime={proc.start}
-          stopTime={proc.stop} />
+          stopTime={proc.stop}
+          pos={getPos(sortedProcs, proc.name)} />
       );
     }
 
@@ -56,19 +65,36 @@ class ProcList extends React.Component {
   };
 };
 
+function getPos(procs, procName) {
+  for (let i = 0; i < procs.length; i++) {
+    if (procs[i].name == procName) return i;
+  }
+}
+
+function getTimer(proc, unixTimestamp=false) {
+  let keys = ['uptime', 'downtime'];
+  if (unixTimestamp) {
+    keys = ['start', 'stop'];
+  }
+
+  let timer = proc[keys[0]];
+  if (proc.status != "running" && proc.status != "restarting") {
+    timer = proc[keys[1]];
+  }
+  return timer;
+}
+
 class Proc extends React.Component {
   constructor(props) { super(props); };
   render() {
     //{this.props.status}
     let procClass = "proc b-" + this.props.status;
     let statusClass = "status " + this.props.status;
-    let timer = this.props.uptime;
-    if (this.props.status != "running" && this.props.status != "restarting") {
-      timer = this.props.downtime;
-    }
+    let timer = getTimer(this.props);
+    let procStyle = { order: this.props.pos };
 
     return (
-      <div className={procClass}>
+      <div className={procClass} style={procStyle}>
         <div className={statusClass}></div> [{this.props.name}] since {timer}
       </div>
     );
