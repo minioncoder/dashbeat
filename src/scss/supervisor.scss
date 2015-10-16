@@ -25,7 +25,7 @@ html, body {
 .running {
   background-color: $running;
 }
-.fatal {
+.stopped, .fatal {
   background-color: $fatal;
 }
 .restarting {
@@ -38,7 +38,7 @@ html, body {
 .b-running {
   border: 1px solid $running;
 }
-.b-fatal {
+.b-stopped, .b-fatal {
   border: 1px solid $fatal;
 }
 .b-restarting {
