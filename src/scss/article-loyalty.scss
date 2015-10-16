@@ -1,0 +1,76 @@
+@import './base';
+
+$primary-color: #2B4C6F;
+$secondary-color: #AB5F39;
+
+body {
+  background-color: $primary-color;
+  font-family: 'Arimo';
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  .title {
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    line-height: 40px;
+  }
+
+  .blurb {
+    font-size: 20px;
+    text-align: center;
+    color: $secondary-color;
+  }
+
+  .article-container {
+    flex-grow: 9;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+}
+
+.article {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 100%;
+  align-items: center;
+  height: 10%;
+  transition: top 250ms linear;
+  -o-transition: top 250ms linear;
+  -moz-transition: top 250ms linear;
+  -webkit-transition: top 250ms linear;
+  padding-right: 20px;
+
+  .percent {
+    margin: 10px;
+    padding: 10px;
+    background-color: $secondary-color;
+    color: white;
+    border-radius: 10px;
+  }
+  .headline {
+    flex-grow: 9;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
