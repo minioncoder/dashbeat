@@ -15,7 +15,7 @@ export default function ajax(url, method="GET") {
       resolve(JSON.parse(ajax.responseText));
     };
 
-    ajax.open(method.toUpper(), url, true);
+    ajax.open(method.toUpperCase(), url, true);
     ajax.send();
   });
 }
