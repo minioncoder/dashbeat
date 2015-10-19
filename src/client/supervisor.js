@@ -31,8 +31,8 @@ class ProcList extends React.Component {
   constructor(props) { super(props); };
   render() {
     let sortedProcs = this.props.procs.slice().sort(function(a, b) {
-      let aTimer = getTimer(a, true);
-      let bTimer = getTimer(b, true);
+      let aTimer = getUnixTimer(a);
+      let bTimer = getUnixTimer(b);
 
       return bTimer - aTimer;
     });
@@ -59,9 +59,7 @@ class ProcList extends React.Component {
       );
     }
 
-    return (
-      <div className="procList">{procs}</div>
-    );
+    return <div className="procList">{procs}</div>;
   };
 };
 
@@ -71,15 +69,19 @@ function getPos(procs, procName) {
   }
 }
 
-function getTimer(proc, unixTimestamp=false) {
-  let keys = ['uptime', 'downtime'];
-  if (unixTimestamp) {
-    keys = ['start', 'stop'];
+function getUnixTimer(proc) {
+  let timer = proc['start'];
+  if (proc.statename != "RUNNING" && proc.statename != "RESTARTING") {
+    timer = proc['stop'];
   }
 
-  let timer = proc[keys[0]];
+  return timer;
+}
+
+function getTimer(proc) {
+  let timer = proc['uptime'];
   if (proc.status != "running" && proc.status != "restarting") {
-    timer = proc[keys[1]];
+    timer = proc['downtime'];
   }
   return timer;
 }
@@ -88,14 +90,14 @@ class Proc extends React.Component {
   constructor(props) { super(props); };
   render() {
     //{this.props.status}
-    let procClass = "proc b-" + this.props.status;
+    let procClass = "proc " + this.props.status;
     let statusClass = "status " + this.props.status;
     let timer = getTimer(this.props);
     let procStyle = { order: this.props.pos };
 
     return (
       <div className={procClass} style={procStyle}>
-        <div className={statusClass}></div> [{this.props.name}] since {timer}
+        {this.props.name}
       </div>
     );
   };
