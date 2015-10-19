@@ -7,7 +7,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import xr from 'xr';
 
-import Framework from './framework/index';
 import { addSlash } from './lib/parse';
 
 import Article from './jsx/big-picture.jsx';

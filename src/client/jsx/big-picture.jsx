@@ -2,7 +2,7 @@ import React from 'react';
 import request from 'request';
 import Velocity from 'velocity-animate';
 
-import $ from '../framework/$.js';
+import $ from '../lib/$.js';
 
 // JSX
 //import ArticleSummary from './article-summary.jsx';
