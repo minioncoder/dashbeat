@@ -2,7 +2,7 @@ import React from 'react';
 import request from 'request';
 import Velocity from 'velocity-animate';
 
-import $ from '../lib/$.js';
+//import $ from '../lib/$.js';
 
 // JSX
 //import ArticleSummary from './article-summary.jsx';
@@ -57,7 +57,10 @@ export default class Article extends React.Component {
     Velocity(this.getArticleContainer(), {
       left: '-100%'
     }, (elements) => {
-      $(elements).css({ left: '100%' });
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].style.left = '100%';
+      }
+      //$(elements).css({ left: '100%' });
 
       // Set up the new article for rendering
       this.setState({

@@ -2,8 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Ajax from './lib/ajax';
 import moment from 'moment';
+
+import Ajax from './lib/ajax';
 
 document.addEventListener('DOMContentLoaded', function() {
   refresh();

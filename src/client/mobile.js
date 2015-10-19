@@ -1,10 +1,9 @@
+'use strict';
+
+import io from 'socket.io-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import io from 'socket.io-client';
 import Velocity from 'velocity-animate';
-
-import $ from './lib/$';
-
 
 /*
  * TODO when we remake this page, look at this for inspiration

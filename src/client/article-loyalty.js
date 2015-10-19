@@ -1,6 +1,8 @@
+'use strict';
+
+import io from 'socket.io-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import io from 'socket.io-client';
 import Velocity from 'velocity-animate';
 
 export default class ArticleLoyaltyDashboard extends React.Component {

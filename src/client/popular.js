@@ -1,11 +1,12 @@
 'use strict';
 
 import io from 'socket.io-client';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import renderList from './jsx/popular.jsx';
+import ArticleList from './popular/article-list';
 
 var socket = io('https://api.michigan.com', {transports: ['websocket', 'xhr-polling']});
-var articleList = renderList([], document.getElementById('articles'));
 
 socket.emit('get_popular');
 socket.on('got_popular', function(data) {
@@ -35,5 +36,8 @@ socket.on('got_popular', function(data) {
     }
   }
 
-  articleList.setState({ data: articles });
+  ReactDOM.render(
+    <ArticleList data={articles} />,
+    document.getElementById('articles')
+  );
 });
