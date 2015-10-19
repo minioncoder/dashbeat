@@ -6,22 +6,29 @@ $secondary-color: #AB5F39;
 body {
   background-color: $primary-color;
   font-family: 'Arimo';
-  font-size: 22px;
+  font-size: 18px;
   color: #fff;
 }
 
 .dashboard {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
 }
 
 .splainer {
-  font-size: 70px;
+  font-size: 40px;
   font-weight: 700;
   text-align: center;
-  line-height: .01;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 10;
 }
 
 .column {
@@ -72,7 +79,7 @@ body {
     border-radius: 10px;
   }
   .headline {
-    flex-grow: 9;
+    flex-grow: 15;
   }
 
   a {
