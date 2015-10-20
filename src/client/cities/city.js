@@ -5,17 +5,6 @@ import ReactDOM from 'react-dom';
 import Velocity from 'velocity-animate';
 
 export default class City extends React.Component {
-  constructor(args) {
-    super(args);
-
-    this.state = {
-      index: this.props.index || -1,
-      name: this.props.name || '',
-      total: this.props.total || 0,
-      hostData: this.props.hostData || {}
-    }
-  }
-
   componentDidMount() {
     this.animateMovement();
   }
@@ -34,7 +23,7 @@ export default class City extends React.Component {
   }
 
   renderBar = () => {
-    let hostData = this.state.hostData;
+    let hostData = this.props.hostData;
     let sortedHosts = [];
     let totalVal = 0;
     for (var host in hostData) {
@@ -52,7 +41,7 @@ export default class City extends React.Component {
       }
 
       return (
-        <div className={ `bar-portion ${option.host}` } style={ style } key={ `${this.state.name}-${option.host}` }>
+        <div className={ `bar-portion ${option.host}` } style={ style } key={ `${this.props.name}-${option.host}` }>
         </div>
       )
     }
