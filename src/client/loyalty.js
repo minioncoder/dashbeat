@@ -43,8 +43,8 @@ function calculatePercentages(hostStats) {
 
   return {
     source: hostStats.source,
-    loyal: parseInt((loyalty.loyal / total) * 100),
-    returning: parseInt((loyalty.returning / total) * 100),
-    new: parseInt((loyalty.new / total) * 100)
+    loyal: Math.round((loyalty.loyal / total) * 100),
+    returning: Math.round((loyalty.returning / total) * 100),
+    new: Math.round((loyalty.new / total) * 100)
   }
 }

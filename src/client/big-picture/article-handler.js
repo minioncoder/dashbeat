@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import xr from 'xr';
 
 import { addSlash } from '../lib/parse';
 
@@ -14,35 +13,21 @@ export default class ArticleHandler extends React.Component {
     this.numDisplayed = 4;
 
     this.state = {
-      articles: [],
       activeArticles: [],
       lastChanged: 0
     }
   }
 
-  componentDidMount() {
-    this.fetchArticles();
+  static defaultProps() {
+    return {
+      articles: []
+    }
   }
 
   componentDidUpdate(lastProps, lastState) {
-    if (!lastState.articles.length && this.state.articles.length) this.rotateImage();
-  }
-
-
-  fetchArticles = () => {
-    xr.get('https://api.michigan.com/v1/news', { limit: 100 })
-      .then(res => {
-
-        let articles = [];
-        for (let article of res.articles) {
-          if (!article.photo || !article.photo.full) continue;
-          articles.push(article);
-        }
-
-        this.setState({ articles });
-      });
-
-    setTimeout(this.fetchArticles, 1000 * 60 * 10);
+    if (!lastProps.articles.length && this.props.articles.length) {
+      setTimeout(this.rotateImage, 5000);
+    }
   }
 
   rotateImage = () => {
@@ -54,9 +39,7 @@ export default class ArticleHandler extends React.Component {
     let randomArticleIndex = this.getRandomArticleIndex()
     activeArticles[randomIndex] = randomArticleIndex;
 
-    let article = this.state.articles[randomArticleIndex];
-    console.log(`Replacing article at index ${randomIndex} with ${article.headline}`)
-
+    let article = this.props.articles[randomArticleIndex];
 
     this.setState({
       activeArticles,
@@ -68,10 +51,10 @@ export default class ArticleHandler extends React.Component {
 
   getRandomArticleIndex = () => {
     let randomIndex = 0;
-    for (let count = 0; count < this.state.articles.length; count++) {
-      let rand = Math.floor(Math.random() * this.state.articles.length);
+    for (let count = 0; count < this.props.articles.length; count++) {
+      let rand = Math.floor(Math.random() * this.props.articles.length);
       if (this.state.activeArticles.indexOf(rand) < 0) {
-        let article = this.state.articles[rand];
+        let article = this.props.articles[rand];
         if (article.photo && 'full' in article.photo && article.photo.full.url) {
           randomIndex = rand;
           break;
@@ -83,7 +66,7 @@ export default class ArticleHandler extends React.Component {
 
   renderArticles = () => {
     function renderArticle(articleIndex, index) {
-      let article = this.state.articles[articleIndex];
+      let article = this.props.articles[articleIndex];
       return (
         <Article imageUrl={ article.photo.full.url }
           headline={ article.headline }
@@ -102,7 +85,7 @@ export default class ArticleHandler extends React.Component {
   }
 
   render = () => {
-    if (!this.state.articles.length) {
+    if (!this.props.articles || !this.props.articles.length) {
       return (
         <div className='no-articles'>
           Articles not loaded yet.
