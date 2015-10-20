@@ -35,6 +35,10 @@ router.get('/status/', function(req, res, next) {
   res.render('supervisor');
 });
 
+router.get('/authors/', function(req, res, next) {
+  res.render('authors');
+});
+
 router.get('/info/', Catch(async function(req, res, next) {
   let user = process.env.SUPERVISOR_USER;
   let pass = process.env.SUPERVISOR_PASS;
