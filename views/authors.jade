@@ -6,28 +6,8 @@ block js
 block css
   link(href='/css/authors.css', rel='stylesheet')
 
-block hbs
-  script(id='article-template', type='text/x-handlebars-template').
-    <div class='article'>
-      <span>{{ visits }}</span>
-      <span><a href="http://{{ path }}" target='_blank'>{{ title }}</a></span>
-    </div>
-
 block content
-  .row
-    .col-md-12.text-center
-      h1 Which Writers Are Building An Audience Right Now?
-      h3 Each block is proportional to the size of each byline's total real-time readers
-  .row
-    #author_treemap.col-md-12.text-center
-  #author_modal.modal.fade
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type='button', data-dismiss='modal')
-            span(aria-hidden='true') ×
-            span.sr-only Close
-          h4.modal-title(data-author='')
-        .modal-body
-        .modal-footer
-          button.btn.btn-default(type='button', data-dismiss='modal') Close
+  .text-center
+    h1 Which Writers Are Building An Audience Right Now?
+    h3 Each block is proportional to the size of each byline's total real-time readers
+  div#author_treemap.text-center

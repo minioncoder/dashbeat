@@ -7,8 +7,17 @@ body {
 }
 
 h1 {
-  font-size: 54px;
+  font-size: 36px;
   font-weight: 700;
+}
+
+h1, h3 {
+  margin: 0;
+  color: #00441b;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .node {
@@ -18,16 +27,17 @@ h1 {
   line-height: 20px;
   overflow: hidden;
   position: absolute;
-  padding: 10px;
-  cursor: pointer;
+  p {
+    text-transform: capitalize;
+  }
 }
 
 .badge {
-  background-color: #3d97df;
+  background-color: #666;
   font-size: 18px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 5px;
 }
 
-.col-md-12 {
-  line-height: 80px;
-  color: #00441b;
-}

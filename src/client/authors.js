@@ -1,210 +1,205 @@
-/*
-* Authors popularity data representing live content
-* aggregated from ChartBeat, updated every 5 seconds
-*/
 'use strict';
 
-var $ = require('jquery');
-var _each = require('lodash/collection/forEach');
-var _sortByOrder = require('lodash/collection/sortByOrder');
-var io = require('socket.io-browserify');
-var d3 = require('d3');
-var colorbrewer = require('colorbrewer');
-var parse = require('../server/lib/parse');
+import io from 'socket.io-client';
+import d3 from 'd3';
+import Colorbrewer from 'colorbrewer';
 
-/*
-* Globals for the scripts, mainly d3 variables setting the dimensions
-* for the treemap
-*/
-$(function() {
+import Screen from './lib/screen';
+
+var MAX_AUTHORS = 30;
+var socket = io('https://api.michigan.com', {transports: ['websocket', 'xhr-polling']});
+
+document.addEventListener('DOMContentLoaded', function() { init(); });
+
+function init() {
   var margin = {
     "top": 10,
+    "bottom": 70,
+    "left": 10,
     "right": 10,
-    "bottom": 100,
-    "left": 10
   };
-  var width = $(window).width() - margin.left - margin.right;
-  var height = $(window).height() - margin.top - margin.bottom;
+
+  var screen = Screen(window, document);
+  var width = screen.width - margin.left - margin.right;
+  var height = screen.height - margin.top - margin.bottom;
   var treemap = d3.layout.treemap()
-                  .size([width, height])
-                  .value(function(d) { return d.totalVisits; })
-                  .sticky(false);
+      .size([width, height])
+      .value(function(d) { return d.totalVisits; })
+      .sticky(false);
+
   // background colors
   var color = d3.scale.ordinal()
-                .range(colorbrewer.Greens[9]);
+                .range(Colorbrewer.Greens[9]);
   // primary treemap container
   var div = d3.select("#author_treemap")
-              .append("div")
-              .style("position", "relative")
-              .style("width", (width + margin.left + margin.right) + "px")
-              .style("height", (height + margin.top + margin.bottom) + "px")
-              .style("left", margin.left + "px")
-              .style("top", margin.top + "px");
+      .append("div")
+      .style("position", "relative")
+      .style("width", width + "px")
+      .style("height", height + "px")
+      .style("left", margin.left + "px")
+      .style("top", margin.top + "px");
 
-  /*
-  * Event Handlers
-  */
-  $("body").on("mouseenter", ".node", function() {
-      $(this).css("border-color", "#000");
-  });
+  socket.emit('get_popular');
+  socket.on('got_popular', function(data) {
+    var articles = data.snapshot.articles;
+    var authors = sortAuthors(articles);
 
-  $("body").on("mouseleave", ".node", function() {
-      $(this).css("border-color", "#FFF");
-  });
+    var node_el = div.selectAll(".node");
+    // update existing author node text if exists
+    node_el.html(nodeHtml);
+    // create new author nodes with new data
+    var nodes = node_el
+        .data(treemap.nodes(authors), function(d) { return d.name; });
+    nodes.enter().append("div")
+      .attr("class", "node")
+      .html(nodeHtml);
+    // remove old author nodes
+    nodes.exit().remove();
+    // create smooth transition effect
+    nodes.transition().duration(1500)
+      .call(position)
+      .style("background", function(d) { return sourceColor(d.source); })
+      .style("color", function(d) {
+          return "#fff";
+      });
 
-  $("body").on("hidden.bs.modal", "#author_modal", function() {
-      $(".modal-title").data("author", "");
-  });
-
-  /*
-  * Functions
-  */
-
-  /*
-   * Picks the font color based on the background color of the node
-   */
-  function fontColor(bg_color) {
-    var dark_colors = ["#00441b", "#006d2c", "#238b45", "#41ab5d"];
-    if ($.inArray(bg_color, dark_colors) != -1) {
-      return "white";
+    // adjust font size based on the width of the node
+    for (let i = 0; i < node_el.length; i++) {
+      var el = node_el[i];
+      var node_width = el.width;
+      if (node_width <= 70) {
+        this.style.fontSize = '12px';
+      } else if (node_width > 70 && node_width < 110) {
+        this.style.fontSize = '14px';
+      } else if( node_width > 240) {
+        this.style.fontSize = '24px';
+      }
     }
-    return "black";
+  });
+}
+
+function sourceColor(source) {
+  var map = {
+    "freep": "#2095F2",
+    "detroitnews": "#F34235",
+    "lansingstatejournal": "#FEEA3A",
+    "hometownlife": "#B3E9F8",
+    "battlecreekenquirer": "#9800FE",
+    "thetimesherald": "#8AC249",
+    "livingstondaily": "#CD54B0"
+  };
+
+  return map[source];
+}
+
+/**
+ * Picks the font color based on the background color of the node
+ */
+function fontColor(bg_color) {
+  var dark_colors = [];
+  if (dark_colors.indexOf(bg_color) != -1) {
+    return "white";
+  }
+  return "black";
+}
+
+function isWhitelisted(url) {
+  if (url == "") return false;
+
+  let whitelist = ["story/", "article/", "picture-gallery/", "longform/"];
+
+  for (let i = 0; i < whitelist.length; i++) {
+    let path = whitelist[i];
+    if (url.indexOf(path) >= 0) return true;
   }
 
-  /*
-   * HTML that resides in an authors node
-   */
-  function nodeHtml(data) {
-    return data.children ? null : data.name + " <br/><span class='badge'>" + data.totalVisits + "</span>";
+  return false;
+}
+
+/**
+ * HTML that resides in an authors node
+ */
+function nodeHtml(data) {
+  return data.children ? null : "<p>" + data.name + "</p> <span class='badge'>" + data.totalVisits + "</span>";
+}
+
+function position() {
+  this.style("left", function(d) { return d.x + "px"; })
+      .style("top", function(d) { return d.y + "px"; })
+      .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
+      .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
+};
+
+function authorCleanup(author) {
+  author = author.trim();
+  author = author.toLowerCase();
+  author = author.replace("by", "");
+  author = author.replace("the", "");
+  let and = author.indexOf("and ");
+  if (and === 0) author = author.slice(and + 4);
+  return author;
+}
+
+function getMapValue(cur_val, val) {
+  if (!cur_val) return val;
+  cur_val.articles.concat(val.articles);
+  cur_val.totalVisits += val.totalVisits;
+  return cur_val;
+}
+
+function copy(val) {
+  return {
+    name: val.name,
+    source: val.source,
+    articles: val.articles,
+    totalVisits: val.totalVisits
+  };
+}
+
+function sortAuthors(articles) {
+  var authors = new Map();
+
+  for (let i = 0; i < articles.length; i++) {
+    let article = articles[i];
+
+    if (!isWhitelisted(article.url)) continue;
+
+    for (let i = 0; i < article.authors.length; i++) {
+      let author = article.authors[i];
+      author = authorCleanup(author);
+      if (author == "") continue;
+
+      let val = {
+        name: author,
+        source: article.source,
+        articles: [article],
+        totalVisits: article.visits
+      };
+
+      let multAuth = author.indexOf(" and ");
+      if (multAuth == -1) {
+        authors.set(author, getMapValue(authors.get(author), val));
+      } else {
+        let authOne = author.slice(0, multAuth).trim();
+        val.name = authOne;
+        authors.set(authOne, getMapValue(authors.get(authOne), val));
+
+        let authTwo = author.slice(multAuth + 5).trim();
+        let nval = copy(val);
+        nval.name = authTwo;
+        authors.set(authTwo, getMapValue(authors.get(authTwo), nval));
+      }
+    }
   }
 
-  function position() {
-    this.style("left", function(d) { return d.x + "px"; })
-        .style("top", function(d) { return d.y + "px"; })
-        .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
-        .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
+  var auths = [...authors.values()].sort(function(a, b) {
+    return b.totalVisits - a.totalVisits;
+  });
+
+  auths = auths.slice(0, MAX_AUTHORS);
+
+  return {
+    children: auths,
+    name: "authors"
   };
-
-  /*
-   * Bootstrap modal that displays the author's articles and their popularity
-  */
-  function authorModal(data) {
-    $(".modal-title")
-      .data("author", data.name)
-      .html(data.name + ": <span class='badge'>" + data.totalVisits + "</span> Total Visitors");
-
-    var content = '';
-    for (var i = 0; i < data.articles.length; i++) {
-      content += '<p><span class="badge">' + data.articles[i].visits +
-                 '</span> <a href="//' + data.articles[i].path + '" target="_blank">' +
-                 data.articles[i].title + '</a></p>';
-    }
-    $(".modal-body").html(content);
-  };
-
-  function updateModal() {
-    var author = $(".modal-title").data("author");
-    if (author != "") {
-      $(".node").each(function(e) {
-        var data = this.__data__;
-        if (data.name == author) {
-          authorModal(data);
-          return;
-        }
-      });
-    }
-  };
-
-  function sortAuthors(data) {
-    var authors = {};
-    var articles = [];
-    _each(data.articles, function(hostArticles, host) {
-      articles = articles.concat(hostArticles);
-    });
-
-    _each(articles, function(article) {
-      _each(article.authors, function(author) {
-
-        author = parse.toTitleCase(author.trim());
-        if (!author) {
-          return;
-        }
-
-        // Add to author object
-        if (author in authors) {
-          authors[author].articles.push(article);
-          authors[author].totalVisits += article.visits;
-        }
-        else {
-          authors[author] = {
-            name: author,
-            articles: [article],
-            totalVisits: article.visits
-          }
-        }
-      });
-    });
-
-    authors = _sortByOrder(authors, ['totalVisits'], [false]);
-
-    return {
-      children: authors.slice(0, 50),
-      name: 'authors'
-    };
-  }
-
-  /*
-  * Web Socket functionality, takes initial data to generate treemap
-  * and then continually updates that data
-  */
-  function connectSocket() {
-    // Websocket used for constant streaming of data
-    var socket = io.connect();
-    socket.emit('toppages');
-    socket.on('toppages', function(data) {
-
-      var response = data;
-      var authors = sortAuthors(data);
-
-      // update existing author node text if exists
-      div.selectAll(".node").html(nodeHtml);
-      // create new author nodes with new data
-      var nodes = div.selectAll(".node")
-                     .data(treemap.nodes(authors), function(d) { return d.name; });
-      nodes.enter().append("div")
-        .attr("class", "node")
-        .on("click", function(d) {
-            $("#author_modal").modal("toggle");
-            authorModal(d);
-        })
-        .html(nodeHtml);
-      // remove old author nodes
-      nodes.exit().remove();
-      // create smooth transition effect
-      nodes.transition().duration(1500)
-        .call(position)
-        .call(updateModal)
-        .style("background", function(d) { return color(d.name); })
-        .style("color", function(d) {
-            return fontColor(color(d.name));
-        });
-
-      // adjust font size based on the width of the node
-      $('.node').each(function() {
-        var node_width = $(this).width();
-        if (node_width <= 70) {
-            $(this).css('font-size', '12px');
-        } else if (node_width > 70 && node_width < 110) {
-            $(this).css('font-size', '14px');
-        } else if( node_width > 240) {
-            $(this).css('font-size', '24px');
-        }
-      });
-    });
-
-    return socket;
-  };
-
-  var socket = connectSocket();
-
-});
+}
