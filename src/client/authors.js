@@ -164,6 +164,13 @@ function sortAuthors(articles) {
 
     if (!isWhitelisted(article.url)) continue;
 
+    let show_detroit = false;
+    if (location.search) {
+      show_detroit = location.search.match(new RegExp("detroit" + "=(.*?)($|\&)", "i"))[1];
+    }
+
+    if (!show_detroit && (article.source == "freep" || article.source == "detroitnews")) continue;
+
     for (let i = 0; i < article.authors.length; i++) {
       let author = article.authors[i];
       author = authorCleanup(author);
