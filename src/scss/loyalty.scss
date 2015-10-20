@@ -10,15 +10,23 @@ body {
   color: white;
 }
 
-.host-loyalty {
+.host-loyalty-container {
   width: 33.33333333333%;
   height: 33.3333333333%;
-  display: inline-flex;
-  flex-direction: column;
+  padding: 20px;
   position: absolute;
   top: 100%;
   right: 100%;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.host-loyalty {
+  display: inline-flex;
+  flex-direction: column;
+  height: 100%;
+  box-shadow: 0 0 .3em black;
+  padding: 10px 0px;
 
   .source {
     font-size: 30px;

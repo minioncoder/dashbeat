@@ -63,11 +63,13 @@ export default class HostLoyalty extends React.Component {
 
   render() {
     return (
-      <div className='host-loyalty'>
-        <div className='rank'>{ this.props.rank }</div>
-        <div className='source'>{ sourceMap[this.props.source] || '' }</div>
-        { this.renderStats() }
-      </div>
+      <div className='host-loyalty-container'>
+        <div className='host-loyalty'>
+          <div className='rank'>{ this.props.rank }</div>
+          <div className='source'>{ sourceMap[this.props.source] || '' }</div>
+          { this.renderStats() }
+        </div>
+    </div>
     )
   }
 }

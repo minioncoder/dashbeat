@@ -24,15 +24,22 @@ export default class ArticleHandler extends React.Component {
     this.fetchArticles();
   }
 
+  componentDidUpdate(lastProps, lastState) {
+    if (!lastState.articles.length && this.state.articles.length) this.rotateImage();
+  }
+
 
   fetchArticles = () => {
     xr.get('https://api.michigan.com/v1/news', { limit: 100 })
       .then(res => {
-        this.setState({
-          articles: res.articles
-        });
 
-        setTimeout(this.rotateImage.bind(this), 5000);
+        let articles = [];
+        for (let article of res.articles) {
+          if (!article.photo || !article.photo.full) continue;
+          articles.push(article);
+        }
+
+        this.setState({ articles });
       });
 
     setTimeout(this.fetchArticles, 1000 * 60 * 10);
