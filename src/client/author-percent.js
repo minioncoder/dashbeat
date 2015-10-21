@@ -3,14 +3,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
+import { updateQuickstats, updateToppages } from './author-percent/store';
+import Dashboard from './author-percent/author-percent-dashboard';
+
+let dashboard = ReactDOM.render(
+  <Dashboard/>,
+  document.getElementById('author-percent')
+);
 
 let socket = io('https://api.michigan.com', { transports: ['websocket', 'xhr-polling'] });
-socket.emit('get_toppages');
-socket.on('got_toppages', function(data) {
-  console.log('got_toppages');
+socket.emit('get_popular');
+socket.on('got_popular', function(data) {
+  updateToppages(data.snapshot);
 });
 
 socket.emit('get_quickstats');
 socket.on('got_quickstats', function(data) {
-  console.log('got_quickstats');
+  updateQuickstats(data.snapshot);
 });

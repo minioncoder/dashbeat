@@ -1,0 +1,44 @@
+@import './base';
+
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+#author-percent {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.dashboard-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .dashboard {
+    flex-grow: 10;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+}
+
+.author {
+  width: 50%;
+  height: 5%;
+  position: relative;
+
+  .source {
+    position: relative;
+    img {
+      height: 100%;
+    }
+  }
+  .name {
+    flex-grow: 10;
+  }
+}
+
