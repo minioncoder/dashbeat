@@ -1,3 +1,5 @@
+'use strict';
+
 function getStyle(el,styleProp) {
   if (el.currentStyle) {
     var y = el.currentStyle[styleProp];

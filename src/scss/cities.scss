@@ -12,6 +12,14 @@ body {
   background-color: $info-color;
   color: #fff;
   font-family: 'Arimo', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#cities {
+  height: 100%;
+  width: 100%;
 }
 
 #title {
@@ -107,12 +115,9 @@ h1, h3 {
 }
 
 .city-list {
-  width: 100vw;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  overflow: hidden;
 }
 
 .city {

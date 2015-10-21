@@ -15,8 +15,11 @@ var source = require('vinyl-source-stream');
 
 var jsSrc = './src/client/';
 var jsDist = './public/js/';
-var jsBundle = ['popular.js', 'big-picture.js', 'mobile.js', 'cities.js',
-  'supervisor.js', 'loyalty.js', 'article-loyalty.js'];
+var jsBundle = [
+  'popular.js', 'big-picture.js', 'mobile.js', 'cities.js',
+  'supervisor.js', 'loyalty.js', 'article-loyalty.js', 'authors.js',
+  'author-percent.js'
+];
 var jsFiles = jsSrc + '**/*.js';
 
 /**
@@ -25,15 +28,17 @@ var jsFiles = jsSrc + '**/*.js';
  */
 gulp.task('browserify', function() {
   for (var i = 0; i < jsBundle.length; i++) {
-    var fname = jsBundle[i];
-    var filePath = jsSrc + fname;
-    gulp.src(filePath)
-        .pipe(plumber(gutil.log))
-        .pipe(tap(bundleJs))
-        .pipe(gulp.dest(jsDist))
-        .on('end', function() {
-          gutil.log('Browserify finished creating: ' + filePath);
-        });
+    (function(i) {
+      var fname = jsBundle[i];
+      var filePath = jsSrc + fname;
+      gulp.src(filePath)
+          .pipe(plumber(gutil.log))
+          .pipe(tap(bundleJs))
+          .pipe(gulp.dest(jsDist))
+          .on('end', function() {
+            gutil.log('Browserify finished creating: ' + filePath);
+          });
+    })(i);
   }
 });
 
