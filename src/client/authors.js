@@ -82,11 +82,11 @@ function sourceColor(source) {
   var map = {
     "freep": "#2095F2",
     "detroitnews": "#F34235",
-    "lansingstatejournal": "#FEEA3A",
-    "hometownlife": "#B3E9F8",
-    "battlecreekenquirer": "#9800FE",
-    "thetimesherald": "#8AC249",
-    "livingstondaily": "#CD54B0"
+    "lansingstatejournal": "#BDD285",
+    "hometownlife": "#E39B99",
+    "battlecreekenquirer": "#E7AE7C",
+    "thetimesherald": "#BEB6C9",
+    "livingstondaily": "#85C9B1"
   };
 
   return map[source];
