@@ -35,6 +35,10 @@ router.get('/status/', function(req, res, next) {
   res.render('supervisor');
 });
 
+router.get('/author-percent/', function(req, res, next) {
+  res.render('author-percent');
+});
+
 router.get('/authors/', function(req, res, next) {
   res.render('authors');
 });

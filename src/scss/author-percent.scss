@@ -1,0 +1,147 @@
+@import './base';
+
+$city-freep: #2095F2; // dark blue
+$city-detnews: #F34235; // red
+$city-lsj: #FEEA3A; // green
+$city-hometownlife: #B3E9F8; // sky blue
+$city-battlecreek: #9800FE; // praple
+$city-timesherald: #8AC249; // light blue
+$city-livingston: #CD54B0; // neon for eric
+
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #3C1D34;
+  color: white;
+  font-family: 'Arimo';
+}
+
+#author-percent {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.dashboard-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .dashboard {
+    flex-grow: 10;
+    position: relative;
+    justify-content: flex-start;
+    margin: 20px;
+  }
+}
+
+.author {
+  top: 100%;
+  left: 0%;
+  width: 100%;
+  height: 5%;
+  padding-bottom: 1%;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .name, .percent {
+    align-self: center;
+  }
+
+  .name {
+    width: 15%;
+    text-transform: capitalize;
+  }
+
+  .percent {
+    width: 5%;
+    text-align: center;
+  }
+
+  .bar-container {
+    width: 70%;
+    position: relative;
+
+    .bar {
+      position: absolute;
+      height: 100%;
+      left: 0;
+      transition: width 100ms linear;
+      -o-transition: width 100ms linear;
+      -moz-transition: width 100ms linear;
+      -webkit-transition: width 100ms linear;
+
+      @include color-sources();
+    }
+  }
+
+  .articles {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 10%;
+    background-color: white;
+    flex-direction: column;
+    width: 50%;
+    z-index: 100%;
+
+    &.show {
+      display: flex;
+    }
+  }
+}
+
+.menu {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  z-index: 99;
+  padding: 20px;
+
+  .title {
+    font-size: 30px;
+    margin: 10px 0px;
+    text-align: right;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    text-align: right;
+  }
+
+  .legend {
+    flex-grow: 3;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 20px 0px;
+
+    .legend-item {
+      width: 50%;
+      height: 20%;
+      padding-bottom: 5%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .swatch {
+        height: 10px;
+        margin: 0px 5px;
+        width: 10%;
+        @include color-sources();
+      }
+
+      .name {
+        width: 50%;
+      }
+    }
+  }
+}
+
