@@ -82,15 +82,52 @@ body {
   .articles {
     display: none;
     position: absolute;
-    top: 100%;
+    top: 75%;
     left: 10%;
     background-color: white;
     flex-direction: column;
     width: 50%;
-    z-index: 100%;
+    z-index: 100;
+    box-shadow: 0 0 3px black;
+
+    &:before {
+      content: '';
+      border-right: 10px solid transparent;
+      border-left: 10px solid transparent;
+      border-bottom: 10px solid white;
+      position: absolute;
+      top: -10px;
+      left: 5%;
+      height: 10px;
+      width: 10px;
+    }
 
     &.show {
       display: flex;
+    }
+
+    .article {
+      display: flex;
+      flex-direction: row;
+      color: black;
+      margin: 10px 0px;
+
+      .count {
+        width: 20%;
+        padding: 0px 20px;
+      }
+
+      .headline {
+        width: 80%;
+        a {
+          color: black;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
     }
   }
 }

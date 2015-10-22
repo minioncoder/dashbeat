@@ -45,7 +45,11 @@ export default class Dashboard extends React.Component {
         if (!author) author = host.authors.set(name, { source, name, percent: 0, articles: []}).get(name);
 
         author.percent += percent;
-        author.articles.push(article);
+        author.articles.push({
+          percent: Math.round((article.visits / host.total) * 100),
+          headline: article.headline,
+          url: article.url
+        });
         author.articles = author.articles.sort(function(a, b) { return b.visits - a.visits; });
         host.authors.set(name, author);
       }

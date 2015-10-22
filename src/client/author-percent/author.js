@@ -21,6 +21,14 @@ export default class Author extends React.Component {
     if (lastProps.index !== this.props.index) this.animateAuthor();
   }
 
+  showArticles = () => {
+    this.setState({ showArticles: true });
+  }
+
+  hideArticles = () => {
+    this.setState({ showArticles: false });
+  }
+
   animateAuthor = () => {
     let style = { top: `${this.props.index * 5}%` };
 
@@ -30,8 +38,8 @@ export default class Author extends React.Component {
   renderArticle = (article, index) => {
     return (
       <div className='article' key={ `${this.props.author.name}-article-${index}` }>
-        <div className='count'>{ article.visits }</div>
-        <div className='headline'><a href={ `http://${article.url}` }>{ article.headline }</a></div>
+        <div className='count'>{ `${article.percent}%`}</div>
+        <div className='headline'><a target='_blank' href={ `http://${article.url}` }>{ article.headline }</a></div>
       </div>
     )
   }
@@ -41,7 +49,7 @@ export default class Author extends React.Component {
     let style = { width: `${author.percent}%` }
     let articlesClass = `articles ${this.state.showArticles ? 'show' : ''}`;
     return (
-      <div className='author'>
+      <div className='author' onMouseEnter={ this.showArticles } onMouseLeave={ this.hideArticles }>
         <div className='name'>{ author.name }</div>
         <div className='percent'>{ `${author.percent}%` }</div>
         <div className='bar-container'>
