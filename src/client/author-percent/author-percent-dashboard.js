@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { AuthorPercentStore } from './store';
+import Author from './author';
 
 export default class Dashboard extends React.Component {
   constructor(args) {
@@ -41,14 +42,12 @@ export default class Dashboard extends React.Component {
       let percent = Math.round((article.visits / host.total) * 100);
       for (let name of article.authors) {
         let author = host.authors.get(name);
-        if (!author) author = host.authors.set(name, { source, name, percent: 0}).get(name);
+        if (!author) author = host.authors.set(name, { source, name, percent: 0, articles: []}).get(name);
 
-
-        host.authors.set(name, {
-          source,
-          name,
-          percent: author.percent + percent
-        });
+        author.percent += percent;
+        author.articles.push(article);
+        author.articles = author.articles.sort(function(a, b) { return b.visits - a.visits; });
+        host.authors.set(name, author);
       }
     }
 
@@ -58,18 +57,12 @@ export default class Dashboard extends React.Component {
     }
 
     this.setState({
-      authors: authorList.sort(function(a, b) { return b.percent - a.percent; }).slice(0, 40)
-    })
+      authors: authorList.sort(function(a, b) { return b.percent - a.percent; }).slice(0, 20)
+    });
   }
 
   renderAuthor = (author, index) => {
-    return (
-      <div className='author' key={ `${author.source}-${author.name}` }>
-        <div className='percent'>{ author.percent }</div>
-        <div className='source'><img src={ `/img/hostimages/${author.source}.png` }/></div>
-        <div className='name'>{ author.name }</div>
-      </div>
-    )
+    return <Author author={ author } index={ index } key={ `${author.source}-${author.name}` } />
   }
 
   render() {
@@ -83,7 +76,40 @@ export default class Dashboard extends React.Component {
 
     return (
       <div className='dashboard-container'>
-        <div className='title'>Which authors are directing the most traffic to their site?</div>
+        <div className='menu'>
+          <div className='title'>Author Impact</div>
+          <div className='subtitle'>Which authors are driving the highest percentage of traffic to their sites?</div>
+          <div className='legend'>
+            <div className='legend-item'>
+              <div className='swatch freep'></div>
+              <div className='name'>Free Press</div>
+            </div>
+            <div className='legend-item'>
+              <div className='swatch detroitnews'></div>
+              <div className='name'>Detroit News</div>
+            </div>
+            <div className='legend-item'>
+              <div className='swatch lansingstatejournal'></div>
+              <div className='name'>Lansing State Journal</div>
+            </div>
+            <div className='legend-item'>
+              <div className='swatch hometownlife'></div>
+              <div className='name'>Observer and Eccentric</div>
+            </div>
+            <div className='legend-item'>
+              <div className='swatch battlecreekenquirer'></div>
+              <div className='name'>Battle Creek</div>
+            </div>
+            <div className='legend-item'>
+              <div className='swatch thetimesherald'></div>
+              <div className='name'>Port Huron</div>
+            </div>
+            <div className='legend-item'>
+              <div className='swatch livingstondaily'></div>
+              <div className='name'>Livingston Daily</div>
+            </div>
+          </div>
+        </div>
         <div className='dashboard'>
           { this.state.authors.map(this.renderAuthor) }
         </div>

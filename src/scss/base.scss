@@ -25,6 +25,7 @@ $danger-color: #AA3939; // red
 $facebook-blue: #3B5998;
 $twitter-blue: #00aced;
 
+// Brand colors
 $freep-color: #004074;
 $detnews-color: #B21F27;
 $lsj-color: #6f6f6f;
@@ -33,6 +34,14 @@ $battlecreek-color: #13BFC0;
 $timesherald-color: #53A2D6;
 $livingston-color: #5B8A00;
 
+// Legend colors
+$legend-freep: #2095F2; // dark blue
+$legend-detnews: #F34235; // red
+$legend-lsj: #FEEA3A; // green
+$legend-hometownlife: #B3E9F8; // sky blue
+$legend-battlecreek: #9800FE; // praple
+$legend-timesherald: #8AC249; // light blue
+$legend-livingston: #CD54B0; // neon for eric
 
 // Stole from bootstrap until we decide what we wanna do
 $screen-md: 992px;
@@ -138,5 +147,35 @@ $navbar-padding: 20px;
         }
       }
     }
+  }
+}
+
+@mixin color-sources() {
+  &.freep {
+    background-color: $legend-freep;
+  }
+
+  &.detroitnews {
+    background-color: $legend-detnews;
+  }
+
+  &.lansingstatejournal {
+    background-color: $legend-lsj;
+  }
+
+  &.hometownlife {
+    background-color: $legend-hometownlife;
+  }
+
+  &.battlecreekenquirer {
+    background-color: $legend-battlecreek;
+  }
+
+  &.thetimesherald {
+    background-color: $legend-timesherald;
+  }
+
+  &.livingstondaily {
+    background-color: $legend-livingston;
   }
 }

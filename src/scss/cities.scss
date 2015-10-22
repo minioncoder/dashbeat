@@ -1,12 +1,5 @@
 @import './base';
 
-$city-freep: #2095F2; // dark blue
-$city-detnews: #F34235; // red
-$city-lsj: #FEEA3A; // green
-$city-hometownlife: #B3E9F8; // sky blue
-$city-battlecreek: #9800FE; // praple
-$city-timesherald: #8AC249; // light blue
-$city-livingston: #CD54B0; // neon for eric
 
 body {
   background-color: $info-color;
@@ -57,43 +50,43 @@ body {
 
     &#freep {
       .swatch {
-        background-color: $city-freep;
+        background-color: $legend-freep;
       }
     }
 
     &#detnews {
       .swatch {
-        background-color: $city-detnews;
+        background-color: $legend-detnews;
       }
     }
 
     &#lsj {
       .swatch {
-        background-color: $city-lsj;
+        background-color: $legend-lsj;
       }
     }
 
     &#pth {
       .swatch {
-        background-color: $city-timesherald;
+        background-color: $legend-timesherald;
       }
     }
 
     &#bce {
       .swatch {
-        background-color: $city-battlecreek;
+        background-color: $legend-battlecreek;
       }
     }
 
     &#liv {
       .swatch {
-        background-color: $city-livingston;
+        background-color: $legend-livingston;
       }
     }
 
     &#oe {
       .swatch  {
-        background-color: $city-hometownlife;
+        background-color: $legend-hometownlife;
       }
     }
   }
@@ -182,6 +175,7 @@ h1, h3 {
       -o-transition: width 150ms linear;
       -moz-transition: width 150ms linear;
       -webkit-transition: width 150ms linear;
+      @include color-sources();
 
       img {
         height: 50%;
@@ -189,35 +183,8 @@ h1, h3 {
         left: 0;
         bottom: 0;
       }
-
-      &.freep {
-        background-color: $city-freep;
-      }
-
-      &.detroitnews {
-        background-color: $city-detnews;
-      }
-
-      &.lansingstatejournal {
-        background-color: $city-lsj;
-      }
-
-      &.hometownlife {
-        background-color: $city-hometownlife;
-      }
-
-      &.battlecreekenquirer {
-        background-color: $city-battlecreek;
-      }
-
-      &.thetimesherald {
-        background-color: $city-timesherald;
-      }
-
-      &.livingstondaily {
-        background-color: $city-livingston;
-      }
     }
+
 
     img {
       height: 100%;
