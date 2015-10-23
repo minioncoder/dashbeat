@@ -26,6 +26,8 @@ let actionTypes = {
   TOPPAGES: 'toppages'
 };
 let CHANGE_EVENT = 'change';
+let CHANGE_EVENT_ID;
+let TIMEOUT = 1000;
 
 function defaultStore() {
   return {
@@ -33,7 +35,6 @@ function defaultStore() {
     toppages: {}
   }
 }
-
 
 export let AuthorPercentStore = assign({}, EventEmitter.prototype, {
   addChangeListener(callback) {
@@ -44,14 +45,22 @@ export let AuthorPercentStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
+  emitChange() {
+    if (CHANGE_EVENT_ID)  window.clearTimeout(CHANGE_EVENT_ID);
+
+    CHANGE_EVENT_ID = setTimeout(() => {
+      this.emit(CHANGE_EVENT, store);
+    }, TIMEOUT);
+  },
+
   updateQuickstats(snapshot) {
     store.quickstats = snapshot;
-    this.emit(CHANGE_EVENT, store);
+    this.emitChange();
   },
 
   updateArticles(snapshot) {
     store.toppages = snapshot;
-    this.emit(CHANGE_EVENT, store);
+    this.emitChange();
   }
 });
 
