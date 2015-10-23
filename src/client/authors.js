@@ -147,15 +147,6 @@ function getMapValue(cur_val, val) {
   return cur_val;
 }
 
-function copy(val) {
-  return {
-    name: val.name,
-    source: val.source,
-    articles: val.articles,
-    totalVisits: val.totalVisits
-  };
-}
-
 function sortAuthors(articles) {
   var authors = new Map();
 
@@ -173,29 +164,12 @@ function sortAuthors(articles) {
 
     for (let i = 0; i < article.authors.length; i++) {
       let author = article.authors[i];
-      author = authorCleanup(author);
-      if (author == "") continue;
-
-      let val = {
+      authors.set(author, getMapValue(authors.get(author), {
         name: author,
         source: article.source,
         articles: [article],
         totalVisits: article.visits
-      };
-
-      let multAuth = author.indexOf(" and ");
-      if (multAuth == -1) {
-        authors.set(author, getMapValue(authors.get(author), val));
-      } else {
-        let authOne = author.slice(0, multAuth).trim();
-        val.name = authOne;
-        authors.set(authOne, getMapValue(authors.get(authOne), val));
-
-        let authTwo = author.slice(multAuth + 5).trim();
-        let nval = copy(val);
-        nval.name = authTwo;
-        authors.set(authTwo, getMapValue(authors.get(authTwo), nval));
-      }
+      }));
     }
   }
 
