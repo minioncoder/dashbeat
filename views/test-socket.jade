@@ -1,0 +1,17 @@
+extends ./layout
+
+block js
+  script(src='/js/test-socket.js')
+
+block css
+  link(href='/css/test-socket.css', rel='stylesheet')
+
+block content
+  .snapshots
+    .snapshot-container#toppages
+    .snapshot-container#quickstats
+    .snapshot-container#topgeo
+    .snapshot-container#referrers
+    .snapshot-container#recent
+    .snapshot-container#articles
+
