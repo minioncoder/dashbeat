@@ -18,7 +18,7 @@ var jsDist = './public/js/';
 var jsBundle = [
   'popular.js', 'big-picture.js', 'mobile.js', 'cities.js',
   'supervisor.js', 'loyalty.js', 'article-loyalty.js', 'authors.js',
-  'author-percent.js', 'test-socket.js'
+  'author-percent.js', 'geo-point.js', 'test-socket.js'
 ];
 var jsFiles = jsSrc + '**/*.js';
 
@@ -85,13 +85,13 @@ function watchFunction() {
     var fname = jsBundle[i];
     var filePath = jsSrc + fname;
     gutil.log('Watching ' + filePath);
-    gulp.watch(filePath, function() {
-      gulp.src(filePath)
+    gulp.watch(filePath, function(event) {
+      gulp.src(event.path)
         .pipe(plumber(gutil.log))
         .pipe(tap(bundleJs))
         .pipe(gulp.dest(jsDist))
         .on('end', function() {
-          gutil.log('Browserify finished creating: ' + filePath);
+          gutil.log('Browserify finished creating: ' + event.path);
         });
     });
   }
