@@ -1,0 +1,107 @@
+@import 'base';
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #76b729;
+  color: #fff;
+  font-family: "Arimo";
+}
+
+#map {
+  width: 100vw;
+  height: 100vh;
+}
+
+
+.col-md-12 {
+  /*width: 1600px;*/
+  padding: 0;
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.container {
+  width: 100%;
+}
+
+.leaflet-container .leaflet-retina .leaflet-fade-anim .leaflet-control-container {
+  width: 1600px;
+}
+
+.page-header h1 {
+  text-align: center;
+  font-size: 45px;
+  font-weight: 700;
+  text-shadow: white 2px 2px 3px;
+  color: #803A15;
+}
+
+.page-header {
+  width: 100vw;
+  border-bottom: none;
+  position: absolute;
+  z-index: 99;
+}
+
+.leaflet-popup-close-button{
+  display: none;
+}
+
+.marker-popup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .host-image img {
+    height: 50px;
+    width: 50px;
+    border-radius: 5px;
+    border: 1px solid #f0f0f0;
+  }
+
+  .platform {
+    color: black;
+  }
+}
+
+.title {
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 7%;
+  margin-left: 5%;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+/* http://css-tricks.com/snippets/css/media-queries-for-standard-devices/ */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .page-header{
+    margin-top: 10px;
+  }
+
+  .page-header h1{
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 20px;
+  }
+
+  .marker-popup-class{
+    max-width: 300px;
+  }
+}

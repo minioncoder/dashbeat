@@ -16,6 +16,7 @@ router.get('/article-loyalty/', (req, res, next) => { res.render('article-loyalt
 router.get('/status/', (req, res, next) => { res.render('supervisor'); });
 router.get('/author-percent/', (req, res, next) => { res.render('author-percent'); });
 router.get('/authors/', (req, res, next) => { res.render('authors'); });
+router.get('/geo-point/', (req, res, next) => { res.render('geo-point'); });
 router.get('/test-socket/', (req, res, next) => { res.render('test-socket'); });
 router.get('/info/', Catch(async (req, res, next) => {
   let user = process.env.SUPERVISOR_USER;
