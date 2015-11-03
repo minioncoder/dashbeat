@@ -3,7 +3,7 @@
 import { EventEmitter } from 'events';
 
 import { Dispatcher } from 'flux';
-import assign from 'object-assign';
+//import assign from 'object-assign';
 
 let dispatcher = new Dispatcher();
 let store = defaultStore();
@@ -36,7 +36,7 @@ function defaultStore() {
   }
 }
 
-export let AuthorPercentStore = assign({}, EventEmitter.prototype, {
+export let AuthorPercentStore = Object.assign({}, EventEmitter.prototype, {
   addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
