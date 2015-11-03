@@ -24,7 +24,7 @@ body {
   text-align: center;
 
   @media (max-width: $screen-sm) {
-    font-size: 30px;
+    font-size: 25px;
   }
 }
 
@@ -114,8 +114,12 @@ body {
   }
 
   .title {
-    @media (min-width: $screen-sm) {
-      width: 20%;
+    width: 20%;
+
+    @media (max-width: $screen-sm) {
+      width: 100%;
+      padding-bottom: 10px;
+      text-align: center;
     }
   }
 
