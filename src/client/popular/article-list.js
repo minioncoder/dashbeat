@@ -125,7 +125,7 @@ class Article extends React.Component {
     if (screen.width < mobileBp) {
       factor = 40;
     }
-    console.log(factor);
+
     return this.props.position * factor;
   };
 
