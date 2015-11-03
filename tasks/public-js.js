@@ -18,7 +18,7 @@ var jsDist = './public/js/';
 var jsBundle = [
   'popular.js', 'big-picture.js', 'mobile.js', 'cities.js',
   'supervisor.js', 'loyalty.js', 'article-loyalty.js', 'authors.js',
-  'author-percent.js', 'geo-point.js', 'test-socket.js'
+  'author-percent.js', 'geo-point.js', 'test-socket.js', 'stats.js'
 ];
 var jsFiles = jsSrc + '**/*.js';
 

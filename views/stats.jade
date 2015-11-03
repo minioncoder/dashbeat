@@ -1,0 +1,26 @@
+extends ./layout
+
+block js
+  script(src='/js/stats.js')
+
+block css
+  link(href='/css/stats.css', rel='stylesheet')
+
+block content
+  .dashboard
+    #title How are users getting to our sites?
+    #palet
+      .item
+        .swatch#social
+        .name Social
+      .item
+        .swatch#search
+        .name Search
+      .item
+        .swatch#direct
+        .name Direct
+      .item
+        .swatch#links
+        .name Links
+
+    #markets

@@ -1,0 +1,148 @@
+@import './base';
+
+$social-color: #307B8D;
+$search-color: #3E529A;
+$direct-color: #E49548;
+$links-color: #E4B448;
+
+body {
+  font-family: 'Arimo';
+  background-color: #193325;
+  color: white;
+}
+
+.dashboard {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#title {
+  font-size: 40px;
+  height: 10%;
+  text-align: center;
+}
+
+#palet {
+  height: 10%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 25%;
+
+  .item {
+    height: 50%;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+
+    @media (min-width: $screen-sm) {
+      padding: 0 20%;
+    }
+
+    .swatch {
+      flex-grow: 1;
+      height: 50%;
+      width: 50%;
+      margin: 0 auto;
+
+      &#social {
+        background-color: $social-color;
+      }
+
+      &#search {
+        background-color: $search-color;
+      }
+
+      &#direct {
+        background-color: $direct-color;
+      }
+
+      &#links {
+        background-color: $links-color;
+      }
+    }
+
+    .name {
+      width: 50%;
+      margin-left: 10%;
+    }
+  }
+}
+
+#markets {
+  height: 80%;
+}
+
+.stats {
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.market {
+  flex-grow: 1;
+  margin-bottom: 2%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  @media (max-width: $screen-sm) {
+    display: flex;
+    flex-direction: column;
+    height: 25vh;
+  }
+
+  .title {
+    @media (min-width: $screen-sm) {
+      width: 20%;
+    }
+  }
+
+  .bar-container {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-self: stretch;
+
+    @media (max-width: $screen-sm) {
+      height: 50%;
+      width: 100%;
+    }
+
+    .bar {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      .bar-portion {
+        display: inline-block;
+        flex-grow: 1;
+
+        transition: width 250ms linear;
+        -o-transition: width 250ms linear;
+        -moz-transition: width 250ms linear;
+        -webkit-transition: width 250ms linear;
+
+        &.social {
+          background-color: $social-color;
+        }
+
+        &.search {
+          background-color: $search-color;
+        }
+
+        &.direct {
+          background-color: $direct-color;
+        }
+
+        &.links {
+          background-color: $links-color;
+        }
+      }
+    }
+  }
+}
