@@ -8,7 +8,23 @@ import Ajax from './lib/ajax';
 
 document.addEventListener('DOMContentLoaded', function() {
   refresh();
+  timer();
 });
+
+function timer(reset=false, loopIt=true) {
+  let timerEl = document.getElementById('timer');
+  let time = 0;
+
+  if (!reset) time = (timerEl.time || 0) + 1;
+  timerEl.innerHTML = `Last updated: ${time} seconds ago`;
+  timerEl.time = time;
+
+  if (!loopIt) return;
+
+  setTimeout(function() {
+    timer();
+  }, 1000);
+}
 
 async function refresh() {
   let data;
@@ -17,6 +33,8 @@ async function refresh() {
   } catch (err) {
     console.log(err);
   }
+
+  timer(true, false);
 
   ReactDOM.render(
     <ProcList procs={data.procs}/>,
