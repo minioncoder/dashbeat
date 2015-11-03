@@ -3,12 +3,12 @@
 $social-color: #307B8D;
 $search-color: #3E529A;
 $direct-color: #E49548;
-$links-color: #E4B448;
+$links-color: #FFD574;
 
 body {
   font-family: 'Arimo';
-  background-color: #193325;
-  color: white;
+  background-color: #D3D3D3;
+  color: black;
 }
 
 .dashboard {
@@ -22,6 +22,10 @@ body {
   font-size: 40px;
   height: 10%;
   text-align: center;
+
+  @media (max-width: $screen-sm) {
+    font-size: 30px;
+  }
 }
 
 #palet {
@@ -29,6 +33,10 @@ body {
   display: flex;
   flex-wrap: wrap;
   padding: 10px 25%;
+
+  @media (max-width: $screen-sm) {
+    padding: 10px 5%;
+  }
 
   .item {
     height: 50%;
@@ -47,6 +55,10 @@ body {
       height: 50%;
       width: 50%;
       margin: 0 auto;
+
+      @media (max-width: $screen-sm) {
+        width: 20%;
+      }
 
       &#social {
         background-color: $social-color;
@@ -68,6 +80,11 @@ body {
     .name {
       width: 50%;
       margin-left: 10%;
+
+      @media (max-width: $screen-sm) {
+        width: 80%;
+      }
+
     }
   }
 }
