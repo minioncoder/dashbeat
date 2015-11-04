@@ -11,7 +11,6 @@ var socket = io('https://api.michigan.com', {transports: ['websocket', 'xhr-poll
 socket.emit('get_popular');
 socket.on('got_popular', function(data) {
   var snapshot = data.snapshot.articles;
-  console.log(snapshot[0]);
 
   // sort by visits desc then sort by title asc
   snapshot.sort(function(a, b) {

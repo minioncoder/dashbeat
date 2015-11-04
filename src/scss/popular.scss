@@ -4,7 +4,7 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
-  font-size: 1em;
+  font-size: 1.4em;
   color: #e3eaed;
   background-color: $primary-color;
   overflow-x: hidden;
@@ -16,7 +16,7 @@ a, a:hover, a:visited {
 }
 
 .small {
-  font-size: 0.7em;
+  font-size: 0.4em;
 }
 
 .articles {
@@ -85,6 +85,7 @@ a, a:hover, a:visited {
           @include media($mobile) {
             font-size: 0.8em;
             white-space: nowrap;
+            margin-left: 15px;
           }
         }
         .info {

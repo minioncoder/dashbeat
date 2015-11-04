@@ -121,10 +121,11 @@ class Article extends React.Component {
   };
 
   // article position in list
-  getTopPosition(screen, factor=60) {
+  getTopPosition(screen, factor=55) {
     if (screen.width < mobileBp) {
       factor = 40;
     }
+
     return this.props.position * factor;
   };
 
