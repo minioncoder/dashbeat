@@ -9,22 +9,50 @@ class ReactGauge extends React.Component {
     super(props);
     // TODO put resize handler in here to resize svg
 
+    this.state = {
+      width: this.props.width,
+      height: this.props.height
+    }
+
     this.colors = {
       blue: '#255C69',
       green: '#2A7F40',
       orange: '#AA7139',
       red: '#AA4639'
     }
+
+    window.onresize = this.resizeGauge;
+  }
+
+  componentWillMount() {
+    this.resizeGauge();
+  }
+
+  resizeGauge = () => {
+    if (window.innerWidth > ReactGauge.defaultProps.width) {
+      if (this.state.width < ReactGauge.defaultProps.width) {
+        this.setState({
+          width: ReactGauge.defaultProps.width,
+          height: ReactGauge.defaultProps.width * .5
+        });
+      }
+
+    } else {
+      this.setState({
+        width: window.innerWidth,
+        height: window.innerWidth * .5
+      });
+    }
   }
 
   getStyles = () => {
     let xLeft = 0;
-    let xMiddle = Math.round(this.props.width / 2);
-    let xRight = this.props.width;
+    let xMiddle = Math.round(this.state.width / 2);
+    let xRight = this.state.width;
 
     let yTop = 0;
-    let yMiddle = Math.round(this.props.height / 2);
-    let yBottom = this.props.height;
+    let yMiddle = Math.round(this.state.height / 2);
+    let yBottom = this.state.height;
 
     let percent = this.props.value / this.props.max;
     let degrees = percent * 180;
@@ -45,9 +73,9 @@ class ReactGauge extends React.Component {
 
     // Needle
     let needleCircle = {
-      r: Math.round(this.props.width / 10),
-      cx: Math.round(this.props.width / 2),
-      cy: this.props.height
+      r: Math.round(this.state.width / 10),
+      cx: Math.round(this.state.width / 2),
+      cy: this.state.height
     }
 
     let needleWidth = 10;
@@ -65,7 +93,8 @@ class ReactGauge extends React.Component {
     let textStyle = {
       text: `${ roundTwoDecimals(percent * 100) }%`,
       x: xMiddle,
-      y: yBottom * .6
+      y: yBottom * .6,
+      fontSize: this.state.width * .1
     }
 
     return { outerCircle, innerCircle, needleCircle, needlePath, needleStyle, textStyle }
@@ -73,9 +102,10 @@ class ReactGauge extends React.Component {
 
   render() {
     let styles = this.getStyles();
+    console.log(styles.needlePath.d);
 
     return(
-      <svg width={ this.props.width } height={ this.props.height }>
+      <svg width={ this.state.width } height={ this.state.height }>
         <circle r={ styles.outerCircle.r }
             cx={ styles.outerCircle.cx  }
             cy={ styles.outerCircle.cy }
@@ -87,7 +117,7 @@ class ReactGauge extends React.Component {
             fill="white">
         </circle>
         <text x={ styles.textStyle.x } y={ styles.textStyle.y }
-          fontSize='60'
+          fontSize={ styles.textStyle.fontSize }
           fontFamily='Arimo'
           textAnchor='middle'
           fill={ this.colors.blue }>
@@ -110,6 +140,10 @@ class ReactGauge extends React.Component {
   }
 }
 ReactGauge.defaultProps = { width: 500, height: 250, min: 0, max: 100, value: 0};
+ReactDOM.render(
+  <ReactGauge/>,
+  document.getElementById('gauge')
+)
 
 let socket = io('https://api.michigan.com', { transports: ['websocket', 'xhr-polling'] });
 socket.emit('get_quickstats');
