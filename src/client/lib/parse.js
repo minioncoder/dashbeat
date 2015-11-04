@@ -99,6 +99,10 @@ function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
+// http://stackoverflow.com/a/11832950/1337683
+function roundTwoDecimals(number) {
+  return Math.round(number * 100) / 100;
+}
 
 module.exports = {
   getHost,
@@ -106,5 +110,6 @@ module.exports = {
   addSlash,
   parseReferrer,
   generateString,
-  toTitleCase
+  toTitleCase,
+  roundTwoDecimals
 }
