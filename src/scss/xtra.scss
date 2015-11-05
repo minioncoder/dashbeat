@@ -1,0 +1,179 @@
+@import './base';
+
+body {
+  margin: 0;
+  color: white;
+
+  // http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
+  // GREY #9B9CA2
+  // BLUE #0F6EAE
+  &#lions {
+    background-color: #9B9CA2;
+
+    a {
+      color: #0F6EAE;
+    }
+  }
+
+  // http://paletton.com/#uid=35C0u0krOtThiCDmjvvuqodz1j9
+  // RED #EC1F24
+  // WHITE
+  &#red-wings {
+    background-color: #EC1F24;
+
+    a {
+      color: #4C3737;
+    }
+
+    .logo {
+      img {
+        border: 1px solid white;
+      }
+    }
+  }
+
+  // http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
+  // GREEN: #1A453B
+  &#spartans {
+    background-color: #1A453B;
+
+    a {
+      color: white;
+    }
+
+    .logo {
+      img {
+        border: 1px solid white;
+      }
+    }
+  }
+
+  // http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
+  // ORANGE #de4406
+  // BLUE #0D578F
+  &#tigers {
+    background-color: #0D578F;
+
+    a {
+      color: #F96930;
+    }
+  }
+
+  // http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
+  // MAIZE #FDCA42
+  // BLUE #03284B
+  &#wolverines {
+    background-color: #03284B;
+
+    a {
+      color: #FDCA42;
+    }
+
+    .logo {
+      img {
+        border: 1px solid white;
+      }
+    }
+  }
+}
+
+#xtra {
+  width: 100%;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+
+  a {
+    text-decoration: none;
+
+    &:active, &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+h1 {
+  font-size: 80px;
+  margin-bottom: 50px;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+.app-title {
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.app-title .no-bold {
+  font-weight: 300;
+}
+
+.team {
+  text-transform: capitalize;
+}
+
+.title {
+  text-align:  center;
+}
+
+.fa {
+  margin-right: 10px;
+}
+
+.logo, .about {
+  width: 50%;
+  display: inline-block;
+  float: left;
+
+  @media (max-width: $screen-sm) {
+    width: 100%;
+    display: block;
+  }
+}
+
+.logo {
+  img {
+    border-radius: 60px;
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+.about {
+  .headline {
+    margin: 0;
+  }
+
+  h2 {
+    font-weight: 500;
+  }
+}
+
+@media (min-width: 768px) {
+  .logo img {
+    border-radius: 80px;
+  }
+}
+
+.app-link {
+  text-align: center;
+}
+
+.app-link {
+  margin-top: 20px;
+}
+
+@media (min-width: 992px) {
+  .app-link .platform {
+    text-align: right;
+  }
+  .app-link .link {
+    text-align: left;
+  }
+}
+
+.review {
+  margin-top: 100px;
+}

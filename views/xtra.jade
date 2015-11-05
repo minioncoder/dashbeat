@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(href='/css/xtra.css', rel='stylesheet')
+    link(href='http://fonts.googleapis.com/css?family=Lato:100,300,400,900', rel='stylesheet')
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', rel='stylesheet')
+
+  body(id='#{team}')
+    #xtra
+      .title
+        h1.app-title Download the app today!
+      .logo
+        img(src='/img/xtra/#{team}.png')
+      .about
+        h2.headline All of your #[span.team #{team.replace('-', ' ')}] coverage in one app
+        .links
+          h2
+            i.fa.fa-apple
+            a(href='#{iosLink}') #{iosLink}
+          h2
+            i.fa.fa-android
+            a(href='#{androidLink}') #{androidLink}
+        h2 Help out by reviewing and rating the #[span.app-title #{team.replace('-', ' ')} #[span.no-bold Xtra]] on the app store

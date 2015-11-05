@@ -7,6 +7,7 @@ import SupervisorApi from './supervisor';
 
 var router = express.Router();
 
+// Dashboards
 router.get('/', (req, res, next) => { res.render('popular'); });
 router.get('/big-picture/', (req, res, next) => { res.render('big-picture'); });
 router.get('/mobile/', (req, res, next) => { res.render('mobile'); });
@@ -20,6 +21,45 @@ router.get('/geo-point/', (req, res, next) => { res.render('geo-point'); });
 router.get('/stats/', (req, res, next) => { res.render('stats'); });
 router.get('/recirculation/', (req, res, next) => { res.render('recirculation'); });
 router.get('/test-socket/', (req, res, next) => { res.render('test-socket'); });
+
+// Xtra stuff
+router.get('/lions-xtra/', (req, res, next) => {
+  res.render('xtra', {
+    team: 'lions',
+    iosLink: 'http://j.mp/lionsios',
+    androidLink: 'http://j.mp/lionsand'
+  });
+});
+router.get('/wings-xtra/', (req, res, next) => {
+  res.render('xtra', {
+    team: 'red-wings',
+    iosLink: 'http://j.mp/wings-ios',
+    androidLink: 'http://j.mp/wings-and'
+  });
+});
+router.get('/tigers-xtra/', (req, res, next) => {
+  res.render('xtra', {
+    team: 'tigers',
+    iosLink: 'http://j.mp/tigersios',
+    androidLink: 'http://j.mp/tigersand'
+  })
+});
+router.get('/wolverines-xtra/', (req, res, next) => {
+  res.render('xtra', {
+    team: 'wolverines',
+    iosLink: 'http://j.mp/mich-ios',
+    androidLink: 'http://j.mp/mich-and'
+  })
+})
+router.get('/spartans-xtra/', (req, res, next) => {
+  res.render('xtra', {
+    team: 'spartans',
+    iosLink: 'http://j.mp/msu-ios',
+    androidLink: 'http://j.mp/msu-and'
+  });
+});
+
+
 router.get('/info/', Catch(async (req, res, next) => {
   let user = process.env.SUPERVISOR_USER;
   let pass = process.env.SUPERVISOR_PASS;
