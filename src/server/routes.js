@@ -20,6 +20,7 @@ router.get('/authors/', (req, res, next) => { res.render('authors'); });
 router.get('/geo-point/', (req, res, next) => { res.render('geo-point'); });
 router.get('/stats/', (req, res, next) => { res.render('stats'); });
 router.get('/recirculation/', (req, res, next) => { res.render('recirculation'); });
+router.get('/viewers/', (req, res, next) => { res.render('viewers'); });
 router.get('/test-socket/', (req, res, next) => { res.render('test-socket'); });
 
 // Xtra stuff
