@@ -1,0 +1,86 @@
+@import 'base';
+
+// http://paletton.com/#uid=70f0t0kllllaFw0g0qFqFg0w0aF
+body {
+  background-color: #29516D;
+  color: white;
+  font-family: 'Arimo';
+  width: 100vw;
+  height: 100vh;
+}
+
+#dashboard {
+  padding: 0 10%;
+  width: 100%;
+  height: 100%;
+
+  #title h1 {
+    text-align: center;
+    font-size: 50px;
+
+    @media (max-width: $screen-sm) {
+      font-size: 25px;
+
+    }
+  }
+
+  #viewers {
+    font-size: 150px;
+    text-align: center;
+    margin: 20px 0px;
+    color: #AA7939;
+
+    @media (max-width: $screen-sm) {
+      font-size: 75px;
+    }
+  }
+
+  #subtitle {
+    text-align: center;
+    font-size: 35px;
+    margin: 20px 0px;
+
+    @media (max-width: $screen-sm) {
+      font-size: 15px;
+    }
+  }
+}
+
+svg {
+
+  .graph {
+    stroke: #AA7939;
+    fill: #D4A66A;
+    fill-opacity: .5;
+  }
+
+  .axis {
+    stroke: white;
+    fill: white;
+
+    .tick {
+      stroke: white;
+      stroke-width: 2;
+    }
+
+    .axis-bar {
+      stroke-width: 2;
+      stroke: white;
+    }
+
+    .x-axis-mark text {
+      text-anchor: middle;
+    }
+
+    text {
+      stroke: white;
+      font-family: 'Arimo';
+      font-size: 15px;
+
+      @media (max-width: $screen-sm) {
+        font-size: 10px;
+      }
+    }
+  }
+}
+

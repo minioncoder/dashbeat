@@ -104,6 +104,10 @@ function roundTwoDecimals(number) {
   return Math.round(number * 100) / 100;
 }
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 module.exports = {
   getHost,
   stripTags,
@@ -111,5 +115,6 @@ module.exports = {
   parseReferrer,
   generateString,
   toTitleCase,
-  roundTwoDecimals
+  roundTwoDecimals,
+  numberWithCommas
 }
