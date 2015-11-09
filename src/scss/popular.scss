@@ -81,6 +81,7 @@ a, a:hover, a:visited {
       }
       .titleInfo {
         @include span-columns(8 of 9);
+        margin-top: 10px;
         .title {
           @include media($mobile) {
             font-size: 0.8em;

@@ -6,16 +6,6 @@ import { getData, Overview } from './overview';
 import Screen from '../lib/screen';
 
 var mobileBp = 768;
-var imgLoc = "/img/hostimages/";
-var sourceMap = {
-  "detroitnews.com": imgLoc + "detroitnews.png",
-  "freep.com": imgLoc + "freep.png",
-  "hometownlife.com": imgLoc + "hometownlife.png",
-  "lansingstatejournal.com": imgLoc + "lansingstatejournal.png",
-  "thetimesherald.com": imgLoc + "thetimesherald.png",
-  "livingstondaily.com": imgLoc + "livingstondaily.png",
-  "battlecreekenquirer.com": imgLoc + "battlecreekenquirer.png"
-};
 
 export default class ArticleList extends React.Component {
   state = {
@@ -50,12 +40,10 @@ export default class ArticleList extends React.Component {
         position={ pos } />;
 
       articles.push(art);
-      //source={ article.host }
     }
 
     return (
       <div className="articleContainer">
-        <button type="button" id="articleFreeze" onClick={ this.freeze.bind(this) }>Freeze</button>
         <ol className="articleList">
           {articles}
         </ol>
@@ -71,12 +59,6 @@ export default class ArticleList extends React.Component {
     this.setState({ freeze: !this.state.freeze });
   };
 };
-
-/*
-<ReactCSSTransitionGroup transitionName="animateArticle" transitionAppear={true}>
-    {articles}
-</ReactCSSTransitionGroup>
-*/
 
 class Article extends React.Component {
   constructor(props) {
@@ -146,14 +128,12 @@ class Article extends React.Component {
     let screen = Screen(window, document);
     let left = this.getLeftPosition(screen) + "%";
 
-    //<img className='source' src={ sourceMap[this.props.source] } />
     return (
       <li className='article' style={ {top: this.getTopPosition(screen)+'px'} }>
         <div className='readers'>{ this.props.visits }</div>
         <div className='content'>
           <div className='titleInfo' onClick={ this.handleClick }>
             <span className='title'>{ this.props.headline }</span>
-            <div className='info'>{ this.props.sections }</div>
           </div>
         </div>
 
