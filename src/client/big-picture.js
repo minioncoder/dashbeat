@@ -24,6 +24,8 @@ function fetchArticlesLoop() {
         articles.push(article);
       }
 
+      if (!articles.length) return;
+
       ReactDOM.render(
         <ArticleHandler articles={ articles }/>,
         document.getElementById('articles')

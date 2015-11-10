@@ -84,7 +84,6 @@ export default class Article extends React.Component {
   }
 
   loadImage() {
-    console.log('loading image');
     let i = new Image();
     i.onload = this.slideOut.bind(this);
     i.src = this.state.nextImageUrl;
