@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1(style='text-align: center;')  Dashboards
+  div(style='text-align: center;')
+    each obj in links
+      a(href=obj.href)= obj.text
+      br

@@ -7,8 +7,33 @@ import SupervisorApi from './supervisor';
 
 var router = express.Router();
 
+router.get('/index', function(req, res, next) {
+  let links = [];
+  for (let i = 0; i < router.stack.length; i++) {
+    let route = router.stack[i];
+
+    let href = route.route.path;
+    if (href == '/') continue;
+    if (href == '/index') continue;
+
+    let text = href
+      .replace(/\-/g, ' ')
+      .replace(/\//g, '')
+      .toUpperCase();
+
+    links.push({ href, text });
+  }
+
+  links.sort(function(a, b) {
+    return a.text.localeCompare(b.text);
+  });
+
+  res.render('index', { links });
+});
+
 // Dashboards
 router.get('/', (req, res, next) => { res.render('popular'); });
+router.get('/popular', (req, res, next) => { res.render('popular'); });
 router.get('/big-picture/', (req, res, next) => { res.render('big-picture'); });
 router.get('/mobile/', (req, res, next) => { res.render('mobile'); });
 router.get('/cities/', (req, res, next) => { res.render('cities'); });
