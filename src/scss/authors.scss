@@ -32,6 +32,8 @@ h3 {
   line-height: 20px;
   overflow: hidden;
   position: absolute;
+  cursor: pointer;
+
   p {
     text-transform: capitalize;
     color: #030303;
@@ -115,6 +117,7 @@ h3 {
         flex-direction: row;
         align-items: center;
         height: 10%;
+        margin: 20px 0px;
 
         .viewers {
           width: 20%;
