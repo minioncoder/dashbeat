@@ -24,6 +24,11 @@ router.get('/index', function(req, res, next) {
     links.push({ href, text });
   }
 
+  links.push({
+    href: '/authors?detroit=1',
+    text: 'AUTHORS WITH DETROIT'
+  });
+
   links.sort(function(a, b) {
     return a.text.localeCompare(b.text);
   });
