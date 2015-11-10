@@ -102,12 +102,19 @@ class ViewersDashboard extends React.Component {
     let tickX = startX - (tickWidth / 2);
 
     let yAxisMarks = [];
-    for (let i = 0; i < numYAxisMarks; i++) {
+    for (let i = 0; i <= numYAxisMarks; i++) {
       let y = height - (i * yPosStep);
+      let textY = y;
+
+      if (i === numYAxisMarks) {
+        textY += 12;
+        y += 1;
+      }
+
       yAxisMarks.push(
         <g className='y-axis-mark' key={ `y-axis-${i}` }>
           <path className='tick' d={ `M ${tickX},${y} h ${tickWidth}` }></path>
-          <text x={ 0 } y={ y }>{ i * this.yAxisStep }</text>
+          <text x={ 0 } y={ textY }>{ i * this.yAxisStep }</text>
         </g>
       )
     }
