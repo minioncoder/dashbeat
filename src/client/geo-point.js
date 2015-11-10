@@ -15,7 +15,7 @@ class GeoPoint {
 
     this.map = L.map('map', { zoomControl: false }).setView(this.state.position, 5);
 
-    L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png', {
+    L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
@@ -38,7 +38,7 @@ class GeoPoint {
 
     // Get a random article
     let marketRecents = recents[marketIndex].recents;
-    let recent = marketRecents[getRandomInt(0, marketRecents.length - 1)];
+    let recent = this.getRecentArticle(marketRecents);
 
     this.state = {
       position: [recent.lat, recent.lng],
@@ -47,6 +47,21 @@ class GeoPoint {
     };
 
     this.updateMap();
+  }
+
+  getRecentArticle(articles) {
+    let index = 0;
+    for (let i = 0; i < articles.length; i++) {
+      let randomIndex = getRandomInt(0, articles.length - 1);
+
+      let recent = articles[randomIndex];
+      if (recent.title !== "") {
+        index = randomIndex;
+        break;
+      }
+    }
+
+    return articles[index];
   }
 
   getPlatformImage(platform) {
