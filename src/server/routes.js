@@ -94,8 +94,14 @@ router.get('/spartans-xtra/', (req, res, next) => {
 router.get('/info/', Catch(async (req, res, next) => {
   let user = process.env.SUPERVISOR_USER;
   let pass = process.env.SUPERVISOR_PASS;
+
   let client = new SupervisorApi('status.michigan.com', '80', user, pass);
   let procs = await client.info();
+
+  let mapi = new SupervisorApi('api.michigan.com', '1337', user, pass);
+  let mapi_proc = await mapi.info();
+  if (mapi_proc.length > 0) procs.push(mapi_proc[0]);
+
   res.json({ procs });
 }));
 
