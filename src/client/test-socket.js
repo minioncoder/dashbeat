@@ -125,7 +125,7 @@ socket.on('got_recent', function(data) {
 socket.emit('get_traffic_series');
 socket.on('got_traffic_series', function(data) {
   let snapshot = data.snapshot;
-  ReactDOM.rendre(
+  ReactDOM.render(
     <Snapshot name='Traffic Series'
       id='traffic-series'
       createdAt={ moment(snapshot.created_at).format(TIMEFORMAT) }
