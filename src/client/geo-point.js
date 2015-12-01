@@ -1,7 +1,10 @@
+"use strict";
+
 import L from 'leaflet';
 import io from 'socket.io-client';
 
 import { getRandomInt } from './lib';
+import Config from '../../config';
 
 L.Icon.Default.imagePath = 'http://cdn.leafletjs.com/leaflet/v0.7.7/images';
 
@@ -110,7 +113,7 @@ class GeoPoint {
 }
 
 let dashboard = new GeoPoint();
-let socket = io('https://api.michigan.com', { transports: ['websocket', 'xhr-polling'] });
+let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] });
 socket.emit('get_recent');
 socket.on('got_recent', (data) => {
   dashboard.updateRecents(data.snapshot.recents);

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
 
 import { sourceMap } from './lib';
+import Config from '../../config';
 
 class Market extends React.Component {
   constructor(args) {
@@ -58,7 +59,7 @@ class Market extends React.Component {
   }
 }
 
-let socket = io('https://api.michigan.com', { transports: ['websocket', 'xhr-polling'] });
+let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] });
 socket.emit('get_quickstats');
 socket.on('got_quickstats', (data) => {
   let stats = data.snapshot.stats.sort(function(a, b) { return a.source > b.source ? 1 : -1; });

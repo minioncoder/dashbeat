@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import Velocity from 'velocity-animate';
 import assign from 'object-assign';
 
+import Config from '../../config';
 /*
  * TODO when we remake this page, look at this for inspiration
  *
@@ -87,7 +88,7 @@ export default class MobilePercentage extends React.Component {
 
 
 // Set up the socket
-let socket = io('https://api.michigan.com', {transports: ['websocket', 'xhr-polling']});
+let socket = io(Config.socketUrl, {transports: ['websocket', 'xhr-polling']});
 socket.emit('get_quickstats');
 socket.on('got_quickstats', function(data) {
   let snapshot = data.snapshot;

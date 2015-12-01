@@ -5,8 +5,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import LoyaltyDashboard from './loyalty/loyalty-dashboard';
+import Config from '../../config';
 
-let socket = io('https://api.michigan.com', {transports: ['websocket', 'xhr-polling']});
+let socket = io(Config.socketUrl, {transports: ['websocket', 'xhr-polling']});
 socket.emit('get_quickstats');
 socket.on('got_quickstats', function(data) {
   let snapshot = data.snapshot;

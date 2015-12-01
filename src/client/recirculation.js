@@ -4,13 +4,14 @@ import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
 
 import { roundTwoDecimals } from './lib/parse';
+import Config from '../../config';
 
 ReactDOM.render(
   <ReactGauge/>,
   document.getElementById('gauge')
 )
 
-let socket = io('https://api.michigan.com', { transports: ['websocket', 'xhr-polling'] });
+let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] });
 socket.emit('get_quickstats');
 socket.on('got_quickstats', (data) => {
   let stats = data.snapshot.stats;

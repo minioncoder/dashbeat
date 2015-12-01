@@ -5,8 +5,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import ArticleList from './popular/article-list';
+import Config from '../../config';
 
-var socket = io('https://api.michigan.com', {transports: ['websocket', 'xhr-polling']});
+var socket = io(Config.socketUrl, {transports: ['websocket', 'xhr-polling']});
 
 socket.emit('get_popular');
 socket.on('got_popular', function(data) {

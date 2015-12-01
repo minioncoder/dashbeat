@@ -5,13 +5,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import CitiesDashboard from './cities/cities-dashboard';
+import Config from '../../config';
 
 ReactDOM.render(
   <CitiesDashboard/>,
   document.getElementById('cities')
 );
 
-let socket = io('https://api.michigan.com', { transports: ['websocket', 'xhr-polling']});
+let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling']});
 
 socket.emit('get_topgeo');
 socket.on('got_topgeo', function(data) {

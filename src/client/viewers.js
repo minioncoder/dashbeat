@@ -5,6 +5,7 @@ import moment from 'moment';
 import assign from 'object-assign';
 
 import { numberWithCommas } from './lib/parse';
+import Config from '../../config';
 
 class ViewersDashboard extends React.Component {
   static defaultProps = { series: [] }
@@ -203,7 +204,7 @@ class ViewersDashboard extends React.Component {
   }
 }
 
-let socket = io('https://api.michigan.com', { transports: ['websocket', 'xhr-polling'] });
+let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] });
 socket.emit('get_traffic_series');
 socket.on('got_traffic_series', (data) => {
 

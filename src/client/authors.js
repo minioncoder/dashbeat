@@ -5,9 +5,10 @@ import d3 from 'd3';
 import assing from 'object-assign';
 
 import Screen from './lib/screen';
+import Config from '../../config';
 
 var MAX_AUTHORS = 30;
-var socket = io('https://api.michigan.com', {transports: ['websocket', 'xhr-polling']});
+var socket = io(Config.socketUrl, {transports: ['websocket', 'xhr-polling']});
 
 document.addEventListener('DOMContentLoaded', function() { init(); });
 

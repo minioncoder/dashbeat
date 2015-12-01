@@ -3,11 +3,12 @@
 import React from 'react';
 
 import Ajax from '../lib/ajax';
+import Config from '../../../config';
 
 async function getData(id) {
   let data;
   try {
-    data = await Ajax("https://api.michigan.com/v1/article/" + id + "/");
+    data = await Ajax(Config.socketUrl + "/v1/article/" + id + "/");
   } catch (err) {
     throw err;
   }

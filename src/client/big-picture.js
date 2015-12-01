@@ -6,8 +6,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import ArticleHandler from './big-picture/article-handler';
+import Config from '../../config';
 
-var socket = io('https://api.michigan.com', { transports: ['websocket', 'xhr-polling'] })
+var socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] })
 
 ReactDOM.render(
   <ArticleHandler articles={ [] }/>,
@@ -15,7 +16,7 @@ ReactDOM.render(
 )
 
 function fetchArticlesLoop() {
-  xr.get('https://api.michigan.com/v1/news', { limit: 100 })
+  xr.get(Config.socketUrl + '/v1/news', { limit: 100 })
     .then(res => {
 
       let articles = [];

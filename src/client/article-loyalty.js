@@ -5,6 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Velocity from 'velocity-animate';
 
+import Config from '../../config';
+
 export default class ArticleLoyaltyDashboard extends React.Component {
   renderArticle(key) {
     return function(article, index) {
@@ -79,7 +81,7 @@ class Article extends React.Component {
 }
 
 let MIN_CONCURRENTS = 10;
-let socket = io('https://api.michigan.com/', { transports: ['websocket', 'xhr-polling'] });
+let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] });
 socket.emit('get_popular');
 socket.on('got_popular', (data) => {
   let articles = data.snapshot.articles;
