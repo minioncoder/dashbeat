@@ -31,8 +31,6 @@
     "leaflet": "^0.7.7",
     "moment": "^2.10.6",
     "morgan": "~1.5.1",
-    "node-neat": "^1.7.1-beta1",
-    "node-sass": "^3.1.2",
     "object-assign": "^4.0.1",
     "postcss-calc": "^5.0.0",
     "postcss-extend": "^1.0.1",
