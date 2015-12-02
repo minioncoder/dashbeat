@@ -39,13 +39,13 @@ Opens at `http://localhost:3000`
 
 ## Debugging
 
-```
+```bash
 DEBUG=app:* npm start
 ```
 
 #### Docker
 
-```
+```bash
 docker build -t dashbeat/app .
 docker run -d -p 3000:3000 -v /Users/dev/dashbeat:/srv --name dashbeat dashbeat/app
 ```
