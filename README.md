@@ -1,4 +1,4 @@
-# DetroitNow
+# DashBeat
 
 Gannett's chartbeat analytic dashboard web app.
 
