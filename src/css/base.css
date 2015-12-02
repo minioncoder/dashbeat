@@ -1,0 +1,98 @@
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+$primary-color: #2F4859; /* blue */
+$info-color: rgba(0, 0, 0, 0.87); /* black */
+$warning-color: #8B7945; /* gold */
+$success-color: #2D882D; /* greenish */
+$danger-color: #AA3939; /* red */
+
+$facebook-blue: #3B5998;
+$twitter-blue: #00aced;
+
+/* Brand colors */
+$freep-color: #004074;
+$detnews-color: #B21F27;
+$lsj-color: #6f6f6f;
+$hometownlife-color: #1877B6;
+$battlecreek-color: #13BFC0;
+$timesherald-color: #53A2D6;
+$livingston-color: #5B8A00;
+
+/* Legend colors */
+$legend-freep: #2095F2; /* dark blue */
+$legend-detnews: #F34235; /* red */
+$legend-lsj: #FEEA3A; /* green */
+$legend-hometownlife: #B3E9F8; /* sky blue */
+$legend-battlecreek: #9800FE; /* praple */
+$legend-timesherald: #8AC249; /* light blue */
+$legend-livingston: #CD54B0; /* neon for eric */
+
+$screen-md: 992px;
+$screen-sm: 768px;
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.container {
+  margin: 0 10%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@define-mixin colorsources {
+  &.freep {
+    background-color: $legend-freep;
+  }
+
+  &.detroitnews {
+    background-color: $legend-detnews;
+  }
+
+  &.lansingstatejournal {
+    background-color: $legend-lsj;
+  }
+
+  &.hometownlife {
+    background-color: $legend-hometownlife;
+  }
+
+  &.battlecreekenquirer {
+    background-color: $legend-battlecreek;
+  }
+
+  &.thetimesherald {
+    background-color: $legend-timesherald;
+  }
+
+  &.livingstondaily {
+    background-color: $legend-livingston;
+  }
+}

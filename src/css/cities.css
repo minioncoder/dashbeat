@@ -1,6 +1,5 @@
 @import './base';
 
-
 body {
   background-color: $info-color;
   color: #fff;
@@ -164,7 +163,7 @@ h1, h3 {
     text-align: center;
     display: flex;
     flex-direction: row;
-    /*justify-content: flex-end;*/ // TODO get it working with this
+    /*justify-content: flex-end;*/
     height: 100%;
 
     .bar-portion {
@@ -175,7 +174,7 @@ h1, h3 {
       -o-transition: width 150ms linear;
       -moz-transition: width 150ms linear;
       -webkit-transition: width 150ms linear;
-      @include color-sources();
+      @mixin colorsources;
 
       img {
         height: 50%;

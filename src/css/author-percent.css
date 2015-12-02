@@ -1,12 +1,12 @@
 @import './base';
 
-$city-freep: #2095F2; // dark blue
-$city-detnews: #F34235; // red
-$city-lsj: #FEEA3A; // green
-$city-hometownlife: #B3E9F8; // sky blue
-$city-battlecreek: #9800FE; // praple
-$city-timesherald: #8AC249; // light blue
-$city-livingston: #CD54B0; // neon for eric
+$city-freep: #2095F2; /* dark blue */
+$city-detnews: #F34235; /* red */
+$city-lsj: #FEEA3A; /* green */
+$city-hometownlife: #B3E9F8; /* sky blue */
+$city-battlecreek: #9800FE; /* praple */
+$city-timesherald: #8AC249; /* light blue */
+$city-livingston: #CD54B0; /* neon for eric */
 
 body {
   height: 100vh;
