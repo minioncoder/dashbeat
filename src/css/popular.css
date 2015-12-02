@@ -44,6 +44,9 @@ a, a:hover, a:visited {
   padding: 0;
   position: relative;
   .article {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
     margin: 0;
     transition: all 1s ease;
     position: absolute;
@@ -56,14 +59,14 @@ a, a:hover, a:visited {
       font-size: 1em;
       color: #96B8CB;
       width: 10%;
-      display: flex;
-      flex-direction: row;
+      margin-left: 5%;
       align-items: center;
       @media(min-width: $screen-md) {
         font-size: 1.5em;
       }
     }
     .content {
+      width: 90%;
       .source {
         border-radius: 5px;
         opacity: 0.7;
@@ -113,8 +116,6 @@ a, a:hover, a:visited {
 }
 
 .overview {
-  display: flex;
-  flex-direction: row;
   height: 100%;
   position: fixed;
   top: 0;
@@ -124,17 +125,25 @@ a, a:hover, a:visited {
   background-color: #1f3442;
   padding: 0 20px 20px 20px;
   transition: 1s ease;
+  .articleRow {
+    display: flex;
+    flex-direction: row;
+  }
   .articleClose {
     cursor: pointer;
+    height: 30px;
   }
   .articleTitle {
+    flex: 1 100%;
   }
   .articlePhoto {
     height: auto;
     border-radius: 5px;
   }
   .articleStats {
+    margin-left: 10px;
   }
   .articleSummary {
+    flex: 1 100%;
   }
 }

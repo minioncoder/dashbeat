@@ -45,20 +45,25 @@ class Overview extends React.Component {
     if (this.props.data.summary && this.props.data.summary.length > 0) {
       let summary = this.props.data.summary;
       for (let i = 0; i < summary.length; i++) {
-        summaryList.push(<li>{ summary[i] }</li>);
+        summaryList.push(<li key={i}>{ summary[i] }</li>);
       }
     }
 
     return (
       <div className={ rootClass } style={ {left: this.props.left} }>
-        <div className='articleClose' onClick={ this.props.close }><i className="fa fa-times-circle"></i></div>
-        <a className='articleTitle' href={ this.props.data.url } target='_blank'>{ this.props.data.headline }</a>
+        <div className='articleRow'>
+          <div className='articleClose' onClick={ this.props.close }><i className="fa fa-times-circle"></i></div>
+        </div>
+        <div className='articleRow'>
+          <a className='articleTitle' href={ this.props.data.url } target='_blank'>{ this.props.data.headline }</a>
+        </div>
 
-        <img className='articlePhoto' src={ this.props.data.photo.url } />
-
-        <div className='articleStats'>
-          <div className='byline text-center'>{ this.props.authors }</div>
-          <div className='date text-center'>{ this.props.data.timestamp }</div>
+        <div className='articleRow'>
+          <img className='articlePhoto' src={ this.props.data.photo.url } />
+          <div className='articleStats'>
+            <div className='byline text-center'>{ this.props.authors }</div>
+            <div className='date text-center'>{ this.props.data.timestamp }</div>
+          </div>
         </div>
 
         <div className='articleSummary'>
