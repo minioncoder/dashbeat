@@ -75,7 +75,7 @@ body {
       -moz-transition: width 100ms linear;
       -webkit-transition: width 100ms linear;
 
-      @include color-sources();
+      @mixin colorsources;
     }
   }
 
@@ -172,7 +172,7 @@ body {
         height: 10px;
         margin: 0px 5px;
         width: 10%;
-        @include color-sources();
+        @mixin colorsources;
       }
 
       .name {
