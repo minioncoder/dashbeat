@@ -57,7 +57,6 @@ function bundle(done, opts) {
 }
 
 function bundleProd(done, opts) {
-  gutil.log(opts);
   return gulp.src(opts.src)
     .pipe(plumber())
     .pipe(postcss(processors))
