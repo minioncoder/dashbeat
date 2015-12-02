@@ -1,16 +1,9 @@
 # DetroitNow
 
 ## Dependencies
-* [Nodejs](http://nodejs.org) (> 0.11.2, for harmony support)
+* [Node](http://nodejs.org)
 
 ## Install
-
-### Node stuff
-```bash
-npm install -g gulp
-npm install
-gulp
-```
 
 ### Config file
 
@@ -22,20 +15,36 @@ In the base dashbeat directory:
 cp config_default.js config.js
 ```
 
-Then update the URL with the proper websocket URL.
+Then update the URL with the proper websocket URL, ex:
+
+```node
+"use strict";
+module.exports = { "socketUrl": "http://api.thepul.se" };
+```
+
+### Node stuff
+
+```bash
+npm install -g gulp
+npm install
+```
 
 ## Run
+
 ```bash
-npm start
+DEBUG=app:* npm start
 ```
-Opens at ```http://localhost:3000```
+
+Opens at `http://localhost:3000`
 
 ## Debugging
+
 ```
 DEBUG=app:* npm start
 ```
 
 #### Docker
+
 ```
 docker build -t dashbeat/app .
 docker run -d -p 3000:3000 -v /Users/dev/dashbeat:/srv --name dashbeat dashbeat/app
