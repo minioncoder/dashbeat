@@ -1,4 +1,4 @@
-# DetroitNow (http://new.detroitnow.io)
+# DetroitNow
 
 ## Dependencies
 * [Nodejs](http://nodejs.org) (> 0.11.2, for harmony support)
