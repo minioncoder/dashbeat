@@ -1,5 +1,7 @@
 # DetroitNow
 
+Gannett's chartbeat analytic dashboard web app.
+
 ## Dependencies
 * [Node](http://nodejs.org)
 
@@ -37,13 +39,7 @@ DEBUG=app:* npm start
 
 Opens at `http://localhost:3000`
 
-## Debugging
-
-```bash
-DEBUG=app:* npm start
-```
-
-#### Docker
+## Docker
 
 ```bash
 docker build -t dashbeat/app .
