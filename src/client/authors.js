@@ -83,17 +83,13 @@ function init() {
 }
 
 function sourceColor(source) {
-  var map = {
-    freep: '#2095F2',
-    detroitnews: '#F34235',
-    lansingstatejournal: '#BDD285',
-    hometownlife: '#E39B99',
-    battlecreekenquirer: '#E7AE7C',
-    thetimesherald: '#BEB6C9',
-    livingstondaily: '#85C9B1'
-  };
+  var color = "#000";
 
-  return map[source];
+  if (Config[source] && Config[source].color) {
+    color = Config[source].color;
+  }
+
+  return color;
 }
 
 /**

@@ -1,4 +1,5 @@
 @import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
+/* @import '../../config'; */
 
 ::-webkit-scrollbar {
     display: none;
@@ -27,22 +28,13 @@ $facebook-blue: #3B5998;
 $twitter-blue: #00aced;
 
 /* Brand colors */
-$freep-color: #004074;
-$detnews-color: #B21F27;
-$lsj-color: #6f6f6f;
-$hometownlife-color: #1877B6;
-$battlecreek-color: #13BFC0;
-$timesherald-color: #53A2D6;
-$livingston-color: #5B8A00;
-
-/* Legend colors */
-$legend-freep: #2095F2; /* dark blue */
-$legend-detnews: #F34235; /* red */
-$legend-lsj: #FEEA3A; /* green */
-$legend-hometownlife: #B3E9F8; /* sky blue */
-$legend-battlecreek: #9800FE; /* praple */
-$legend-timesherald: #8AC249; /* light blue */
-$legend-livingston: #CD54B0; /* neon for eric */
+$freep-color: $freep;
+$detnews-color: $detroitnews;
+$lsj-color: $lansingstatejournal;
+$hometownlife-color: $hometownlife;
+$battlecreek-color: $battlecreekenquirer;
+$timesherald-color: $thetimesherald;
+$livingston-color: $livingstondaily;
 
 $screen-md: 992px;
 $screen-sm: 768px;
@@ -69,30 +61,30 @@ $screen-sm: 768px;
 
 @define-mixin colorsources {
   &.freep {
-    background-color: $legend-freep;
+    background-color: $freep;
   }
 
   &.detroitnews {
-    background-color: $legend-detnews;
+    background-color: $detroitnews;
   }
 
   &.lansingstatejournal {
-    background-color: $legend-lsj;
+    background-color: $lansingstatejournal;
   }
 
   &.hometownlife {
-    background-color: $legend-hometownlife;
+    background-color: $hometownlife;
   }
 
   &.battlecreekenquirer {
-    background-color: $legend-battlecreek;
+    background-color: $battlecreekenquirer;
   }
 
   &.thetimesherald {
-    background-color: $legend-timesherald;
+    background-color: $thetimesherald;
   }
 
   &.livingstondaily {
-    background-color: $legend-livingston;
+    background-color: $livingstondaily;
   }
 }

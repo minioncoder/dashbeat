@@ -14,12 +14,14 @@ var calc = require('postcss-calc');
 var extend = require('postcss-extend');
 var mixins = require('postcss-mixins');
 
+var Config = require('../config');
+
 var processors = [
   cssImport,
   autoprefixer({ browsers: ['last 2 versions']}),
   mixins,
   nested,
-  vars,
+  vars({ variables: Config.colors }),
   calc,
   extend
 ];

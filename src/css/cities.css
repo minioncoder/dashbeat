@@ -49,43 +49,43 @@ body {
 
     &#freep {
       .swatch {
-        background-color: $legend-freep;
+        background-color: $freep;
       }
     }
 
     &#detnews {
       .swatch {
-        background-color: $legend-detnews;
+        background-color: $detroitnews;
       }
     }
 
     &#lsj {
       .swatch {
-        background-color: $legend-lsj;
+        background-color: $lansingstatejournal;
       }
     }
 
     &#pth {
       .swatch {
-        background-color: $legend-timesherald;
+        background-color: $thetimesherald;
       }
     }
 
     &#bce {
       .swatch {
-        background-color: $legend-battlecreek;
+        background-color: $battlecreekenquirer;
       }
     }
 
     &#liv {
       .swatch {
-        background-color: $legend-livingston;
+        background-color: $livingstondaily;
       }
     }
 
     &#oe {
       .swatch  {
-        background-color: $legend-hometownlife;
+        background-color: $hometownlife;
       }
     }
   }
