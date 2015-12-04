@@ -49,3 +49,30 @@ $screen-sm: 768px;
 .hidden {
   display: none !important;
 }
+
+.legend {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+
+  .source {
+    font-size: 15px;
+    line-height: 15px;
+    margin: 2px;
+    width: 45%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    .swatch {
+      height: 15px;
+      width: 10px;
+    }
+
+    p {
+      font-size: 15px;
+      margin: 0 2px;
+    }
+  }
+}

@@ -4,15 +4,18 @@ import io from 'socket.io-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Legend from './lib/legend';
 import CitiesDashboard from './cities/cities-dashboard';
 import Config from '../../config';
 
 ReactDOM.render(
-  <CitiesDashboard/>,
-  document.getElementById('cities')
+  <Legend sites={ Config.sites } />,
+  document.getElementById("legend")
 );
 
-let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling']});
+renderDashboard();
+
+var socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling']});
 
 socket.emit('get_topgeo');
 socket.on('got_topgeo', function(data) {
@@ -41,10 +44,16 @@ socket.on('got_topgeo', function(data) {
     });
   }
 
-  topCities = topCities.sort(function(a, b) { return b.total - a.total }).slice(0, 100);
+  topCities = topCities
+    .sort(function(a, b) { return b.total - a.total })
+    .slice(0, 100);
 
+  renderDashboard(topCities);
+});
+
+function renderDashboard(cities) {
   ReactDOM.render(
-    <CitiesDashboard cities={ topCities }/>,
+    <CitiesDashboard cities={ cities } />,
     document.getElementById('cities')
   );
-});
+}

@@ -142,32 +142,5 @@ body {
     font-size: 15px;
     text-align: right;
   }
-
-  .legend {
-    flex-grow: 3;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 20px 0px;
-
-    .legend-item {
-      width: 50%;
-      height: 20%;
-      padding-bottom: 5%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      .swatch {
-        height: 10px;
-        margin: 0px 5px;
-        width: 10%;
-      }
-
-      .name {
-        width: 50%;
-      }
-    }
-  }
 }
 

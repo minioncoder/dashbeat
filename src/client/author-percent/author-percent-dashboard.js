@@ -4,6 +4,8 @@ import React from 'react';
 
 import { AuthorPercentStore } from './store';
 import Author from './author';
+import Legend from '../lib/legend';
+import Config from '../../../config';
 
 export default class Dashboard extends React.Component {
   constructor(args) {
@@ -83,36 +85,7 @@ export default class Dashboard extends React.Component {
         <div className='menu'>
           <div className='title'>Author Impact</div>
           <div className='subtitle'>Which authors are driving the highest percentage of traffic to their sites?</div>
-          <div className='legend'>
-            <div className='legend-item'>
-              <div className='swatch freep'></div>
-              <div className='name'>Free Press</div>
-            </div>
-            <div className='legend-item'>
-              <div className='swatch detroitnews'></div>
-              <div className='name'>Detroit News</div>
-            </div>
-            <div className='legend-item'>
-              <div className='swatch lansingstatejournal'></div>
-              <div className='name'>Lansing State Journal</div>
-            </div>
-            <div className='legend-item'>
-              <div className='swatch hometownlife'></div>
-              <div className='name'>Hometownlife</div>
-            </div>
-            <div className='legend-item'>
-              <div className='swatch battlecreekenquirer'></div>
-              <div className='name'>Battle Creek Enquirer</div>
-            </div>
-            <div className='legend-item'>
-              <div className='swatch thetimesherald'></div>
-              <div className='name'>The Times Herald</div>
-            </div>
-            <div className='legend-item'>
-              <div className='swatch livingstondaily'></div>
-              <div className='name'>Livingston Daily</div>
-            </div>
-          </div>
+          <Legend sites={ Config.sites } />
         </div>
         <div className='dashboard'>
           { this.state.authors.map(this.renderAuthor) }

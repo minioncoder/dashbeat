@@ -10,27 +10,35 @@ var livingstondaily = "#CD54B0";
 
 module.exports = {
   "socketUrl": "https://api.michigan.com",
-  "freep": {
+  "sites": [{
+    "name": "The Free Press",
+    "className": "freep",
     "color": freep
-  },
-  "detroitnews" : {
+  }, {
+    "name": "The Detroit News",
+    "className": "detroitnews",
     "color": detroitnews
-  },
-  "lansingstatejournal": {
+  }, {
+    "name": "Lansing State Journal",
+    "className": "lansingstatejournal",
     "color": lansingstatejournal
-  },
-  "hometownlife": {
+  }, {
+    "name": "Hometownlife",
+    "className": "hometownlife",
     "color": hometownlife
-  },
-  "battlecreekenquirer": {
+  }, {
+    "name": "Battle Creek Enquirer",
+    "className": "battlecreekenquirer",
     "color": battlecreekenquirer
-  },
-  "thetimesherald": {
+  }, {
+    "name": "The Times Herald",
+    "className": "thetimesherald",
     "color": thetimesherald
-  },
-  "livingstondaily": {
+  }, {
+    "name": "Livingston Daily",
+    "className": "livingstondaily",
     "color": livingstondaily
-  },
+  }],
   "colors": {
     "$freep": freep,
     "$detroitnews": detroitnews,
