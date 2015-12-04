@@ -20,8 +20,8 @@ var processors = [
   cssImport,
   autoprefixer({ browsers: ['last 2 versions']}),
   nested,
-  mixins,
-  vars({ variables: Config.colors }),
+  mixins({ mixins: Config.mixins }),
+  vars({ variables: Config.vars }),
   calc,
   extend
 ];

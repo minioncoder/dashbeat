@@ -39,7 +39,7 @@ module.exports = {
     "className": "livingstondaily",
     "color": livingstondaily
   }],
-  "colors": {
+  "vars": {
     "$freep": freep,
     "$detroitnews": detroitnews,
     "$lansingstatejournal": lansingstatejournal,
@@ -47,5 +47,32 @@ module.exports = {
     "$battlecreekenquirer": battlecreekenquirer,
     "$livingstondaily": livingstondaily,
     "$thetimesherald": thetimesherald
+  },
+  "mixins": {
+    "sites": function() {
+      return {
+        ".freep": {
+          "background-color": freep
+        },
+        ".detroitnews": {
+          "background-color": detroitnews
+        },
+        ".lansingstatejournal": {
+          "background-color": lansingstatejournal
+        },
+        ".hometownlife": {
+          "background-color": hometownlife
+        },
+        ".battlecreekenquirer": {
+          "background-color": battlecreekenquirer
+        },
+        ".thetimesherald": {
+          "background-color": thetimesherald
+        },
+        ".livingstondaily": {
+          "background-color": livingstondaily
+        }
+      }
+    }
   }
 };
