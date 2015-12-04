@@ -98,15 +98,15 @@ export default class Dashboard extends React.Component {
             </div>
             <div className='legend-item'>
               <div className='swatch hometownlife'></div>
-              <div className='name'>Observer and Eccentric</div>
+              <div className='name'>Hometownlife</div>
             </div>
             <div className='legend-item'>
               <div className='swatch battlecreekenquirer'></div>
-              <div className='name'>Battle Creek</div>
+              <div className='name'>Battle Creek Enquirer</div>
             </div>
             <div className='legend-item'>
               <div className='swatch thetimesherald'></div>
-              <div className='name'>Port Huron</div>
+              <div className='name'>The Times Herald</div>
             </div>
             <div className='legend-item'>
               <div className='swatch livingstondaily'></div>

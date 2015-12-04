@@ -46,48 +46,6 @@ body {
       font-size: 15px;
       margin: 0 2px;
     }
-
-    &#freep {
-      .swatch {
-        background-color: $freep;
-      }
-    }
-
-    &#detnews {
-      .swatch {
-        background-color: $detroitnews;
-      }
-    }
-
-    &#lsj {
-      .swatch {
-        background-color: $lansingstatejournal;
-      }
-    }
-
-    &#pth {
-      .swatch {
-        background-color: $thetimesherald;
-      }
-    }
-
-    &#bce {
-      .swatch {
-        background-color: $battlecreekenquirer;
-      }
-    }
-
-    &#liv {
-      .swatch {
-        background-color: $livingstondaily;
-      }
-    }
-
-    &#oe {
-      .swatch  {
-        background-color: $hometownlife;
-      }
-    }
   }
 }
 
@@ -123,9 +81,6 @@ h1, h3 {
   margin: .25% 0%;
   position: absolute;
   transform: all 250ms linear;
-  -o-transform: all 250ms linear;
-  -moz-transform: all 250ms linear;
-  -webkit-transform: all 250ms linear;
   top: 100%;
   left: 100%;
 
@@ -171,7 +126,6 @@ h1, h3 {
       overflow: hidden;
       height: 100%;
       transition: width 150ms linear;
-      @mixin colorsources;
 
       img {
         height: 50%;

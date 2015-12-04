@@ -39,32 +39,5 @@ module.exports = {
     "$battlecreekenquirer": battlecreekenquirer,
     "$livingstondaily": livingstondaily,
     "$thetimesherald": thetimesherald
-  },
-  "mixins": {
-    "colorsources": function() {
-      return {
-        "&.freep": {
-          "background-color": freep
-        },
-        "&.detroitnews": {
-          "background-color": detroitnews
-        },
-        "&.lansingstatejournal": {
-          "background-color": lansingstatejournal
-        },
-        "&.hometownlife": {
-          "background-color": hometownlife
-        },
-        "&.battlecreekenquirer": {
-          "background-color": battlecreekenquirer
-        },
-        "&.thetimesherald": {
-          "background-color": thetimesherald
-        },
-        "&.livingstondaily": {
-          "background-color": livingstondaily
-        }
-      };
-    }
   }
 };
