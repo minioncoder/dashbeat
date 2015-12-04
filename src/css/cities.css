@@ -171,9 +171,6 @@ h1, h3 {
       overflow: hidden;
       height: 100%;
       transition: width 150ms linear;
-      -o-transition: width 150ms linear;
-      -moz-transition: width 150ms linear;
-      -webkit-transition: width 150ms linear;
       @mixin colorsources;
 
       img {

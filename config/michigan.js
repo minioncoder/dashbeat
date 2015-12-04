@@ -10,15 +10,6 @@ var livingstondaily = "#CD54B0";
 
 module.exports = {
   "socketUrl": "https://api.michigan.com",
-  "colors": {
-    "$freep": freep,
-    "$detroitnews": detroitnews,
-    "$lansingstatejournal": lansingstatejournal,
-    "$hometownlife": hometownlife,
-    "$battlecreekenquirer": battlecreekenquirer,
-    "$livingstondaily": livingstondaily,
-    "$thetimesherald": thetimesherald
-  },
   "freep": {
     "color": freep
   },
@@ -39,5 +30,41 @@ module.exports = {
   },
   "livingstondaily": {
     "color": livingstondaily
+  },
+  "colors": {
+    "$freep": freep,
+    "$detroitnews": detroitnews,
+    "$lansingstatejournal": lansingstatejournal,
+    "$hometownlife": hometownlife,
+    "$battlecreekenquirer": battlecreekenquirer,
+    "$livingstondaily": livingstondaily,
+    "$thetimesherald": thetimesherald
+  },
+  "mixins": {
+    "colorsources": function() {
+      return {
+        "&.freep": {
+          "background-color": freep
+        },
+        "&.detroitnews": {
+          "background-color": detroitnews
+        },
+        "&.lansingstatejournal": {
+          "background-color": lansingstatejournal
+        },
+        "&.hometownlife": {
+          "background-color": hometownlife
+        },
+        "&.battlecreekenquirer": {
+          "background-color": battlecreekenquirer
+        },
+        "&.thetimesherald": {
+          "background-color": thetimesherald
+        },
+        "&.livingstondaily": {
+          "background-color": livingstondaily
+        }
+      };
+    }
   }
 };

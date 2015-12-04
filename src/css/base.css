@@ -1,5 +1,4 @@
 @import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
-/* @import '../../config'; */
 
 ::-webkit-scrollbar {
     display: none;
@@ -27,15 +26,6 @@ $danger-color: #AA3939; /* red */
 $facebook-blue: #3B5998;
 $twitter-blue: #00aced;
 
-/* Brand colors */
-$freep-color: $freep;
-$detnews-color: $detroitnews;
-$lsj-color: $lansingstatejournal;
-$hometownlife-color: $hometownlife;
-$battlecreek-color: $battlecreekenquirer;
-$timesherald-color: $thetimesherald;
-$livingston-color: $livingstondaily;
-
 $screen-md: 992px;
 $screen-sm: 768px;
 
@@ -57,34 +47,4 @@ $screen-sm: 768px;
 
 .hidden {
   display: none !important;
-}
-
-@define-mixin colorsources {
-  &.freep {
-    background-color: $freep;
-  }
-
-  &.detroitnews {
-    background-color: $detroitnews;
-  }
-
-  &.lansingstatejournal {
-    background-color: $lansingstatejournal;
-  }
-
-  &.hometownlife {
-    background-color: $hometownlife;
-  }
-
-  &.battlecreekenquirer {
-    background-color: $battlecreekenquirer;
-  }
-
-  &.thetimesherald {
-    background-color: $thetimesherald;
-  }
-
-  &.livingstondaily {
-    background-color: $livingstondaily;
-  }
 }

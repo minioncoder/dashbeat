@@ -19,8 +19,8 @@ var Config = require('../config');
 var processors = [
   cssImport,
   autoprefixer({ browsers: ['last 2 versions']}),
-  mixins,
   nested,
+  mixins({ mixins: Config.mixins }),
   vars({ variables: Config.colors }),
   calc,
   extend
