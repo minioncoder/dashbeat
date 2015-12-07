@@ -5,6 +5,7 @@ import d3 from 'd3';
 import assing from 'object-assign';
 
 import Screen from './lib/screen';
+import { sourceColor } from './lib';
 import Config from '../../config';
 
 var MAX_AUTHORS = 30;
@@ -80,24 +81,6 @@ function init() {
       }
     }
   });
-}
-
-function findSource(source, sites) {
-  for (let i = 0; i < sites.length; i++) {
-    let site = sites[i];
-    if (site.className.indexOf(source) >= 0) return site;
-  }
-
-  return;
-}
-
-function sourceColor(source) {
-  var color = "#000";
-  var configSource = findSource(source, Config.sites);
-
-  if (configSource && configSource.color) color = configSource.color;
-
-  return color;
 }
 
 /**
