@@ -207,7 +207,6 @@ class ViewersDashboard extends React.Component {
 let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] });
 socket.emit('get_traffic_series');
 socket.on('got_traffic_series', (data) => {
-
   ReactDOM.render(
     <ViewersDashboard series={ data.snapshot.sites } start={ data.snapshot.start }/>,
     document.getElementById('chart')

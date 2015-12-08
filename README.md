@@ -1,4 +1,4 @@
-# DetroitNow
+# DashBeat
 
 Gannett's chartbeat analytic dashboard web app.
 
@@ -9,19 +9,16 @@ Gannett's chartbeat analytic dashboard web app.
 
 ### Config file
 
-Client side javascript requires a URL for the websocket connection.
+Client side javascript requires a market specific configuration file.
 
-In the base dashbeat directory:
-
-```bash
-cp config_default.js config.js
-```
-
-Then update the URL with the proper websocket URL, ex:
+In the base dashbeat directory create a file `config.js` with the following:
 
 ```node
 "use strict";
-module.exports = { "socketUrl": "http://api.thepul.se" };
+
+module.exports = require('./config/<marketName>');
+//module.exports = require('./config/michigan');
+//module.exports = require('./config/usat');
 ```
 
 ### Node stuff

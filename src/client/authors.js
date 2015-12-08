@@ -5,6 +5,7 @@ import d3 from 'd3';
 import assing from 'object-assign';
 
 import Screen from './lib/screen';
+import { sourceColor } from './lib';
 import Config from '../../config';
 
 var MAX_AUTHORS = 30;
@@ -80,20 +81,6 @@ function init() {
       }
     }
   });
-}
-
-function sourceColor(source) {
-  var map = {
-    freep: '#2095F2',
-    detroitnews: '#F34235',
-    lansingstatejournal: '#BDD285',
-    hometownlife: '#E39B99',
-    battlecreekenquirer: '#E7AE7C',
-    thetimesherald: '#BEB6C9',
-    livingstondaily: '#85C9B1'
-  };
-
-  return map[source];
 }
 
 /**

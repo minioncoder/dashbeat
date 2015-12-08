@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
 
-import { sourceMap } from './lib';
+import { findSource } from './lib';
 import Config from '../../config';
 
 class Market extends React.Component {
@@ -51,8 +51,8 @@ class Market extends React.Component {
 
   render() {
     return (
-      <div className={ `market ${this.props.source}` }>
-        <div className='title'>{ sourceMap[this.props.source] }</div>
+      <div className={ `market ${this.props.source}-market` }>
+        <div className='title'>{ findSource(this.props.source).name }</div>
         { this.renderBar() }
       </div>
     )

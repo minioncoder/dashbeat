@@ -4,9 +4,9 @@ body {
   margin: 0;
   color: white;
 
-  // http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
-  // GREY #9B9CA2
-  // BLUE #0F6EAE
+  /* http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
+  GREY #9B9CA2
+  BLUE #0F6EAE */
   &#lions {
     background-color: #9B9CA2;
 
@@ -15,9 +15,9 @@ body {
     }
   }
 
-  // http://paletton.com/#uid=35C0u0krOtThiCDmjvvuqodz1j9
-  // RED #EC1F24
-  // WHITE
+  /* http://paletton.com/#uid=35C0u0krOtThiCDmjvvuqodz1j9
+  RED #EC1F24
+  WHITE */
   &#red-wings {
     background-color: #EC1F24;
 
@@ -32,8 +32,8 @@ body {
     }
   }
 
-  // http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
-  // GREEN: #1A453B
+  /* http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
+  GREEN: #1A453B */
   &#spartans {
     background-color: #1A453B;
 
@@ -48,9 +48,9 @@ body {
     }
   }
 
-  // http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
-  // ORANGE #de4406
-  // BLUE #0D578F
+  /* http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
+  ORANGE #de4406
+  BLUE #0D578F */
   &#tigers {
     background-color: #0D578F;
 
@@ -59,9 +59,9 @@ body {
     }
   }
 
-  // http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
-  // MAIZE #FDCA42
-  // BLUE #03284B
+  /* http://paletton.com/#uid=30f0u0kv8rSkqzlpQvcy7mwFhhn
+  MAIZE #FDCA42
+  BLUE #03284B */
   &#wolverines {
     background-color: #03284B;
 
@@ -165,7 +165,7 @@ h2 {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: $screen-sm) {
   .logo img {
     border-radius: 80px;
   }
@@ -179,7 +179,7 @@ h2 {
   margin-top: 20px;
 }
 
-@media (min-width: 992px) {
+@media (min-width: $screen-md) {
   .app-link .platform {
     text-align: right;
   }

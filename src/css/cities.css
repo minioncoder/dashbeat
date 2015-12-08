@@ -1,6 +1,5 @@
 @import './base';
 
-
 body {
   background-color: $info-color;
   color: #fff;
@@ -21,75 +20,6 @@ body {
   right: 0;
   width: 30%;
   padding: 20px;
-}
-
-#legend {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-
-  .source {
-    font-size: 15px;
-    line-height: 15px;
-    margin: 2px;
-    width: 45%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-
-    .swatch {
-      height: 15px;
-      width: 10px;
-    }
-
-    p {
-      font-size: 15px;
-      margin: 0 2px;
-    }
-
-    &#freep {
-      .swatch {
-        background-color: $legend-freep;
-      }
-    }
-
-    &#detnews {
-      .swatch {
-        background-color: $legend-detnews;
-      }
-    }
-
-    &#lsj {
-      .swatch {
-        background-color: $legend-lsj;
-      }
-    }
-
-    &#pth {
-      .swatch {
-        background-color: $legend-timesherald;
-      }
-    }
-
-    &#bce {
-      .swatch {
-        background-color: $legend-battlecreek;
-      }
-    }
-
-    &#liv {
-      .swatch {
-        background-color: $legend-livingston;
-      }
-    }
-
-    &#oe {
-      .swatch  {
-        background-color: $legend-hometownlife;
-      }
-    }
-  }
 }
 
 h1 {
@@ -124,9 +54,6 @@ h1, h3 {
   margin: .25% 0%;
   position: absolute;
   transform: all 250ms linear;
-  -o-transform: all 250ms linear;
-  -moz-transform: all 250ms linear;
-  -webkit-transform: all 250ms linear;
   top: 100%;
   left: 100%;
 
@@ -164,7 +91,7 @@ h1, h3 {
     text-align: center;
     display: flex;
     flex-direction: row;
-    /*justify-content: flex-end;*/ // TODO get it working with this
+    /*justify-content: flex-end;*/
     height: 100%;
 
     .bar-portion {
@@ -172,10 +99,6 @@ h1, h3 {
       overflow: hidden;
       height: 100%;
       transition: width 150ms linear;
-      -o-transition: width 150ms linear;
-      -moz-transition: width 150ms linear;
-      -webkit-transition: width 150ms linear;
-      @include color-sources();
 
       img {
         height: 50%;
