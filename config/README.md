@@ -15,6 +15,9 @@ Each array index is an object that has has 3 keys:
 * `domain` - Domain at which the publication is hosted e.g. freep.com. NOTE: no "http://" required, just domain name
 * `color` - HEX color that represents this market
 
+#### { Array } module.exports.dashboards
+An array of dashboards that are allowed for the given market. See ./index.dashboards for all possible dashboards
+
 #### { Object } moudle.exports.mixins
 PostCSS mixins that we be used in CSS preprocessing
 
@@ -23,7 +26,7 @@ PostCSS mixins that we be used in CSS preprocessing
 ```
 'use strict';
 
-var generatePostCSSMixins = require('./generate').generatePostCSSMixins;
+var generatePostCSSMixins = require('./index').generatePostCSSMixins;
 
 var usatoday = '#2095F2';
 
@@ -33,9 +36,26 @@ var sites = [{
   'color': usatoday
 }];
 
+var dashboards = [
+  'popular',
+  'big-picture',
+  'cities',
+  'article-loyalty',
+  'status',
+  'author-percent',
+  'authors',
+  'geo-point',
+  'stats',
+  'recirculation',
+  'viewers',
+  'test-socket'
+]
+
 module.exports = {
   'socketUrl': 'http://api.thepul.se',
   'sites': sites,
+  'dashboards': dashboards,
   'mixins': generatePostCSSMixins(sites)
 };
+
 ```
