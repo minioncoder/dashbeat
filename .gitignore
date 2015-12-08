@@ -37,3 +37,4 @@ out.txt
 *.swp
 env.sh
 conf/supervisor.conf
+.DS_Store

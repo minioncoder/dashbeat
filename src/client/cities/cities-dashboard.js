@@ -15,8 +15,6 @@ export default class CitiesDashboard extends React.Component {
       total: 0,
       max: 0
     }
-
-    this.max = 1000;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,7 +34,7 @@ export default class CitiesDashboard extends React.Component {
 
   renderCity = (city, index) => {
     let cityKey = city.name.replace(/ /g, '-');
-    let width = (city.total / this.max) * 95;
+    let width = (city.total / this.state.max) * 95;
     return <City index={ index }
               name={ city.name }
               total={ city.total }

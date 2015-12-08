@@ -4,7 +4,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Velocity from 'velocity-animate';
 
-import { sourceMap } from '../lib/';
+import Config from '../../../config';
+
+var sourceMap = {};
+for (let site of Config.sites) {
+  sourceMap[site.domain.replace(/\.\w+$/, '')] = site.name;
+}
 
 export default class HostLoyalty extends React.Component {
 

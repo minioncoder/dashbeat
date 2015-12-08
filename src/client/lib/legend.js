@@ -1,6 +1,7 @@
 "use strict";
 
 import React from 'react';
+import { getHost } from './parse';
 
 export default class Legend extends React.Component {
   constructor(props) { super(props); };
@@ -17,8 +18,8 @@ export default class Legend extends React.Component {
           className = site.name;
         }
 
-        if (site.className) {
-          className = site.className;
+        if (site.domain) {
+          className = site.domain.replace(/\.\w+$/, '');
         }
       }
 

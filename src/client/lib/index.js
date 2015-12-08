@@ -11,7 +11,7 @@ function getRandomInt(min, max) {
 function findSource(source, sites=Config.sites) {
   for (let i = 0; i < sites.length; i++) {
     let site = sites[i];
-    if (site.className.indexOf(source) >= 0) return site;
+    if (site.domain.indexOf(source) >= 0) return site;
   }
 
   return;
