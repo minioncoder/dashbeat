@@ -40,35 +40,35 @@ router.get('/:dashboard/', (req, res, next) => {
 });
 
 // Xtra stuff
-router.get('/lions-xtra/', (req, res, next) => {
+router.get('/xtra/lions/', (req, res, next) => {
   res.render('xtra', {
     team: 'lions',
     iosLink: 'http://j.mp/lionsios',
     androidLink: 'http://j.mp/lionsand'
   });
 });
-router.get('/wings-xtra/', (req, res, next) => {
+router.get('/xtra/wings/', (req, res, next) => {
   res.render('xtra', {
     team: 'red-wings',
     iosLink: 'http://j.mp/wings-ios',
     androidLink: 'http://j.mp/wings-and'
   });
 });
-router.get('/tigers-xtra/', (req, res, next) => {
+router.get('/xtra/tigers/', (req, res, next) => {
   res.render('xtra', {
     team: 'tigers',
     iosLink: 'http://j.mp/tigersios',
     androidLink: 'http://j.mp/tigersand'
   })
 });
-router.get('/wolverines-xtra/', (req, res, next) => {
+router.get('/xtra/tigers/', (req, res, next) => {
   res.render('xtra', {
     team: 'wolverines',
     iosLink: 'http://j.mp/mich-ios',
     androidLink: 'http://j.mp/mich-and'
   })
 })
-router.get('/spartans-xtra/', (req, res, next) => {
+router.get('/xtra/spartans/', (req, res, next) => {
   res.render('xtra', {
     team: 'spartans',
     iosLink: 'http://j.mp/msu-ios',
@@ -76,7 +76,7 @@ router.get('/spartans-xtra/', (req, res, next) => {
   });
 });
 
-router.get('/pistons-xtra/', (req, res, next) => {
+router.get('/xtra/pistons/', (req, res, next) => {
   res.render('xtra', {
     team: 'pistons',
     iosLink: 'http://j.mp/pistons-ios',
@@ -84,7 +84,7 @@ router.get('/pistons-xtra/', (req, res, next) => {
   });
 });
 
-router.get('/info/', Catch(async (req, res, next) => {
+router.get('/supervisor/info/', Catch(async (req, res, next) => {
   let user = process.env.SUPERVISOR_USER;
   let pass = process.env.SUPERVISOR_PASS;
 

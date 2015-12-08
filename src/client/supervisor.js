@@ -29,7 +29,7 @@ function timer(reset=false, loopIt=true) {
 async function refresh() {
   let data;
   try {
-    data = await Ajax("/info/");
+    data = await Ajax("/supervisor/info/");
   } catch (err) {
     console.log(err);
   }
