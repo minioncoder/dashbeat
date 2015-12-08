@@ -91,6 +91,13 @@ router.get('/spartans-xtra/', (req, res, next) => {
   });
 });
 
+router.get('/pistons-xtra/', (req, res, next) => {
+  res.render('xtra', {
+    team: 'pistons',
+    iosLink: 'http://j.mp/pistons-ios',
+    androidLink: 'http://j.mp/pistons-and'
+  });
+})
 
 router.get('/info/', Catch(async (req, res, next) => {
   let user = process.env.SUPERVISOR_USER;
