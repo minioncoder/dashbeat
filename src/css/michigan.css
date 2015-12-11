@@ -3,3 +3,8 @@
 body {
   font-family: 'Arimo', sans-serif;
 }
+
+.node p {
+  text-transform: capitalize;
+  color: #030303;
+}
