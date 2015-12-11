@@ -1,12 +1,10 @@
-@import 'base';
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+@import './base';
 
 @define-placeholder small {
   font-size: 0.4em;
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
   font-size: 1.4em;
   color: #e3eaed;
   background-color: $primary-color;

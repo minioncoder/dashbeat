@@ -26,6 +26,7 @@ var dashboards = [
 ]
 
 module.exports = {
+  'market': 'usatoday',
   'socketUrl': 'http://api.thepul.se',
   'sites': sites,
   'dashboards': dashboards,

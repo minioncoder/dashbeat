@@ -1,8 +1,4 @@
-@import 'base';
-
-body {
-  font-family: 'Arimo';
-}
+@import './base';
 
 .snapshots {
   width: 75%;

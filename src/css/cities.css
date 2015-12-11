@@ -3,7 +3,6 @@
 body {
   background-color: $info-color;
   color: #fff;
-  font-family: 'Arimo', sans-serif;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -44,7 +43,6 @@ h1, h3 {
 }
 
 .city {
-  font-family: 'Arimo', sans-serif;
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -1,4 +1,4 @@
-@import 'base';
+@import './base';
 
 body {
   margin: 0;
@@ -6,7 +6,6 @@ body {
   width: 100%;
   background-color: #76b729;
   color: #fff;
-  font-family: "Arimo";
 }
 
 #map {
