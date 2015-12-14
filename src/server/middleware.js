@@ -8,6 +8,8 @@ import bodyParser from 'body-parser';
 import errorhandler from 'errorhandler';
 import cookieParser from 'cookie-parser';
 
+import Config from '../config';
+
 var BASE_DIR = path.dirname(__dirname);
 
 export default function configureMiddleware(app) {
@@ -19,9 +21,13 @@ export default function configureMiddleware(app) {
   }
 
   //app.use(favicon(__dirname + '/public/favicon.ico'));
+  app.use(function(req, res, next) {
+    res.locals.market = Config.market;
+    next();
+  });
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
   app.use(express.static(path.join(BASE_DIR, 'public')));
-  app.use(express.static(path.join(BASE_DIR, 'node_modules')));
+  //app.use(express.static(path.join(BASE_DIR, 'node_modules')));
 }

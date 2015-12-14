@@ -1,9 +1,9 @@
-@import 'base';
+@import './base';
 
 body {
   background-color: $primary-color;
   color: white;
-  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  font-family: Geneva, Tahoma, Verdana, sans-serif !important;
   margin: 0;
 }
 

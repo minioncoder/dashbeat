@@ -41,7 +41,11 @@ class Market extends React.Component {
           {
             barPortions.map((p, i) => {
               let style = { width: `${p.val}%` };
-              return ( <div className={ `bar-portion ${p.name}` } style={ style } key={ `${this.props.source}-${p.name}` }></div>)
+              return (
+                <div className={ `bar-portion ${p.name}` }
+                  style={ style }
+                  key={ `${this.props.source}-${p.name}` }>{p.val}%</div>
+              );
             })
           }
         </div>

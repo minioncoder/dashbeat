@@ -41,6 +41,7 @@ var sites = [{
 }];
 
 module.exports = {
+  'market': 'michigan',
   'socketUrl': 'https://api.michigan.com',
   'sites': sites,
   'dashboards': conf.dashboards,

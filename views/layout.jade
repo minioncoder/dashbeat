@@ -1,15 +1,15 @@
 doctype html
-html(lang="en")
+html(lang='en')
   head
-    meta(charset="utf-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    meta(name="viewport", content="width=device-width, initial-scale=1")
-    meta(http-equiv="refresh", content="14400")
-    link(href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic', rel='stylesheet', type='text/css')
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(http-equiv='refresh', content='14400')
 
     title= title
+
     block css
-    block hbs
+    link(href='/css/' + market + '.css', rel='stylesheet')
   body
     block content
     block js

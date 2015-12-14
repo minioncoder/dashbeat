@@ -5,7 +5,6 @@ $secondary-color: #AB5F39;
 
 body {
   background-color: $primary-color;
-  font-family: 'Arimo';
   font-size: 18px;
   color: #fff;
 }

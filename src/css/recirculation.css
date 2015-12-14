@@ -1,7 +1,6 @@
 @import './base';
 
 body {
-  font-family: 'Arimo';
   background-color: #D3D3D3;
 }
 
@@ -34,8 +33,5 @@ h1 {
 .needle {
   path {
     transition: transform 250ms ease-in;
-    -o-transition: transform 250ms ease-in;
-    -moz-transition: transform 250ms ease-in;
-    -webkit-transition: transform 250ms ease-in;
   }
 }

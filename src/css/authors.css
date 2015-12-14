@@ -2,7 +2,6 @@
 
 body {
   position: relative;
-  font-family: "Arimo", sans-serif;
   margin: 0;
   overflow: hidden;
   background-color: #030303;
@@ -28,7 +27,6 @@ h3 {
 
 .node {
   border-radius: 5px;
-  font: 18px "Arimo", sans-serif;
   line-height: 20px;
   overflow: hidden;
   position: absolute;
@@ -36,7 +34,7 @@ h3 {
 
   p {
     text-transform: capitalize;
-    color: #030303;
+    color: #fff;
   }
 }
 

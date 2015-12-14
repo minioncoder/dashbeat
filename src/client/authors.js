@@ -40,7 +40,6 @@ function init() {
 
   socket.emit('get_popular');
   socket.on('got_popular', function(data) {
-
     var articles = data.snapshot.articles;
     var authors = sortAuthors(articles);
 
@@ -59,7 +58,7 @@ function init() {
     // create smooth transition effect
     nodes.transition().duration(1500)
       .call(position)
-      .style('background', function(d) { return sourceColor(d.source); })
+      .style('background', function(d) { return colorMixer(d); })
       .style('color', function(d) {
           return '#fff';
       });
@@ -69,32 +68,47 @@ function init() {
     });
 
     // adjust font size based on the width of the node
-    for (let i = 0; i < node_el.length; i++) {
-      var el = node_el[i];
-      var node_width = el.width;
+    for (let i = 0; i < node_el[0].length; i++) {
+      let el = node_el[0][i];
+
+      let node_width = window
+        .getComputedStyle(el)
+        .width
+        .replace("px", "");
+      node_width = parseInt(node_width);
+
       if (node_width <= 70) {
-        this.style.fontSize = '12px';
+        el.style.fontSize = '12px';
       } else if (node_width > 70 && node_width < 110) {
-        this.style.fontSize = '14px';
+        el.style.fontSize = '14px';
       } else if( node_width > 240) {
-        this.style.fontSize = '24px';
+        el.style.fontSize = '24px';
+      } else {
+        el.style.fontSize = '18px';
       }
     }
   });
 }
 
-/**
- * Picks the font color based on the background color of the node
- */
-function fontColor(bg_color) {
-  var dark_colors = [];
-  if (dark_colors.indexOf(bg_color) != -1) {
-    return 'white';
-  }
-  return 'black';
+function colorMixer(obj) {
+  let color = sourceColor(obj.source);
+  if (obj.source != "usatoday") return color;
+
+  let blueColors = [
+    '#0F6EB1',
+    '#085286',
+    '#2A70A2'
+  ];
+
+  let charCode = obj.name.charCodeAt(0);
+  if (charCode <= 104) return blueColors[0];
+  else if (charCode <= 113) return blueColors[1];
+  else if (charCode <= 120) return blueColors[2];
+
+  return color;
 }
 
-function isWhitelisted(url) {
+function isWhitelistedUrl(url) {
   if (url == '') return false;
 
   let whitelist = ['story/', 'article/', 'picture-gallery/', 'longform/'];
@@ -102,6 +116,21 @@ function isWhitelisted(url) {
   for (let i = 0; i < whitelist.length; i++) {
     let path = whitelist[i];
     if (url.indexOf(path) >= 0) return true;
+  }
+
+  return false;
+}
+
+function isBlacklistedAuthor(author) {
+  author = author.toLowerCase();
+  let blacklist = [
+    'usa today',
+    'associated press',
+    'ap'
+  ];
+
+  for (let i = 0; i < blacklist.length; i++) {
+    if (author.indexOf(blacklist[i]) >= 0) return true;
   }
 
   return false;
@@ -126,6 +155,9 @@ function authorCleanup(author) {
   author = author.toLowerCase();
   author = author.replace('by', '');
   author = author.replace('the', '');
+  author = author.replace('| photos', '');
+  author = author.replace('video ', '');
+  author = author.replace('story ', '');
   let and = author.indexOf('and ');
   if (and === 0) author = author.slice(and + 4);
   return author;
@@ -144,7 +176,7 @@ function sortAuthors(articles) {
   for (let i = 0; i < articles.length; i++) {
     let article = articles[i];
 
-    if (!isWhitelisted(article.url)) continue;
+    if (!isWhitelistedUrl(article.url)) continue;
 
     let show_detroit = false;
     if (location.search) {
@@ -155,6 +187,10 @@ function sortAuthors(articles) {
 
     for (let i = 0; i < article.authors.length; i++) {
       let author = article.authors[i];
+      author = authorCleanup(author);
+
+      if (isBlacklistedAuthor(author)) continue;
+
       authors.set(author, getMapValue(authors.get(author), {
         name: author,
         source: article.source,

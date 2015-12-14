@@ -94,7 +94,7 @@ body {
 #xtra {
   width: 100%;
   text-align: center;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Lato', sans-serif !important;
 
   a {
     text-decoration: none;
