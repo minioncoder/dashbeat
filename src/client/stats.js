@@ -40,11 +40,14 @@ class Market extends React.Component {
         <div className='bar'>
           {
             barPortions.map((p, i) => {
+              if (!p.val) return null;
               let style = { width: `${p.val}%` };
               return (
                 <div className={ `bar-portion ${p.name}` }
-                  style={ style }
-                  key={ `${this.props.source}-${p.name}` }>{p.val}%</div>
+                    style={ style }
+                    key={ `${this.props.source}-${p.name}` }>
+                  <span className='percent'>{ `${p.val}%` }</span>
+                </div>
               );
             })
           }
