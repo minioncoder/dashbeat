@@ -20,11 +20,11 @@ export default class Article extends React.Component {
       nextImageUrl: this.props.imageUrl,
       imageSlideInNeeded: true,
     }
-  }
+  };
 
   componentWillMount() {
     this.loadImage();
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.imageUrl != this.state.imageUrl) {
@@ -32,16 +32,16 @@ export default class Article extends React.Component {
         nextImageUrl: this.props.imageUrl,
       });
     }
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.nextImageUrl && this.state.nextImageUrl != prevState.nextImageUrl) this.loadImage();
     else if (this.state.imageSlideInNeeded) this.slideIn();
-  }
+  };
 
   getArticleContainer() {
     return this.refs['article-content'];
-  }
+  };
 
   slideOut(){
     if (!this.state.imageUrl) {
@@ -70,7 +70,7 @@ export default class Article extends React.Component {
         imageSlideInNeeded: true
       });
     });
-  }
+  };
 
   slideIn() {
     Velocity(this.getArticleContainer(), {
@@ -81,13 +81,13 @@ export default class Article extends React.Component {
         nextImageUrl: '',
       })
     });
-  }
+  };
 
   loadImage() {
     let i = new Image();
     i.onload = this.slideOut.bind(this);
     i.src = this.state.nextImageUrl;
-  }
+  };
 
   render() {
     let className = `article`;
@@ -111,7 +111,7 @@ export default class Article extends React.Component {
           <i className='fa fa-spinner fa-spin'></i>
         </div>
       </div>
-    )
-  }
-}
+    );
+  };
+};
 

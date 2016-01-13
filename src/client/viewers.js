@@ -8,7 +8,7 @@ import { numberWithCommas } from './lib/parse';
 import Config from '../../config';
 
 class ViewersDashboard extends React.Component {
-  static defaultProps = { series: [] }
+  static defaultProps = { series: [] };
   constructor(props) {
     super(props);
 
@@ -16,19 +16,19 @@ class ViewersDashboard extends React.Component {
     this.yAxisStep = 5000;
 
     window.onresize = this.windowResize.bind(this);
-  }
+  };
 
   componentDidMount() {
     this.setState(assign(this.state, this.combineSeries(this.props.series), this.setWidth()));
-  }
+  };
 
   componentWillReceiveProps(props) {
     this.setState(assign(this.state, this.combineSeries(props.series), this.setWidth()));
-  }
+  };
 
   windowResize() {
     this.setState(assign(this.state, this.combineSeries(this.props.series), this.setWidth()));
-  }
+  };
 
   /**
    * Combine site series into one series. Also return a max for the scale
@@ -61,7 +61,7 @@ class ViewersDashboard extends React.Component {
       max,
       maxYAxis
     };
-  }
+  };
 
   setWidth = () => {
     let windowWidth = window.innerWidth;
@@ -88,7 +88,7 @@ class ViewersDashboard extends React.Component {
       axis: {
       }
     };
-  }
+  };
 
   renderScales = () => {
     let height = this.state.graph.height;
@@ -155,12 +155,11 @@ class ViewersDashboard extends React.Component {
           { xAxisMarks }
         </g>
       </g>
-    )
-  }
+    );
+  };
 
   renderPath = () => {
     if (!this.state.series.length) return null;
-
 
     // Calculate the polygon so it takes up 90% of the width, and center it
     let height = this.state.graph.height;
@@ -189,8 +188,8 @@ class ViewersDashboard extends React.Component {
       <g className='graph-container'>
         <polygon className='graph' points={ `${polygonPoints.join(',')}` } id={ `polygon-${this.state.width}` }/>
       </g>
-    )
-  }
+    );
+  };
 
   render() {
     if (!this.state.width) return;
@@ -200,9 +199,9 @@ class ViewersDashboard extends React.Component {
         { this.renderPath() }
         { this.renderScales() }
       </svg>
-    )
-  }
-}
+    );
+  };
+};
 
 let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] });
 socket.emit('get_traffic_series');

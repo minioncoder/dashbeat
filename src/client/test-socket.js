@@ -20,7 +20,7 @@ class Snapshot extends React.Component {
       createdAt: '',
       blurb: ''
     }
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.createdAt === this.props.createdAt) return;
@@ -29,7 +29,7 @@ class Snapshot extends React.Component {
     let ref = this.refs['updated-at'];
     ref.style.color = 'green';
     Velocity(ref, { color }, { delay: 2000, duration: 1000 })
-  }
+  };
 
   render() {
     return (
@@ -38,9 +38,9 @@ class Snapshot extends React.Component {
         <div className='updated-at' ref='updated-at'>{ this.props.createdAt }</div>
         <div className='blurb'>{ this.props.blurb }</div>
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 socket.emit('get_popular');
 socket.on('got_popular', function(data) {
@@ -52,7 +52,7 @@ socket.on('got_popular', function(data) {
       createdAt={ moment(snapshot.created_at).format(TIMEFORMAT) }
       blurb={ `Number of popular articles: ${snapshot.articles.length}` }/>,
     document.getElementById('toppages')
-  )
+  );
 });
 
 socket.emit('get_articles');
@@ -63,8 +63,7 @@ socket.on('got_articles', function(data) {
       createdAt={ moment().format(TIMEFORMAT) }
       blurb={ `Number of articles stored: ${data.articles.length}` }/>,
     document.getElementById('articles')
-  )
-
+  );
 });
 
 socket.emit('get_quickstats');
@@ -79,7 +78,7 @@ socket.on('got_quickstats', function(data) {
       createdAt={ moment(snapshot.created_at).format(TIMEFORMAT) }
       blurb={ `Total combined visitors: ${ totalVisits }` }/>,
     document.getElementById('quickstats')
-  )
+  );
 });
 
 socket.emit('get_topgeo');
@@ -97,7 +96,7 @@ socket.on('got_topgeo', function(data) {
       createdAt={ moment(snapshot.created_at).format(TIMEFORMAT) }
       blurb={ `Total number of readers in Detroit: ${detTotal}` }/>,
     document.getElementById('topgeo')
-  )
+  );
 });
 
 socket.emit('get_referrers');
@@ -133,5 +132,5 @@ socket.on('got_traffic_series', function(data) {
       createdAt={ moment(snapshot.created_at).format(TIMEFORMAT) }
       blurb={''}/>,
     document.getElementById('traffic-series')
-  )
+  );
 });

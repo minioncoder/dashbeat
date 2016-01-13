@@ -12,9 +12,9 @@ export default class ArticleLoyaltyDashboard extends React.Component {
     return function(article, index) {
       return (
         <Article type={ key } article={ article } rank={ index } key={ `${key}-${article.article_id}` }/>
-      )
-    }
-  }
+      );
+    };
+  };
 
   renderArticleColumn = (columnType, displayName, blurb) => {
     let articles;
@@ -22,7 +22,6 @@ export default class ArticleLoyaltyDashboard extends React.Component {
     else if (columnType === 'returning') articles = this.props.topReturning;
     else if (columnType === 'new') articles = this.props.topNew;
     else return null;
-
 
     return (
       <div className={ `column ${columnType}` }>
@@ -32,8 +31,8 @@ export default class ArticleLoyaltyDashboard extends React.Component {
           { articles.map(this.renderArticle(columnType)) }
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -45,26 +44,26 @@ export default class ArticleLoyaltyDashboard extends React.Component {
           { this.renderArticleColumn('new', 'New', 'first visit in the past 16 days') }
         </div>
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 class Article extends React.Component {
   componentDidMount() {
     this.animateArticle();
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.rank != this.props.rank) this.animateArticle();
-  }
+  };
 
   animateArticle = () => {
     let style = {
       top: `${ this.props.rank * 10 }%`
-    }
+    };
 
     Velocity(ReactDOM.findDOMNode(this), style);
-  }
+  };
 
   render() {
     let type = this.props.type;
@@ -76,9 +75,9 @@ class Article extends React.Component {
           <a href={ `http://${ article.url }` } target='_blank'>{ article.headline }</a>
         </div>
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 let MIN_CONCURRENTS = 10;
 let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] });
@@ -108,6 +107,7 @@ socket.on('got_popular', (data) => {
       return b[key] - a[key];
     }
   }
+
   let topLoyal = articlePercentages.sort(keySortDesc('loyal')).slice(0, 10);
   let topReturning = articlePercentages.sort(keySortDesc('returning')).slice(0, 10);
   let topNew = articlePercentages.sort(keySortDesc('new')).slice(0, 10);
@@ -117,6 +117,6 @@ socket.on('got_popular', (data) => {
         topReturning={ topReturning }
         topNew={ topNew }/>,
     document.getElementById('article-loyalty')
-  )
+  );
 
 });

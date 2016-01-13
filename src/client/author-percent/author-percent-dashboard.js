@@ -16,7 +16,7 @@ export default class Dashboard extends React.Component {
     }
 
     AuthorPercentStore.addChangeListener(this.stateChange);
-  }
+  };
 
   stateChange = (stats) => {
     if (!Object.keys(stats.quickstats).length) {
@@ -65,11 +65,11 @@ export default class Dashboard extends React.Component {
     this.setState({
       authors: authorList.sort(function(a, b) { return b.percent - a.percent; }).slice(0, 20)
     });
-  }
+  };
 
   renderAuthor = (author, index) => {
     return <Author author={ author } index={ index } key={ `${author.source}-${author.name}` } />
-  }
+  };
 
   render() {
     if (!this.state.authors.length) {
@@ -91,6 +91,6 @@ export default class Dashboard extends React.Component {
           { this.state.authors.map(this.renderAuthor) }
         </div>
       </div>
-    )
-  }
-}
+    );
+  };
+};

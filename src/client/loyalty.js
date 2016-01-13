@@ -22,7 +22,7 @@ socket.on('got_quickstats', function(data) {
   ReactDOM.render(
     <LoyaltyDashboard loyalties={ loyalties }/>,
     document.getElementById('loyalty')
-  )
+  );
 });
 
 /**
@@ -47,5 +47,5 @@ function calculatePercentages(hostStats) {
     loyal: Math.round((loyalty.loyal / total) * 100),
     returning: Math.round((loyalty.returning / total) * 100),
     new: Math.round((loyalty.new / total) * 100)
-  }
+  };
 }

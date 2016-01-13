@@ -15,20 +15,20 @@ export default class ArticleHandler extends React.Component {
     this.state = {
       activeArticles: [],
       lastChanged: 0
-    }
-  }
+    };
+  };
 
   static defaultProps() {
     return {
       articles: []
-    }
-  }
+    };
+  };
 
   componentDidUpdate(lastProps, lastState) {
     if (!lastProps.articles.length && this.props.articles.length) {
       setTimeout(this.rotateImage, 5000);
     }
-  }
+  };
 
   rotateImage = () => {
     let activeArticles = this.state.activeArticles;
@@ -47,7 +47,7 @@ export default class ArticleHandler extends React.Component {
     });
 
     setTimeout(this.rotateImage.bind(this), 5000);
-  }
+  };
 
   getRandomArticleIndex = () => {
     let randomIndex = 0;
@@ -62,7 +62,7 @@ export default class ArticleHandler extends React.Component {
       }
     }
     return randomIndex;
-  }
+  };
 
   renderArticles = () => {
     function renderArticle(articleIndex, index) {
@@ -81,8 +81,8 @@ export default class ArticleHandler extends React.Component {
       <div className='articles'>
         { this.state.activeArticles.map(renderArticle.bind(this)) }
       </div>
-    )
-  }
+    );
+  };
 
   render = () => {
     if (!this.props.articles || !this.props.articles.length) {
@@ -97,6 +97,6 @@ export default class ArticleHandler extends React.Component {
       <div className='article-handler'>
         { this.renderArticles() }
       </div>
-    )
-  }
-}
+    );
+  };
+};

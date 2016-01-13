@@ -15,7 +15,7 @@ export default class CitiesDashboard extends React.Component {
       total: 0,
       max: 0
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     let total = 0;
@@ -29,8 +29,8 @@ export default class CitiesDashboard extends React.Component {
       cities: nextProps.cities,
       total,
       max
-    })
-  }
+    });
+  };
 
   renderCity = (city, index) => {
     let cityKey = city.name.replace(/ /g, '-');
@@ -41,13 +41,13 @@ export default class CitiesDashboard extends React.Component {
               hostData={ city.hostData }
               width={ width }
               key={ cityKey }/>
-  }
+  };
 
   render() {
     return (
       <div className='city-list'>
         { this.state.cities.slice(0, 40).map(this.renderCity) }
       </div>
-    )
-  }
+    );
+  };
 }

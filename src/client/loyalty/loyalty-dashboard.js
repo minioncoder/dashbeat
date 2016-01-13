@@ -25,8 +25,8 @@ export default class LoyaltyDashboard extends React.Component {
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   renderSources() {
     function renderSource(option, index) {
@@ -37,15 +37,15 @@ export default class LoyaltyDashboard extends React.Component {
             new={ option.new }
             rank={ index + 1 }
             key={ `host-${option.source}` }/>
-      )
+      );
     }
 
     return (
       <div className='sources'>
         { this.props.loyalties.map(renderSource.bind(this))}
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -53,6 +53,6 @@ export default class LoyaltyDashboard extends React.Component {
         { this.renderLegend() }
         { this.renderSources() }
       </div>
-    )
-  }
-}
+    );
+  };
+};

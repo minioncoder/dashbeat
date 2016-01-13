@@ -12,12 +12,11 @@ for (let site of Config.sites) {
 }
 
 export default class HostLoyalty extends React.Component {
-
-  componentDidMount() { this.animate(); }
+  componentDidMount() { this.animate(); };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.rank !== this.props.rank) this.animate();
-  }
+  };
 
   animate = () => {
     let style = {};
@@ -32,7 +31,7 @@ export default class HostLoyalty extends React.Component {
     }
 
     Velocity(ReactDOM.findDOMNode(this), style);
-  }
+  };
 
   renderStats() {
     let loyalStyle = { height: `${this.props.loyal}%` };
@@ -63,8 +62,8 @@ export default class HostLoyalty extends React.Component {
           <div className='percent'>{ `${this.props.new}%` }</div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -75,6 +74,6 @@ export default class HostLoyalty extends React.Component {
           { this.renderStats() }
         </div>
     </div>
-    )
-  }
-}
+    );
+  };
+};

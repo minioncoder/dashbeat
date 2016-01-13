@@ -21,22 +21,22 @@ export default class MobilePercentage extends React.Component {
     this.totalIcons = 500;
     this.state = assign({}, this.getWidth());
     window.onResize = this.resize.bind(this);
-  }
+  };
 
   componentDidMount() {
     this.state = assign({}, this.getWidth());
-  }
+  };
 
   resize() {
     this.setState(assign({}, this.getWidth()));
-  }
+  };
 
   getWidth() {
     let width = window.innerWidth * .8;
     let height = width * .5;
 
     return { height, width }
-  }
+  };
 
   renderIcons() {
     // Get some values for the rendering
@@ -74,7 +74,7 @@ export default class MobilePercentage extends React.Component {
         { icons }
       </div>
     )
-  }
+  };
 
   render() {
     return (
@@ -82,9 +82,9 @@ export default class MobilePercentage extends React.Component {
         <div className='percentage'>{ this.props.percentage }</div>
         { this.renderIcons() }
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 
 // Set up the socket

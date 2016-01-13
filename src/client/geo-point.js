@@ -23,7 +23,7 @@ class GeoPoint {
     }).addTo(this.map);
 
     this.marker = L.marker(this.state.position).addTo(this.map);
-  }
+  };
 
   updateRecents = (recents) => {
     let numMarkets = recents.length;
@@ -50,7 +50,7 @@ class GeoPoint {
     };
 
     this.updateMap();
-  }
+  };
 
   getRecentArticle(articles) {
     let index = 0;
@@ -65,7 +65,7 @@ class GeoPoint {
     }
 
     return articles[index];
-  }
+  };
 
   getPlatformImage(platform) {
     if (platform === 'desktop') {
@@ -75,7 +75,7 @@ class GeoPoint {
     } else if (platform === 'tablet') {
       return '<i class="fa fa-tablet fa-5x"></i>'
     }
-  }
+  };
 
   renderPopup = () => {
     let recent = this.state.recent;
@@ -99,8 +99,8 @@ class GeoPoint {
         </div>
       </div>
       `
-    )
-  }
+    );
+  };
 
   updateMap = () => {
     this.marker.setLatLng(this.state.position).update();
@@ -108,9 +108,9 @@ class GeoPoint {
 
     this.popup = L.popup().setContent(this.renderPopup());
     this.marker.bindPopup(this.popup).openPopup();
-  }
+  };
 
-}
+};
 
 let dashboard = new GeoPoint();
 let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] });

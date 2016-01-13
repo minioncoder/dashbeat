@@ -12,15 +12,14 @@ class Market extends React.Component {
     this.state = {
       total: this.props.social + this.props.search + this.props.direct + this.props.links
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     let total = nextProps.social + nextProps.search + nextProps.direct + nextProps.links;
     this.setState({ total });
-  }
+  };
 
   renderBar = () => {
-
     let barPortions = [{
       name: 'social',
       val: Math.round((this.props.social / this.state.total) * 100)
@@ -53,8 +52,8 @@ class Market extends React.Component {
           }
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -62,8 +61,8 @@ class Market extends React.Component {
         <div className='title'>{ findSource(this.props.source).name }</div>
         { this.renderBar() }
       </div>
-    )
-  }
+    );
+  };
 }
 
 let socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] });
@@ -89,6 +88,6 @@ socket.on('got_quickstats', (data) => {
       </div>
     ),
     document.getElementById('markets')
-  )
+  );
 
 });

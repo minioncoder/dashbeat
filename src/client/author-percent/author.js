@@ -10,30 +10,30 @@ export default class Author extends React.Component {
 
     this.state = {
       showArticles: false
-    }
-  }
+    };
+  };
 
   componentDidMount() {
     this.animateAuthor();
-  }
+  };
 
   componentDidUpdate(lastProps, lastState) {
     if (lastProps.index !== this.props.index) this.animateAuthor();
-  }
+  };
 
   showArticles = () => {
     this.setState({ showArticles: true });
-  }
+  };
 
   hideArticles = () => {
     this.setState({ showArticles: false });
-  }
+  };
 
   animateAuthor = () => {
     let style = { top: `${this.props.index * 5}%` };
 
     Velocity(ReactDOM.findDOMNode(this), style);
-  }
+  };
 
   renderArticle = (article, index) => {
     return (
@@ -41,8 +41,8 @@ export default class Author extends React.Component {
         <div className='count'>{ `${article.percent}%`}</div>
         <div className='headline'><a target='_blank' href={ `http://${article.url}` }>{ article.headline }</a></div>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     let author = this.props.author;
@@ -60,7 +60,7 @@ export default class Author extends React.Component {
           { author.articles.map(this.renderArticle) }
         </div>
       </div>
-    )
-  }
-}
+    );
+  };
+};
 

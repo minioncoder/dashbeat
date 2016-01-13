@@ -13,7 +13,7 @@ var socket = io(Config.socketUrl, { transports: ['websocket', 'xhr-polling'] })
 ReactDOM.render(
   <ArticleHandler articles={ [] }/>,
   document.getElementById('articles')
-)
+);
 
 function fetchArticlesLoop() {
   xr.get(Config.socketUrl + '/v1/news', { limit: 100 })
