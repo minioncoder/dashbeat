@@ -92,7 +92,7 @@ function init() {
 
 function colorMixer(obj) {
   let color = sourceColor(obj.source);
-  if (obj.source != "usatoday") return color;
+  if (Config.sites.length > 1) return color;
 
   let blueColors = [
     '#0F6EB1',
