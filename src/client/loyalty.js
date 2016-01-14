@@ -19,6 +19,10 @@ socket.on('got_quickstats', function(data) {
 
   loyalties.sort(function(a, b) { return b.loyal - a.loyal; });
 
+  if (loyalties.length > 7) {
+    loyalties = loyalties.slice(0, 7);
+  }
+
   ReactDOM.render(
     <LoyaltyDashboard loyalties={ loyalties }/>,
     document.getElementById('loyalty')

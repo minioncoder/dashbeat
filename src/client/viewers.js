@@ -13,7 +13,6 @@ class ViewersDashboard extends React.Component {
     super(props);
 
     this.state = assign({}, this.combineSeries(props.series), this.setWidth());
-    this.yAxisStep = 5000;
 
     window.onresize = this.windowResize.bind(this);
   };
@@ -54,12 +53,17 @@ class ViewersDashboard extends React.Component {
       }
     }
 
-    let maxYAxis = Math.ceil(max / this.yAxisStep) * this.yAxisStep;
+    // get the step. round to nearest 100
+    let yAxisStep = Math.round(max / 5);
+    yAxisStep = Math.round(yAxisStep / 100) * 100;
+
+    let maxYAxis = Math.ceil(max / yAxisStep) * yAxisStep;
 
     return {
       series: totalSeries,
       max,
-      maxYAxis
+      maxYAxis,
+      yAxisStep
     };
   };
 
@@ -98,7 +102,7 @@ class ViewersDashboard extends React.Component {
     let tickWidth = 20;
 
     // Y Axis
-    let numYAxisMarks = this.state.maxYAxis / this.yAxisStep;
+    let numYAxisMarks = this.state.maxYAxis / this.state.yAxisStep;
     let yPosStep = height / numYAxisMarks;
     let tickX = startX - (tickWidth / 2);
 
@@ -115,7 +119,7 @@ class ViewersDashboard extends React.Component {
       yAxisMarks.push(
         <g className='y-axis-mark' key={ `y-axis-${i}` }>
           <path className='tick' d={ `M ${tickX},${y} h ${tickWidth}` }></path>
-          <text x={ 0 } y={ textY }>{ i * this.yAxisStep }</text>
+          <text x={ 0 } y={ textY }>{ i * this.state.yAxisStep }</text>
         </g>
       )
     }
