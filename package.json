@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "start": "node ./dist/server.js",
-    "install": "gulp"
   },
   "dependencies": {
     "autoprefixer": "^6.1.0",
