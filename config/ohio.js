@@ -46,7 +46,7 @@ var sites = [{
 
 module.exports = {
   'market': 'ohio',
-  'socketUrl': 'http://api.hio.rocks',
+  'socketUrl': 'http://api.o.hio.rocks',
   'sites': sites,
   'dashboards': conf.dashboards,
   'mixins': conf.generatePostCSSMixins(sites)
