@@ -61,7 +61,7 @@ router.get('/xtra/tigers/', (req, res, next) => {
     androidLink: 'http://j.mp/tigersand'
   })
 });
-router.get('/xtra/tigers/', (req, res, next) => {
+router.get('/xtra/wolverines/', (req, res, next) => {
   res.render('xtra', {
     team: 'wolverines',
     iosLink: 'http://j.mp/mich-ios',
