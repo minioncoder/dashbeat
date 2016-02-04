@@ -23,10 +23,20 @@ module.exports = require('./config/<marketName>');
 
 ### Node stuff
 
+## Install
 ```bash
 npm install -g gulp
 npm install
 ```
+
+## Compile
+*NOTE: Make sure you made a [config file](https://github.com/michigan-com/dashbeat#config-file) first!*
+
+```bash
+gulp
+```
+
+There's a lot of static files on this sucker, so if you want, you can run `gulp watch` and just compile the files you need.
 
 ## Run
 
